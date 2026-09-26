@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { getCourses } from "../data/courses";
 import courseService from "../services/courseService";
 import InstructorComponent from "../components/InstructorComponent";
+import EnrollmentModal from "../components/EnrollmentModal";
 
 import { motion } from "framer-motion";
 import { 
@@ -40,6 +41,7 @@ export default function Course() {
   const [expandedLesson, setExpandedLesson] = useState(null);
   const [isEnrolled,setIsEnrolled]=useState(null)
   const [isLiked, setIsLiked] = useState(false);
+  const [isEnrollModalOpen, setIsEnrollModalOpen] = useState(false);
 
   useEffect(() => {
     const fetchCourse = async () => {
@@ -175,17 +177,15 @@ export default function Course() {
               </div>
               
               <div className="flex flex-wrap gap-4">
-                <motion.a
-                  href="https://docs.google.com/forms/d/e/1FAIpQLSe-dr0_7my4ic_lMQplEDivsmOMTcAoQgTRJkA5TMtMzBLBYg/viewform"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-4 rounded-xl font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-300 flex items-center gap-2"
+                <motion.button
+                  onClick={() => setIsEnrollModalOpen(true)}
+                  className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-4 rounded-xl font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-300 flex items-center gap-2 cursor-pointer"
                   whileHover={{ scale: 1.05, y: -2 }}
                   whileTap={{ scale: 0.95 }}
                 >
                   <PlayCircle className="w-5 h-5" />
                   Enroll Now
-                </motion.a>
+                </motion.button>
                 
                 <motion.button
                   onClick={handleLike}
@@ -373,17 +373,15 @@ export default function Course() {
                     <Lock className="w-16 h-16 mx-auto text-gray-400 dark:text-gray-500 mb-4" />
                     <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">Lessons are Locked</h3>
                     <p className="text-gray-600 dark:text-gray-400 mb-6">You need to enroll in this course to access the lessons.</p>
-                    <motion.a
-                      href="https://docs.google.com/forms/d/e/1FAIpQLSe-dr0_7my4ic_lMQplEDivsmOMTcAoQgTRJkA5TMtMzBLBYg/viewform"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-4 rounded-xl font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-300 flex items-center gap-2 mx-auto w-fit"
+                    <motion.button
+                      onClick={() => setIsEnrollModalOpen(true)}
+                      className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-4 rounded-xl font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-300 flex items-center gap-2 mx-auto w-fit cursor-pointer"
                       whileHover={{ scale: 1.05, y: -2 }}
                       whileTap={{ scale: 0.95 }}
                     >
                       <PlayCircle className="w-5 h-5" />
                       Enroll Now
-                    </motion.a>
+                    </motion.button>
                   </div>
                 )}
               </div>
@@ -419,16 +417,14 @@ export default function Course() {
                     <p className="text-gray-600 dark:text-gray-400 mt-2">One-time payment</p>
                   </div>
                   
-                  <motion.a
-                    href="https://docs.google.com/forms/d/e/1FAIpQLSe-dr0_7my4ic_lMQplEDivsmOMTcAoQgTRJkA5TMtMzBLBYg/viewform"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-full block text-center bg-gradient-to-r from-blue-600 to-purple-600 text-white py-4 px-6 rounded-xl hover:from-blue-700 hover:to-purple-700 transition-all duration-300 font-semibold text-lg shadow-lg hover:shadow-xl mb-4"
+                  <motion.button
+                    onClick={() => setIsEnrollModalOpen(true)}
+                    className="w-full block text-center bg-gradient-to-r from-blue-600 to-purple-600 text-white py-4 px-6 rounded-xl hover:from-blue-700 hover:to-purple-700 transition-all duration-300 font-semibold text-lg shadow-lg hover:shadow-xl mb-4 cursor-pointer"
                     whileHover={{ scale: 1.02, y: -2 }}
                     whileTap={{ scale: 0.98 }}
                   >
                     Enroll Now
-                  </motion.a>
+                  </motion.button>
                   
                   <p className="text-center text-sm text-gray-600 dark:text-gray-400 mb-6">
                     30-day money-back guarantee
@@ -494,6 +490,15 @@ export default function Course() {
           </div>
         </div>
       </div>
+
+      {/* Interactive Enrollment Modal */}
+      {course && (
+        <EnrollmentModal
+          isOpen={isEnrollModalOpen}
+          onClose={() => setIsEnrollModalOpen(false)}
+          preselectedCourse={course.title}
+        />
+      )}
     </div>
   );
 }

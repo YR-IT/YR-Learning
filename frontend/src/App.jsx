@@ -24,6 +24,7 @@ import ScrollToTop from "./components/ScrollToTop";
 import Loader from "./components/Loader";
 import InstructorManager from "./panels/EditInstructorBanner";
 import Article from "./pages/Articles";
+import EnrollmentPage from "./pages/EnrollmentPage";
 import authService from "./services/authService";
 
 // Protected Admin Route
@@ -66,6 +67,8 @@ function App() {
               <Route path="/articles" element={<Article />} />
               <Route path="/about" element={<About />} />
               <Route path="/chatbot" element={<Chatbot />} />
+              <Route path="/enroll" element={<EnrollmentPage />} />
+              <Route path="/enrollment" element={<EnrollmentPage />} />
               
               {/* Admin Login Route */}
               <Route path="/login" element={<Login SetIsAuthenticated={setIsAuthenticated} />} />

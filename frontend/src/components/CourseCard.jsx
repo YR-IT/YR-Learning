@@ -162,7 +162,7 @@ export default function CourseCard({
             </motion.h3>
             
             <p className="text-gray-600 dark:text-gray-400 text-xs sm:text-sm mb-3 sm:mb-4 line-clamp-2 flex-shrink-0">
-              By {instructor}
+              By {typeof instructor === 'string' ? instructor : (instructor?.name || 'YR Instructor')}
             </p>
             
             <div className={`flex items-center justify-between mb-3 sm:mb-4 flex-shrink-0 ${

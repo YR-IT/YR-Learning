@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { getCourses } from '../data/courses.js';
 
+import { API_BASE_URL } from '../services/api';
+
 const AddStudent = () => {
   const [userId, setUserId] = useState('');
   const [userName, setUserName] = useState('');
@@ -23,18 +25,34 @@ const AddStudent = () => {
     setError('');
 
     if (!userId || !userName || !courseId) {
-      setError('User ID, User Name and Course are required.');
+      setError('User ID (Email), User Name and Course are required.');
       return;
     }
 
     try {
-      const response = await fetch(`https://backend-1-bn9o.onrender.com/api/course/enroll/${courseId}`, {
+      const selectedCourseObj = courses.find(c => String(c._id || c.id) === String(courseId));
+      const courseTitle = selectedCourseObj?.title || 'Website Development';
+
+      const response = await fetch(`${API_BASE_URL}/enrollments`, {
         method: 'POST',
         headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+          'Authorization': `Bearer ${localStorage.getItem('token') || localStorage.getItem('adminToken')}`,
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email:userId, name: userName }),
+        body: JSON.stringify({ 
+          name: userName,
+          email: userId,
+          phoneNumber: 'Manual Admin Entry',
+          gender: 'Other',
+          city: 'Direct Admission',
+          currentStatus: 'Student',
+          currentProfessionOrCourse: 'Enrolled via Admin Panel',
+          institutionOrCompany: 'Direct Admission',
+          courseEnrolledFor: courseTitle,
+          mode: 'Online',
+          expectations: 'Enrolled directly via Creator Panel',
+          declarationConfirmed: true,
+        }),
       });
 
       const responseData = await response.json();

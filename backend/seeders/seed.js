@@ -1,6 +1,7 @@
 const Admin = require('../models/Admin');
 const Course = require('../models/Course');
 const Article = require('../models/Article');
+const Enrollment = require('../models/Enrollment');
 
 const initialCourses = [
   {
@@ -347,6 +348,51 @@ const seedData = async () => {
       console.log(`📰 Seeded ${initialArticles.length} initial articles into MongoDB database yr_elearning!`);
     } else {
       console.log(`📰 Articles collection already contains ${articleCount} articles.`);
+    }
+
+    // 4. Seed Enrollments
+    const enrollmentCount = await Enrollment.countDocuments();
+    if (enrollmentCount === 0) {
+      const sampleEnrollments = [
+        {
+          name: 'Gaurav Singhal',
+          email: 'singhalg818@gmail.com',
+          phoneNumber: '+91 98765 43210',
+          gender: 'Male',
+          city: 'Panipat',
+          currentStatus: 'Student',
+          currentProfessionOrCourse: 'B.Tech CSE',
+          institutionOrCompany: 'PIET College',
+          courseEnrolledFor: 'Website Development',
+          mode: 'Online',
+          expectations: 'Master Full Stack development and build production ready real-world applications',
+          couponCode: 'PIET2026',
+          comments: 'Interested in the upcoming weekend batch',
+          declarationConfirmed: true,
+          status: 'Confirmed',
+        },
+        {
+          name: 'Ananya Sharma',
+          email: 'ananya.sharma@example.com',
+          phoneNumber: '+91 98123 45678',
+          gender: 'Female',
+          city: 'Delhi',
+          currentStatus: 'Working Professional',
+          currentProfessionOrCourse: 'Software Engineer',
+          institutionOrCompany: 'Tech Innovators Ltd',
+          courseEnrolledFor: 'Machine Learning / AI',
+          mode: 'Online',
+          expectations: 'Upskill in Generative AI, PyTorch and deploy LLM applications',
+          couponCode: '',
+          comments: '',
+          declarationConfirmed: true,
+          status: 'Pending',
+        }
+      ];
+      await Enrollment.insertMany(sampleEnrollments);
+      console.log(`🎓 Seeded ${sampleEnrollments.length} sample enrollments into yr_elearning!`);
+    } else {
+      console.log(`🎓 Enrollments collection already contains ${enrollmentCount} records.`);
     }
   } catch (error) {
     console.error('Error during data seeding:', error.message);

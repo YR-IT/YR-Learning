@@ -23,6 +23,7 @@ const courseRoutes = require('./routes/courseRoutes');
 const articleRoutes = require('./routes/articleRoutes');
 const bannerRoutes = require('./routes/bannerRoutes');
 const uploadRoutes = require('./routes/uploadRoutes');
+const enrollmentRoutes = require('./routes/enrollmentRoutes');
 
 app.use('/api/auth', authRoutes);
 app.use('/api/courses', courseRoutes);
@@ -30,6 +31,8 @@ app.use('/api/course', courseRoutes); // Backward compatibility
 app.use('/api/articles', articleRoutes);
 app.use('/api/banner', bannerRoutes);
 app.use('/api/upload', uploadRoutes);
+app.use('/api/enrollments', enrollmentRoutes);
+app.use('/api/enrollment', enrollmentRoutes);
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {

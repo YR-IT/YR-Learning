@@ -14,6 +14,11 @@ const {
 } = require('../controllers/courseController');
 const { protectAdmin } = require('../middleware/authMiddleware');
 
+const {
+  submitEnrollment,
+  getAllEnrollments,
+} = require('../controllers/enrollmentController');
+
 // Standard REST endpoints
 router.get('/', getAllCourses);
 router.post('/', protectAdmin, createCourse);
@@ -33,7 +38,9 @@ router.post('/addlessons/:courseId', addLesson);
 router.put('/updatelessons/:courseId', updateLesson);
 router.delete('/deletelessons/:courseId/:lessonId', deleteLesson);
 
-// Students
-router.get('/getstudents', getStudents);
+// Students & Enrollment
+router.get('/getstudents', getAllEnrollments);
+router.post('/enroll', submitEnrollment);
+router.post('/enroll/:courseId', submitEnrollment);
 
 module.exports = router;
