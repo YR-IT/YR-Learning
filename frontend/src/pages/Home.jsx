@@ -195,81 +195,65 @@ export default function Home() {
               </motion.div>
             </motion.div>
 
-            {/* Right Feature Grid */}
+            {/* Right Hero Visual Showcase */}
             <motion.div
-              className="grid grid-cols-2 sm:grid-cols-2 gap-2 sm:gap-3 lg:gap-4 mt-8 lg:mt-0"
+              className="relative mt-8 lg:mt-0 flex flex-col items-center"
               initial={{ x: 50, opacity: 0 }}
               animate={heroInView ? { x: 0, opacity: 1 } : {}}
               transition={{ duration: 0.8, delay: 0.4 }}
             >
-              {[
-                { title: "Live Classes", icon: Video, color: "from-purple-500 to-purple-600" },
-                { title: "National Hackathons", icon: Trophy, color: "from-blue-500 to-blue-600" },
-                { title: "Internship Opportunities", icon: Briefcase, color: "from-green-500 to-green-600" },
-                { title: "Hand on Practice", icon: Wrench, color: "from-orange-500 to-orange-600" },
-                { title: "Project Based Learning", icon: FolderOpen, color: "from-cyan-500 to-cyan-600" },
-                { title: "Flexible Learning", icon: Monitor, color: "from-pink-500 to-pink-600" },
-                { title: "Coding Challenges", icon: Code, color: "from-red-500 to-red-600" },
-                { title: "Study Material", icon: Book, color: "from-yellow-500 to-yellow-600" }
-              ].map((feature, index) => (
-                <motion.div
-                  key={feature.title}
-                  className="group cursor-pointer perspective-1000"
-                  initial={{ y: 50, opacity: 0 }}
-                  animate={heroInView ? { y: 0, opacity: 1 } : {}}
-                  transition={{ duration: 0.6, delay: 0.6 + index * 0.1 }}
-                  whileHover={{ 
-                    scale: 1.05,
-                    y: -8,
-                    rotateX: 5,
-                    rotateY: 5,
-                    transition: { duration: 0.3, ease: "easeOut" }
-                  }}
-                  whileTap={{ scale: 0.95 }}
-                  onClick={() => {}}
-                  style={{
-                    transformStyle: "preserve-3d"
-                  }}
-                >
-                  <div className="relative bg-white/80 dark:bg-gray-800/50 backdrop-blur-sm border border-gray-200 dark:border-gray-700 hover:border-purple-500/50 rounded-lg p-2 sm:p-3 lg:p-4 h-20 sm:h-24 lg:h-28 flex flex-col items-center justify-center text-center transition-all duration-300 group-hover:bg-gray-50 dark:group-hover:bg-gray-700/50 group-hover:shadow-2xl overflow-hidden">
-                    
-                    {/* Background Glow Effect */}
-                    <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                      <div className={`absolute inset-0 bg-gradient-to-r ${feature.color} opacity-10 blur-xl`}></div>
-                      <div className={`absolute inset-0 bg-gradient-to-r ${feature.color} opacity-5`}></div>
-                    </div>
-                    
-                    {/* Animated Border Glow */}
-                    <div className="absolute inset-0 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                      <div className={`absolute inset-0 rounded-lg bg-gradient-to-r ${feature.color} opacity-20 blur-sm animate-pulse`}></div>
-                    </div>
-                    
-                    {/* Floating Particles Effect */}
-                    <div className="absolute inset-0 overflow-hidden rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-700">
-                      <div className="absolute top-2 left-2 w-1 h-1 bg-white rounded-full animate-ping" style={{ animationDelay: '0.5s' }}></div>
-                      <div className="absolute top-4 right-3 w-1 h-1 bg-white rounded-full animate-ping" style={{ animationDelay: '1s' }}></div>
-                      <div className="absolute bottom-3 left-4 w-1 h-1 bg-white rounded-full animate-ping" style={{ animationDelay: '1.5s' }}></div>
-                    </div>
-                    
-                    <motion.div
-                      className={`w-6 h-6 sm:w-8 sm:h-8 lg:w-10 lg:h-10 bg-gradient-to-r ${feature.color} rounded-lg flex items-center justify-center text-white mb-1 sm:mb-2 group-hover:scale-110 transition-transform duration-300`}
-                      whileHover={{ rotate: 360 }}
-                      transition={{ duration: 0.6 }}
-                    >
-                      <feature.icon className="w-3 h-3 sm:w-4 sm:h-4 lg:w-5 lg:h-5" />
-                    </motion.div>
-                    
-                    <h3 className="text-xs sm:text-sm lg:text-base font-semibold text-gray-900 dark:text-white group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors duration-300 leading-tight">
-                      {feature.title}
-                    </h3>
-                    
-                    {/* Shimmer Effect */}
-                    <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-1000">
-                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent transform -skew-x-12 translate-x-[-100%] group-hover:translate-x-[200%] transition-transform duration-1000 ease-out"></div>
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
+              {/* Main Visual Card with Glowing Backdrop */}
+              <div className="relative w-full max-w-lg">
+                <div className="absolute -inset-1.5 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 rounded-3xl blur-xl opacity-40 group-hover:opacity-60 transition duration-1000 animate-pulse"></div>
+                
+                <div className="relative rounded-3xl overflow-hidden border border-white/20 dark:border-gray-700/60 shadow-2xl bg-gray-900 aspect-video group">
+                  <img
+                    src="/images/hero-tech.jpg"
+                    alt="YR Tech Academy"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                    onError={(e) => { e.currentTarget.src = "/images/webdev-workspace.jpg"; }}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-gray-950/80 via-transparent to-black/20"></div>
+
+                  {/* Floating Badge 1 (Top Left) */}
+                  <motion.div
+                    className="absolute top-3 left-3 bg-gray-900/80 backdrop-blur-md border border-white/20 px-3 py-1.5 rounded-full text-xs font-semibold text-white flex items-center gap-1.5 shadow-lg"
+                    animate={{ y: [0, -4, 0] }}
+                    transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+                  >
+                    <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
+                    <span>Live Tech Mentorship</span>
+                  </motion.div>
+
+                  {/* Floating Badge 2 (Bottom Right) */}
+                  <motion.div
+                    className="absolute bottom-3 right-3 bg-gradient-to-r from-blue-600/90 to-purple-600/90 backdrop-blur-md px-3.5 py-1.5 rounded-full text-xs font-bold text-white shadow-xl flex items-center gap-1.5"
+                    animate={{ y: [0, 4, 0] }}
+                    transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
+                  >
+                    <span>⭐ 4.9/5 Rating (12k+ Reviews)</span>
+                  </motion.div>
+                </div>
+              </div>
+
+              {/* Feature Pills Row */}
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 w-full max-w-lg mt-4">
+                {[
+                  { title: "Live Classes", icon: Video, color: "text-purple-400" },
+                  { title: "Hackathons", icon: Trophy, color: "text-blue-400" },
+                  { title: "Real Projects", icon: FolderOpen, color: "text-cyan-400" },
+                  { title: "Certificates", icon: Award, color: "text-emerald-400" },
+                ].map((feat, i) => (
+                  <motion.div
+                    key={feat.title}
+                    whileHover={{ scale: 1.04, y: -2 }}
+                    className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border border-gray-200/80 dark:border-gray-700/80 rounded-xl p-2.5 flex items-center gap-2 shadow-sm"
+                  >
+                    <feat.icon size={16} className={feat.color} />
+                    <span className="text-xs font-semibold text-gray-800 dark:text-gray-200 truncate">{feat.title}</span>
+                  </motion.div>
+                ))}
+              </div>
             </motion.div>
           </div>
         </div>

@@ -52,8 +52,9 @@ export default function About() {
       
       const uniqueInstructors = Object.values(
         found_courses.reduce((acc, course) => {
-          if (!acc[course.instructor]) {
-            acc[course.instructor] = course.instructor;
+          const instName = typeof course.instructor === 'string' ? course.instructor : course.instructor?.name;
+          if (instName && !acc[instName]) {
+            acc[instName] = course.instructor;
           }
           return acc;
         }, {})
@@ -66,9 +67,9 @@ export default function About() {
 
   const features = [
     {
-      icon: Code,
-      title: "Integrated IDE",
-      description: "Built-in code editor with syntax highlighting, autocomplete, and real-time collaboration features.",
+      icon: Brain,
+      title: "AI Learning Mentor",
+      description: "24/7 intelligent AI assistant for real-time coding guidance, doubt resolution, and career roadmaps.",
       color: "from-blue-500 to-cyan-500"
     },
     {

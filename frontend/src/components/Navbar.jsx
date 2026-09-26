@@ -21,6 +21,7 @@ import {
   FileText,
   ShieldCheck,
   LogOut,
+  Bot,
 } from "lucide-react";
 import toast from "react-hot-toast";
 import { getCourses } from "../data/courses";
@@ -64,13 +65,17 @@ export default function Navbar({ SetisAuthenticated }) {
   useEffect(() => {
     if (searchTerm.trim().length > 0) {
       setIsSearching(true);
-      const filtered = courses.filter(
-        (course) =>
-          course.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          course.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          course.instructor.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          course.category.toLowerCase().includes(searchTerm.toLowerCase())
-      );
+      const filtered = courses.filter((course) => {
+        const instName = typeof course.instructor === 'string'
+          ? course.instructor
+          : (course.instructor?.name || '');
+        return (
+          course.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          course.description?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          instName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          course.category?.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+      });
       setSearchResults(filtered.slice(0, 5)); // Show only first 5 results
       setIsSearching(false);
     } else {
@@ -82,6 +87,7 @@ export default function Navbar({ SetisAuthenticated }) {
     { path: "/", label: "Home", icon: Home },
     { path: "/courses", label: "Courses", icon: BookOpen },
     { path: "/articles", label: "Articles", icon: FileText },
+    { path: "/chatbot", label: "AI Chatbot", icon: Bot },
     { path: "/about", label: "About", icon: Info },
   ];
 

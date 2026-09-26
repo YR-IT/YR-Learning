@@ -50,7 +50,7 @@ const initialCourses = [
   {
     title: "Advanced Full-Stack JavaScript & React",
     description: "Deep dive into modern JavaScript, ES6+, React 19, Node.js, asynchronous patterns, state management, and real-world architectures.",
-    image: "/images/Women-shaping-the-future-of-coding-blog-08.03.2023.jpg",
+    image: "/images/webdev-workspace.jpg",
     price: 89.99,
     category: "Development",
     duration: 36,
@@ -94,7 +94,7 @@ const initialCourses = [
   {
     title: "Data Structures & Algorithms in Python",
     description: "Master problem-solving, algorithmic patterns, LeetCode strategies, and crack technical coding interviews with ease.",
-    image: "/images/pythonimage.png",
+    image: "/images/ai-learning.jpg",
     price: 69.99,
     category: "Computer Science",
     duration: 28,

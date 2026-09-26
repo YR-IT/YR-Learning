@@ -19,6 +19,7 @@ import Earnings from "./panels/Earnings";
 import EditCourse from "./panels/EditCourse";
 import EditBanner from "./panels/EditBanner";
 import Chatbot from "./components/Chatbot";
+import FloatingChatbot from "./components/FloatingChatbot";
 import ScrollToTop from "./components/ScrollToTop";
 import Loader from "./components/Loader";
 import InstructorManager from "./panels/EditInstructorBanner";
@@ -99,6 +100,7 @@ function App() {
             </Routes>
             
             <Footer />
+            <FloatingChatbot />
           </div>
           <Toaster position="top-right" />
         </Router>

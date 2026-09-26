@@ -16,12 +16,12 @@ export default function AdvertisementBanner() {
       const generatedSlides = courses.slice(0, 4).map(course => ({
         title: course.title,
         description: course.description,
-        button: `View ${course.title}` ,
-        link: `/course/${course._id}`,
-        image: `data:image/jpeg;base64,${course.thumbnail}`,
+        button: `View ${course.title}`,
+        link: `/course/${course._id || course.id}`,
+        image: course.image || (course.thumbnail ? `data:image/jpeg;base64,${course.thumbnail}` : '/images/webdev-workspace.jpg'),
         price: course.price,
         category: course.category,
-        rating: 4.8, // aTBD: This should come from the API
+        rating: course.rating || 4.8,
         students: "2.5k", // TBD: This should come from the API
         duration: "12h" // TBD: This should come from the API
       }));
@@ -147,6 +147,7 @@ export default function AdvertisementBanner() {
                 <motion.img
                   src={currentSlide.image}
                   alt={currentSlide.title}
+                  onError={(e) => { e.currentTarget.src = '/images/webdev-workspace.jpg'; }}
                   className="rounded-2xl shadow-2xl object-cover w-full h-48 md:h-64"
                   whileHover={{ scale: 1.05 }}
                   transition={{ duration: 0.3 }}
