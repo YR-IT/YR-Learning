@@ -1,158 +1,30 @@
-/* EditInstructorBanner.css */
-.edit-instructor-panel {
-    max-width: 600px;
-    margin: 2rem auto;
-    padding: 2rem;
-    background-color: #ffffff;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
+.edit-instructor-panel { color: #182321; }
+.edit-instructor-panel > h2 { margin: 0 0 1.25rem; font-size: 1.55rem; font-weight: 750; }
+.edit-instructor-panel > div { padding: 1.4rem; background: #fff; border: 1px solid #e2e9e5; border-radius: 7px; }
+.edit-instructor-panel h3 { margin: 0 0 1rem; color: #34423b; font-size: 1rem; font-weight: 700; }
+.edit-instructor-form { display: grid; gap: 1rem; max-width: 760px; }
+.edit-instructor-panel .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+.edit-instructor-panel .form-group label { color: #47554e; font-size: 0.82rem; font-weight: 700; }
+.edit-instructor-panel .form-group input, .edit-instructor-panel .form-group textarea { padding: 0.7rem; color: #182321; background: #fff; border: 1px solid #d5dfd9; border-radius: 5px; font: inherit; }
+.edit-instructor-panel .form-group input:focus, .edit-instructor-panel .form-group textarea:focus { outline: 2px solid #16795d; outline-offset: 1px; }
+.edit-instructor-panel .image-preview { width: fit-content; max-width: 100%; margin: 0; padding: 0; border: 0; }
+.edit-instructor-panel .image-preview img { display: block; max-width: 100%; max-height: 220px; object-fit: contain; border: 1px solid #e2e9e5; border-radius: 5px; }
+.edit-instructor-panel button { min-height: 38px; padding: 0.55rem 0.85rem; color: #fff; background: #16795d; border: 0; border-radius: 5px; font-size: 0.85rem; font-weight: 700; cursor: pointer; }
+.edit-instructor-panel .cancel-btn { margin-left: 0.5rem; color: #47554e; background: #f1f6f3; border: 1px solid #dce5df; }
+.edit-instructor-panel .error { margin: 0 0 1rem; padding: 0.7rem; color: #a12a22; background: #fff1f0; border: 1px solid #f3d2cf; border-radius: 5px; }
+.edit-instructor-panel .instructors-list { margin-top: 1.5rem; }
+.edit-instructor-panel .instructors-list ul { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr)); gap: 0.85rem; padding: 0; list-style: none; }
+.edit-instructor-panel .instructor-item { display: flex; align-items: flex-start; gap: 0.8rem; padding: 0.85rem; background: #fff; border: 1px solid #e2e9e5; border-radius: 7px; }
+.edit-instructor-panel .instructor-item > img { width: 64px; height: 64px; flex: 0 0 auto; object-fit: cover; background: #f1f6f3; border-radius: 5px; }
+.edit-instructor-panel .instructor-info { min-width: 0; flex: 1; }
+.edit-instructor-panel .instructor-info h4 { margin: 0 0 0.3rem; color: #182321; font-size: 0.9rem; font-weight: 700; }
+.edit-instructor-panel .instructor-info p { display: -webkit-box; overflow: hidden; margin: 0; color: #66736f; font-size: 0.78rem; -webkit-box-orient: vertical; -webkit-line-clamp: 3; }
+.edit-instructor-panel .instructor-actions { display: flex; gap: 0.35rem; }
+.edit-instructor-panel .instructor-actions button { min-height: 32px; padding: 0.4rem 0.55rem; font-size: 0.75rem; }
+.edit-instructor-panel .instructor-actions .delete-btn { color: #a12a22; background: #fff1f0; }
 
-.edit-instructor-panel h2 {
-    text-align: center;
-    font-size: 1.75rem;
-    color: #111827;
-    margin-bottom: 2rem;
-}
-
-.edit-instructor-form {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-}
-
-.form-group {
-    display: flex;
-    flex-direction: column;
-}
-
-.form-group label {
-    margin-bottom: 0.5rem;
-    font-weight: 600;
-    color: #374151;
-}
-
-.form-group input[type="text"],
-.form-group textarea,
-.form-group input[type="file"] {
-    padding: 0.75rem;
-    border: 1px solid #d1d5db;
-    border-radius: 6px;
-    font-size: 1rem;
-}
-
-.image-preview {
-    max-width: 100%;
-    height: auto;
-    max-height: 250px;
-    border-radius: 6px;
-    margin-top: 0.5rem;
-    border: 1px solid #e5e7eb;
-    object-fit: cover;
-}
-
-.form-actions {
-    display: flex;
-    justify-content: flex-end;
-    gap: 1rem;
-    margin-top: 1rem;
-}
-
-.form-actions button {
-    padding: 0.75rem 1.5rem;
-    border: none;
-    border-radius: 6px;
-    font-size: 1rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: background-color 0.2s, box-shadow 0.2s;
-}
-
-.form-actions button[type="submit"] {
-    background-color: #2563eb;
-    color: white;
-}
-
-.form-actions button[type="submit"]:hover {
-    background-color: #1d4ed8;
-}
-
-.form-actions button[type="button"] {
-    background-color: #f3f4f6;
-    color: #374151;
-    border: 1px solid #d1d5db;
-}
-
-.form-actions button[type="button"]:hover {
-    background-color: #e5e7eb;
-}
-
-.form-actions button:disabled {
-    background-color: #9ca3af;
-    cursor: not-allowed;
-}
-
-.error {
-    color: #ef4444;
-    text-align: center;
-    margin-top: 1rem;
-}
-
-.instructors-list {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 1.5rem;
-    margin-top: 2rem;
-}
-
-.instructor-card {
-    background-color: #f9fafb;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-    overflow: hidden;
-}
-
-.instructor-card img {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-}
-
-.instructor-info {
-    padding: 1rem;
-}
-
-.instructor-info h4 {
-    font-size: 1.2rem;
-    font-weight: 600;
-    color: #111827;
-    margin: 0 0 0.5rem 0;
-}
-
-.instructor-info p {
-    font-size: 0.9rem;
-    color: #4b5563;
-    margin-bottom: 1rem;
-}
-
-.instructor-actions {
-    display: flex;
-    justify-content: space-between;
-    gap: 0.5rem;
-}
-
-.instructor-actions button {
-    flex: 1;
-    padding: 0.5rem;
-    font-size: 0.9rem;
-    border-radius: 4px;
-}
-
-.instructor-actions .delete-button {
-    background-color: #fee2e2;
-    color: #b91c1c;
-}
-
-.instructor-actions .delete-button:hover {
-    background-color: #fecaca;
+@media (max-width: 560px) {
+    .edit-instructor-panel > div { padding: 1rem; }
+    .edit-instructor-panel .instructor-item { flex-wrap: wrap; }
+    .edit-instructor-panel .instructor-actions { margin-left: auto; }
 }

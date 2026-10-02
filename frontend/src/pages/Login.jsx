@@ -55,14 +55,24 @@ export default function Login({ SetIsAuthenticated }) {
       <div className="relative max-w-md w-full bg-gray-900/90 backdrop-blur-xl rounded-3xl shadow-2xl p-8 border border-gray-800">
         {/* Header */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-tr from-blue-600 to-indigo-600 text-white shadow-lg shadow-blue-500/30 mb-4">
-            <ShieldCheck size={28} />
+          <div className="flex justify-center mb-4">
+            <div className="p-3 bg-white/5 rounded-2xl border border-white/10 backdrop-blur-md shadow-xl inline-block">
+              <img
+                src="/images/logo.png"
+                alt="YR Learning"
+                className="h-10 w-auto object-contain"
+              />
+            </div>
+          </div>
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-semibold uppercase tracking-wider mb-2">
+            <ShieldCheck size={14} />
+            <span>Administrator Secure Access</span>
           </div>
           <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
             Admin Portal
           </h1>
           <p className="text-gray-400 text-sm mt-1">
-            Sign in to manage courses, articles, and platform content
+            Sign in to manage courses, enrollments, and platform content
           </p>
         </div>
 

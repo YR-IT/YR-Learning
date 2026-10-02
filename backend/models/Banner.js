@@ -4,7 +4,15 @@ const bannerSchema = new mongoose.Schema(
   {
     title: {
       type: String,
-      required: true,
+      default: '',
+    },
+    name: {
+      type: String,
+      default: '',
+    },
+    about: {
+      type: String,
+      default: '',
     },
     image: {
       type: String,
@@ -24,3 +32,4 @@ const bannerSchema = new mongoose.Schema(
 );
 
 module.exports = mongoose.model('Banner', bannerSchema);
+

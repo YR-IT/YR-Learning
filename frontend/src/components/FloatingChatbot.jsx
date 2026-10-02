@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { Bot, X, Send, Sparkles, Maximize2, Trash2, ArrowRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
+import chatService from '../services/chatService';
 
 export default function FloatingChatbot() {
   const [isOpen, setIsOpen] = useState(false);
@@ -34,9 +35,9 @@ export default function FloatingChatbot() {
     }
   }, [messages, isOpen]);
 
-  const handleSend = (textToSend) => {
+  const handleSend = async (textToSend) => {
     const text = (textToSend || inputVal).trim();
-    if (!text) return;
+    if (!text || loading) return;
 
     const userMessage = {
       sender: 'user',
@@ -44,35 +45,30 @@ export default function FloatingChatbot() {
       time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
     };
 
+    const history = [...messages.slice(1), userMessage].slice(-12).map((message) => ({
+      role: message.sender === 'user' ? 'user' : 'model',
+      content: message.text,
+    }));
     setMessages((prev) => [...prev, userMessage]);
     setInputVal('');
     setLoading(true);
 
-    setTimeout(() => {
-      let botResponse = "Great question! Our industry-leading curriculum is built with direct hands-on projects and career coaching.";
-      const q = text.toLowerCase();
-
-      if (q.includes('web') || q.includes('full stack') || q.includes('react')) {
-        botResponse = "For Web Development, check out our 'Advanced Full-Stack JavaScript & React' course! It covers modern React, TailwindCSS, Node.js, Express, and MongoDB with real-world deployments.";
-      } else if (q.includes('dsa') || q.includes('algorithm') || q.includes('python')) {
-        botResponse = "For algorithms, our 'Data Structures & Algorithms in Python' course covers Big-O, linked lists, trees, graphs, and top interview questions for FAANG companies.";
-      } else if (q.includes('certif') || q.includes('degree') || q.includes('exam')) {
-        botResponse = "Every YR-Elearning course provides a verified industry-recognized Certificate of Completion upon finishing all modules and the capstone project!";
-      } else if (q.includes('article') || q.includes('blog') || q.includes('read')) {
-        botResponse = "Explore our Articles section at /articles for deep-dive tutorials on React Server Components, TypeScript patterns, and developer career advice!";
-      } else if (q.includes('fee') || q.includes('price') || q.includes('cost')) {
-        botResponse = "All our courses are priced affordably with lifetime access and updates. Browse our full catalog on the Courses page!";
-      }
-
-      const botMessage = {
+    try {
+      const reply = await chatService.sendMessage(history);
+      setMessages((prev) => [...prev, {
         sender: 'bot',
-        text: botResponse,
+        text: reply,
         time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-      };
-
-      setMessages((prev) => [...prev, botMessage]);
+      }]);
+    } catch (error) {
+      setMessages((prev) => [...prev, {
+        sender: 'bot',
+        text: error.response?.data?.message || 'I could not connect to the AI assistant. Please try again.',
+        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+      }]);
+    } finally {
       setLoading(false);
-    }, 500);
+    }
   };
 
   const handleKeyDown = (e) => {

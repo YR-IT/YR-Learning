@@ -7,13 +7,13 @@ const AddCourse = () => {
     const [courseData, setCourseData] = useState({
         title: '',
         description: '',
-        roadmap: '',
         price: '',
         category: '',
         instructor:'',
         thumbnail: null,
     });
     const [thumbnailPreview, setThumbnailPreview] = useState('');
+    const [curriculumSections, setCurriculumSections] = useState([{ title: '', lessons: [''] }]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -42,16 +42,17 @@ const AddCourse = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        // In a real application, you would send this data to your backend.
-        // For this example, we'll just log it and show a success message.
+        const sections = curriculumSections
+            .map((section) => ({
+                title: section.title.trim(),
+                lessons: section.lessons.map((title) => ({ title: title.trim() })).filter((lesson) => lesson.title),
+            }))
+            .filter((section) => section.title || section.lessons.length);
 
-        const formData = new FormData();
-        for (const key in courseData) {
-            formData.append(key, courseData[key]);
+        if (!sections.length || sections.some((section) => !section.title || !section.lessons.length)) {
+            toast.error('Add a title and at least one topic to each curriculum section.');
+            return;
         }
-         for (let pair of formData.entries()) {
-                 console.log(`${pair[0]}:`, pair[1]);
-                             }
 
         try {
             const token = localStorage.getItem('token') || localStorage.getItem('adminToken');
@@ -68,6 +69,7 @@ const AddCourse = () => {
                     category: courseData.category || 'Development',
                     instructor: courseData.instructor || 'YR Instructor',
                     image: thumbnailPreview || '/images/Digital-Marketing.jpg',
+                    curriculum: { sections },
                 }),
             });
 
@@ -80,13 +82,13 @@ const AddCourse = () => {
             setCourseData({
                 title: '',
                 description: '',
-                roadmap: '',
                 price: '',
                 category: '',
                 instructor: '',
                 thumbnail: null,
             });
             setThumbnailPreview('');
+            setCurriculumSections([{ title: '', lessons: [''] }]);
         } catch (error) {
             console.error('Add course error:', error);
             toast.error(error.message || 'Failed to create course');
@@ -120,18 +122,50 @@ const AddCourse = () => {
                     ></textarea>
                 </div>
                 <div className="form-group">
-                    <label htmlFor="roadmap">Roadmap</label>
-                    <textarea
-                        id="roadmap"
-                        name="roadmap"
-                        value={courseData.roadmap}
-                        onChange={handleChange}
-                        rows="5"
-                        required
-                    ></textarea>
+                    <label>Course Curriculum</label>
+                    <div className="space-y-4">
+                        {curriculumSections.map((section, sectionIndex) => (
+                            <div key={sectionIndex} className="space-y-3 rounded border border-gray-200 p-4">
+                                <div className="flex items-center gap-2">
+                                    <input
+                                        type="text"
+                                        aria-label={`Section ${sectionIndex + 1} title`}
+                                        placeholder={`Section ${sectionIndex + 1} title`}
+                                        value={section.title}
+                                        onChange={(event) => setCurriculumSections((current) => current.map((item, index) => index === sectionIndex ? { ...item, title: event.target.value } : item))}
+                                        required
+                                    />
+                                    <button type="button" onClick={() => setCurriculumSections((current) => current.filter((_, index) => index !== sectionIndex))} disabled={curriculumSections.length === 1}>
+                                        Remove section
+                                    </button>
+                                </div>
+                                {section.lessons.map((lesson, lessonIndex) => (
+                                    <div key={lessonIndex} className="flex items-center gap-2">
+                                        <input
+                                            type="text"
+                                            aria-label={`Section ${sectionIndex + 1} topic ${lessonIndex + 1}`}
+                                            placeholder={`Topic ${lessonIndex + 1}`}
+                                            value={lesson}
+                                            onChange={(event) => setCurriculumSections((current) => current.map((item, index) => index === sectionIndex ? { ...item, lessons: item.lessons.map((topic, topicIndex) => topicIndex === lessonIndex ? event.target.value : topic) } : item))}
+                                            required
+                                        />
+                                        <button type="button" onClick={() => setCurriculumSections((current) => current.map((item, index) => index === sectionIndex ? { ...item, lessons: item.lessons.filter((_, topicIndex) => topicIndex !== lessonIndex) } : item))} disabled={section.lessons.length === 1}>
+                                            Remove topic
+                                        </button>
+                                    </div>
+                                ))}
+                                <button type="button" onClick={() => setCurriculumSections((current) => current.map((item, index) => index === sectionIndex ? { ...item, lessons: [...item.lessons, ''] } : item))}>
+                                    Add topic
+                                </button>
+                            </div>
+                        ))}
+                        <button type="button" onClick={() => setCurriculumSections((current) => [...current, { title: '', lessons: [''] }])}>
+                            Add section
+                        </button>
+                    </div>
                 </div>
                 <div className="form-group">
-                    <label htmlFor="price">Price ($)</label>
+                    <label htmlFor="price">Price (Rs.)</label>
                     <input
                         type="number"
                         id="price"

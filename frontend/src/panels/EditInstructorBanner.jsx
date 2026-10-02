@@ -81,7 +81,8 @@ const InstructorManager = () => {
 
         try {
             const response = await fetch(url, { method, body: formData });
-            if (!response.ok) throw new Error(`Failed to ${isEditMode ? 'update' : 'add'} instructor.`);
+            const result = await response.json().catch(() => ({}));
+            if (!response.ok) throw new Error(result.message || `Failed to ${isEditMode ? 'update' : 'add'} instructor.`);
             resetForm();
             await fetchAllInstructors();
         } catch (err) {
@@ -99,7 +100,8 @@ const InstructorManager = () => {
 
         try {
             const response = await fetch(`${baseUrl}/banner/deleteinstructor/${instructorId}`, { method: 'DELETE' });
-            if (!response.ok) throw new Error('Failed to delete instructor.');
+            const result = await response.json().catch(() => ({}));
+            if (!response.ok) throw new Error(result.message || 'Failed to delete instructor.');
             await fetchAllInstructors();
             if (editingInstructor && editingInstructor._id === instructorId) {
                 resetForm();
@@ -172,7 +174,7 @@ const InstructorManager = () => {
                     {instructors.map((inst) => (
                         <li key={inst._id} className="instructor-item">
                             <img src={inst.image ? `data:image/jpeg;base64,${inst.image}` : '/images/trainer1.jpg'} alt={inst.name} />
-                            <div>
+                            <div className="instructor-info">
                                 <h4>{inst.name}</h4>
                                 <p>{inst.about}</p>
                             </div>

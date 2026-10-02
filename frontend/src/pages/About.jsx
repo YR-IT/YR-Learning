@@ -28,6 +28,7 @@ import {
 } from "lucide-react";
 import { useState, useEffect } from "react";
 import { getCourses } from "../data/courses";
+import InstructorShowcase from "../components/InstructorShowcase";
 
 export default function About() {
   const navigate = useNavigate();
@@ -40,7 +41,6 @@ export default function About() {
   
   const [heroRef, heroInView] = useInView({ threshold: 0.3, triggerOnce: true });
   const [featuresRef, featuresInView] = useInView({ threshold: 0.2, triggerOnce: true });
-  const [techRef, techInView] = useInView({ threshold: 0.2, triggerOnce: true });
   const [statsRef, statsInView] = useInView({ threshold: 0.3, triggerOnce: true });
   const [ctaRef, ctaInView] = useInView({ threshold: 0.3, triggerOnce: true });
 
@@ -104,24 +104,34 @@ export default function About() {
     }
   ];
 
-  const techStack = [
-    { name: "React 19", category: "Frontend", icon: "⚛️" },
-    { name: "Vite", category: "Build Tool", icon: "⚡" },
-    { name: "Tailwind CSS", category: "Styling", icon: "🎨" },
-    { name: "Framer Motion", category: "Animation", icon: "🎭" },
-    { name: "Express.js", category: "Backend", icon: "🚀" },
-    { name: "MongoDB", category: "Database", icon: "🍃" },
-    { name: "Socket.io", category: "Real-time", icon: "🔌" },
-    { name: "CodeMirror", category: "IDE", icon: "💻" },
-    { name: "JWT", category: "Auth", icon: "🔐" },
-    { name: "Cloudinary", category: "Media", icon: "☁️" }
+  const courseWiseTechnologies = [
+    {
+      title: "Frontend Development",
+      items: ["HTML5", "CSS3", "JavaScript", "React", "Tailwind CSS", "Responsive UI"],
+      accent: "from-blue-500 to-cyan-500"
+    },
+    {
+      title: "Backend Engineering",
+      items: ["Node.js", "Express.js", "REST APIs", "MongoDB", "Authentication", "Deployment"],
+      accent: "from-purple-500 to-pink-500"
+    },
+    {
+      title: "Data & AI",
+      items: ["Python", "Machine Learning", "Data Analysis", "AI Models", "Big Data", "Statistics"],
+      accent: "from-emerald-500 to-teal-500"
+    },
+    {
+      title: "Cyber & Cloud",
+      items: ["Networking", "Security Tools", "Cloud Platforms", "Linux", "Ethical Hacking", "Monitoring"],
+      accent: "from-orange-500 to-red-500"
+    }
   ];
 
   const teamMembers = [
     {
       name: "YR IT Solutions",
       role: "Founder & Lead Developer",
-      avatar: "/images/Your_paragraph_text-removebg-preview.png",
+      avatar: "/images/logo.png",
       bio: "Passionate about creating innovative learning experiences through technology.",
       social: { github: "#", linkedin: "#", email: "contact@yr-it.com" }
     }
@@ -466,63 +476,50 @@ export default function About() {
             />
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6 lg:gap-8">
             {features.map((feature, index) => {
               const Icon = feature.icon;
               return (
                 <motion.div
                   key={feature.title}
-                  className="bg-white/80 dark:bg-gray-800 backdrop-blur-sm rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-lg hover:shadow-2xl transition-all duration-500 cursor-pointer border border-white/20 dark:border-gray-700 group relative overflow-hidden"
+                  className="group relative overflow-hidden rounded-3xl border border-gray-200/70 bg-white/85 p-5 shadow-[0_20px_45px_rgba(15,23,42,0.08)] backdrop-blur-sm transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_28px_60px_rgba(59,130,246,0.18)] dark:border-gray-700/80 dark:bg-gray-800/85 sm:p-6"
                   initial={{ y: 50, opacity: 0 }}
                   animate={featuresInView ? { y: 0, opacity: 1 } : {}}
                   transition={{ duration: 0.6, delay: index * 0.1 }}
-                  whileHover={{ 
-                    y: -12, 
-                    scale: 1.03,
-                    rotateX: 5,
-                    rotateY: 10,
-                    transition: { duration: 0.3, ease: "easeOut" }
+                  whileHover={{
+                    scale: 1.01,
+                    transition: { duration: 0.25, ease: "easeOut" }
                   }}
                   whileTap={{ scale: 0.98 }}
                   onHoverStart={() => setActiveFeature(index)}
-                  style={{
-                    transformStyle: "preserve-3d",
-                    perspective: "1000px"
-                  }}
                 >
-                  
-                  {/* Glow effect background */}
-                  <motion.div
-                    className={`absolute inset-0 bg-gradient-to-r ${feature.color} dark:from-blue-400 dark:via-purple-400 dark:to-indigo-400 opacity-0 group-hover:opacity-20 rounded-xl sm:rounded-2xl blur-xl transition-opacity duration-500`}
-                    initial={{ scale: 0.8 }}
-                    whileHover={{ scale: 1.2 }}
-                    transition={{ duration: 0.3 }}
-                  />
-                  
-                  {/* Card content */}
-                  <div className="relative z-10 text-center">
-                    <motion.div 
-                      className={`w-12 sm:w-14 lg:w-16 h-12 sm:h-14 lg:h-16 bg-gradient-to-r ${feature.color} dark:from-blue-400 dark:via-purple-400 dark:to-indigo-400 rounded-xl sm:rounded-2xl flex items-center justify-center mb-3 sm:mb-4 transition-all duration-300 mx-auto`}
-                      whileHover={{ 
-                        scale: 1.15, 
-                        rotate: 5,
-                        transition: { duration: 0.3, ease: "easeOut" }
-                      }}
-                      style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center'
-                      }}
-                    >
-                      <Icon className="text-white flex-shrink-0" size={window.innerWidth < 640 ? 20 : window.innerWidth < 1024 ? 22 : 24} />
-                    </motion.div>
-                    <motion.h3 
-                      className="text-lg sm:text-xl font-bold text-gray-800 dark:text-gray-300 mb-2 sm:mb-3 group-hover:text-blue-700 dark:group-hover:text-white transition-colors duration-300 text-center"
+                  <div className={`absolute inset-x-0 top-0 h-1 bg-gradient-to-r ${feature.color}`} />
+                  <div className={`absolute -right-10 -top-10 h-24 w-24 rounded-full bg-gradient-to-br ${feature.color} opacity-20 blur-2xl transition-all duration-500 group-hover:scale-150`} />
+
+                  <div className="relative z-10 text-left">
+                    <div className="mb-4 flex items-center justify-between">
+                      <motion.div
+                        className={`flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-r ${feature.color} shadow-lg shadow-blue-500/20 sm:h-14 sm:w-14`}
+                        whileHover={{
+                          scale: 1.12,
+                          rotate: 8,
+                          transition: { duration: 0.3, ease: "easeOut" }
+                        }}
+                      >
+                        <Icon className="text-white" size={window.innerWidth < 640 ? 20 : 22} />
+                      </motion.div>
+                      <div className="flex h-7 w-7 items-center justify-center rounded-full border border-gray-200 bg-white text-xs font-bold text-blue-600 dark:border-gray-600 dark:bg-gray-700 dark:text-blue-300">
+                        {index + 1}
+                      </div>
+                    </div>
+
+                    <motion.h3
+                      className="mb-3 text-lg font-bold text-gray-900 dark:text-white sm:text-xl"
                     >
                       {feature.title}
                     </motion.h3>
-                    <motion.p 
-                      className="text-gray-600 dark:text-gray-400 leading-relaxed group-hover:text-gray-700 dark:group-hover:text-gray-100 transition-colors duration-300 text-sm sm:text-base text-center"
+                    <motion.p
+                      className="text-sm leading-relaxed text-gray-600 dark:text-gray-300 sm:text-base"
                     >
                       {feature.description}
                     </motion.p>
@@ -533,127 +530,48 @@ export default function About() {
           </div>
         </motion.div>
 
-        {/* Tech Stack Section */}
-        <motion.div 
-          ref={techRef}
+        <InstructorShowcase />
+
+        <motion.div
           className="mb-12 sm:mb-16 lg:mb-20"
           initial={{ y: 50, opacity: 0 }}
-          animate={techInView ? { y: 0, opacity: 1 } : {}}
+          animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.8 }}
         >
           <div className="text-center mb-8 sm:mb-12">
-            <motion.h2 
-              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-4 sm:mb-6 bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 dark:from-blue-400 dark:via-purple-400 dark:to-indigo-400 bg-clip-text text-transparent leading-tight pb-2 sm:pb-3"
-              initial={{ y: 30, opacity: 0 }}
-              animate={techInView ? { y: 0, opacity: 1 } : {}}
-              transition={{ duration: 0.6 }}
-            >
-              Technology Stack
-            </motion.h2>
-            <motion.p 
-              className="text-base sm:text-lg lg:text-xl text-gray-700 dark:text-gray-400 max-w-2xl mx-auto"
-              initial={{ y: 30, opacity: 0 }}
-              animate={techInView ? { y: 0, opacity: 1 } : {}}
-              transition={{ duration: 0.6, delay: 0.2 }}
-            >
-              Built with cutting-edge technologies for optimal performance and user experience
-            </motion.p>
+            <div className="inline-flex items-center gap-2 rounded-full border border-blue-200 bg-white/80 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-blue-700 shadow-sm dark:border-blue-700 dark:bg-gray-800/80 dark:text-blue-300">
+              Learning Tracks
+            </div>
+            <h2 className="mt-5 text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-4 sm:mb-6 bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 dark:from-blue-400 dark:via-purple-400 dark:to-indigo-400 bg-clip-text text-transparent leading-tight pb-2 sm:pb-3">
+              Course-wise Technologies
+            </h2>
+            <p className="text-base sm:text-lg lg:text-xl text-gray-700 dark:text-gray-400 max-w-3xl mx-auto">
+              Learning paths built around the tools and technologies students use in each track, so every course feels practical, modern, and job-ready.
+            </p>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4 lg:gap-6">
-            {techStack.map((tech, index) => (
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5 sm:gap-6 lg:gap-8">
+            {courseWiseTechnologies.map((group, index) => (
               <motion.div
-                key={tech.name}
-                className="bg-white/80 dark:bg-gray-800 backdrop-blur-sm rounded-xl sm:rounded-2xl p-4 sm:p-6 text-center shadow-lg hover:shadow-xl transition-all cursor-pointer border border-white/20 dark:border-gray-700 group relative overflow-hidden"
-                initial={{ y: 30, opacity: 0, scale: 0.9 }}
-                animate={techInView ? { y: 0, opacity: 1, scale: 1 } : {}}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                whileHover={{ 
-                  y: -8, 
-                  scale: 1.08,
-                  rotateY: 15,
-                  rotateX: 10,
-                  transition: { duration: 0.4, ease: "easeOut" }
-                }}
-                style={{
-                  transformStyle: "preserve-3d",
-                  perspective: "1000px"
-                }}
+                key={group.title}
+                className="group relative overflow-hidden rounded-3xl border border-gray-200/70 bg-white/85 p-5 shadow-[0_20px_45px_rgba(15,23,42,0.08)] backdrop-blur-sm transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_25px_60px_rgba(79,70,229,0.18)] dark:border-gray-700/80 dark:bg-gray-800/85 sm:p-6"
+                initial={{ y: 30, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ duration: 0.6, delay: index * 0.1 }}
               >
-                {/* Animated glow background */}
-                <motion.div
-                  className="absolute inset-0 opacity-0 group-hover:opacity-30 rounded-xl sm:rounded-2xl transition-opacity duration-500"
-                  style={{
-                    background: `linear-gradient(45deg, 
-                      hsl(${(index * 60) % 360}, 70%, 60%), 
-                      hsl(${(index * 60 + 120) % 360}, 70%, 60%), 
-                      hsl(${(index * 60 + 240) % 360}, 70%, 60%))`
-                  }}
-                  animate={{
-                    background: [
-                      `linear-gradient(45deg, 
-                        hsl(${(index * 60) % 360}, 70%, 60%), 
-                        hsl(${(index * 60 + 120) % 360}, 70%, 60%), 
-                        hsl(${(index * 60 + 240) % 360}, 70%, 60%))`,
-                      `linear-gradient(45deg, 
-                        hsl(${(index * 60 + 60) % 360}, 70%, 60%), 
-                        hsl(${(index * 60 + 180) % 360}, 70%, 60%), 
-                        hsl(${(index * 60 + 300) % 360}, 70%, 60%))`,
-                      `linear-gradient(45deg, 
-                        hsl(${(index * 60) % 360}, 70%, 60%), 
-                        hsl(${(index * 60 + 120) % 360}, 70%, 60%), 
-                        hsl(${(index * 60 + 240) % 360}, 70%, 60%))`
-                    ]
-                  }}
-                  transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-                />
-                
-                {/* Blur glow effect */}
-                <motion.div
-                  className="absolute inset-0 opacity-0 group-hover:opacity-20 rounded-xl sm:rounded-2xl blur-xl transition-opacity duration-500"
-                  style={{
-                    background: `radial-gradient(circle, 
-                      hsl(${(index * 60) % 360}, 80%, 70%), 
-                      hsl(${(index * 60 + 180) % 360}, 80%, 70%))`
-                  }}
-                  initial={{ scale: 0.8 }}
-                  whileHover={{ scale: 1.3 }}
-                  transition={{ duration: 0.4 }}
-                />
-
-                {/* Card content */}
-                <div className="relative z-10">
-                  <motion.div 
-                    className="text-2xl sm:text-3xl mb-2 sm:mb-3 transition-transform duration-300"
-                    whileHover={{ 
-                      scale: 1.2, 
-                      rotateZ: 360,
-                      transition: { duration: 0.6, ease: "easeInOut" }
-                    }}
-                    animate={{
-                      rotateY: [0, 5, -5, 0],
-                    }}
-                    transition={{ 
-                      duration: 4, 
-                      repeat: Infinity, 
-                      ease: "easeInOut",
-                      delay: index * 0.2
-                    }}
-                  >
-                    {tech.icon}
-                  </motion.div>
-                  <motion.h4 
-                    className="font-bold text-gray-800 dark:text-gray-300 mb-1 group-hover:text-gray-900 transition-colors duration-300 text-sm sm:text-base"
-                    whileHover={{ scale: 1.05 }}
-                  >
-                    {tech.name}
-                  </motion.h4>
-                  <motion.p 
-                    className="text-xs sm:text-sm text-gray-600 dark:text-gray-500 group-hover:text-gray-800 transition-colors duration-300"
-                    whileHover={{ scale: 1.05 }}
-                  >
-                    {tech.category}
-                  </motion.p>
+                <div className={`absolute inset-x-0 top-0 h-1 bg-gradient-to-r ${group.accent}`} />
+                <div className={`mb-4 inline-flex rounded-full bg-gradient-to-r ${group.accent} px-3 py-1.5 text-xs font-bold uppercase tracking-wide text-white`}>
+                  {group.title}
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  {group.items.map((item) => (
+                    <span
+                      key={item}
+                      className="rounded-full border border-gray-200 bg-gray-50 px-2.5 py-1.5 text-xs font-medium text-gray-700 transition-colors duration-300 group-hover:border-blue-200 group-hover:bg-blue-50 group-hover:text-blue-700 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 dark:group-hover:border-blue-500/50 dark:group-hover:bg-blue-500/10 dark:group-hover:text-blue-300"
+                    >
+                      {item}
+                    </span>
+                  ))}
                 </div>
               </motion.div>
             ))}

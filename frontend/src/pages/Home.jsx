@@ -262,19 +262,19 @@ export default function Home() {
       {/* Why Choose Us Section */}
       <WhyChooseUs />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 relative z-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-0 pb-8 relative z-10">
         
         {/* Featured Courses Section */}
         <motion.div 
-          className="mb-16 mt-20 relative"
+          className="mb-8 mt-0 relative sm:mb-14 lg:mb-16"
           initial={{ y: 30, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.8, delay: 0.8 }}
         >
           {/* Enhanced Header Section */}
-          <div className="text-center mb-12 relative z-10">
+          <div className="text-center mb-4 sm:mb-10 lg:mb-12 relative z-10">
             <motion.h2 
-              className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 leading-tight"
+              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-1.5 sm:mb-4 leading-tight"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 1 }}
@@ -285,7 +285,7 @@ export default function Home() {
             </motion.h2>
 
             <motion.p 
-              className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto mb-8 leading-relaxed"
+              className="text-base sm:text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto mb-3 sm:mb-6 lg:mb-8 leading-relaxed"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 1.1 }}
@@ -295,7 +295,7 @@ export default function Home() {
 
             {/* Animated Divider */}
             <motion.div
-              className="flex justify-center items-center gap-4 mb-8"
+              className="flex justify-center items-center gap-4 mb-3 sm:mb-7 lg:mb-8"
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.6, delay: 1.2 }}
@@ -330,7 +330,7 @@ export default function Home() {
                     <CourseCard 
                       id={course._id} 
                       course={course.title}
-                      courseImage={course.thumbnail}
+                      courseImage={course.image || course.thumbnail}
                       price={course.price}
                       description={course.description}
                       instructor={course.instructor}

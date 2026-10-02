@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
-import { Bot, Sparkles, Send, RefreshCw, Maximize2, ExternalLink, ShieldCheck } from 'lucide-react';
+import { Bot, Sparkles, Send, Maximize2 } from 'lucide-react';
 import { motion } from 'framer-motion';
+import chatService from '../services/chatService';
 
 export default function Chatbot() {
-  const [iframeKey, setIframeKey] = useState(0);
   const [isFullScreen, setIsFullScreen] = useState(false);
-  const [chatMode, setChatMode] = useState('agent'); // 'agent' | 'instant'
   const [messages, setMessages] = useState([
     {
       sender: 'bot',
@@ -23,9 +22,9 @@ export default function Chatbot() {
     "💼 How to build a portfolio that gets hired?"
   ];
 
-  const handleSend = (text) => {
-    const query = text || inputVal;
-    if (!query.trim()) return;
+  const handleSend = async (text) => {
+    const query = (text || inputVal).trim();
+    if (!query || loading) return;
 
     const userMsg = {
       sender: 'user',
@@ -33,33 +32,30 @@ export default function Chatbot() {
       time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
     };
 
+    const history = [...messages.slice(1), userMsg].slice(-12).map((message) => ({
+      role: message.sender === 'user' ? 'user' : 'model',
+      content: message.text,
+    }));
     setMessages((prev) => [...prev, userMsg]);
     setInputVal('');
     setLoading(true);
 
-    // AI assistant intelligent answer engine
-    setTimeout(() => {
-      let botResponse = "That is a great question! On YR-Elearning, our expert-led curriculum covers this step-by-step with practical hands-on exercises and project building.";
-      
-      const q = query.toLowerCase();
-      if (q.includes('dsa') || q.includes('algorithm')) {
-        botResponse = "For Data Structures & Algorithms, we recommend our 'Data Structures & Algorithms in Python' course. Focus on high-frequency patterns: Two Pointers, Sliding Window, BFS/DFS, and Dynamic Programming.";
-      } else if (q.includes('full stack') || q.includes('web') || q.includes('react')) {
-        botResponse = "To become a Full Stack Developer, start with our 'Advanced Full-Stack JavaScript & React' course! Master HTML5/CSS, ES6+ JavaScript, React component patterns, REST APIs with Node/Express, and MongoDB database modeling.";
-      } else if (q.includes('ai') || q.includes('machine learning')) {
-        botResponse = "Our 'Machine Learning & AI Foundations' course covers everything from vector math and regressions to deep learning with PyTorch and fine-tuning LLMs!";
-      } else if (q.includes('portfolio') || q.includes('hired') || q.includes('interview')) {
-        botResponse = "Check out our latest article: 'Design a Hiring-Ready Developer Portfolio (That Actually Converts)' in the Articles section! Key advice: build 2-3 polished, deployed full-stack apps with clear READMEs rather than 10 tutorial clones.";
-      }
-
-      const botMsg = {
+    try {
+      const reply = await chatService.sendMessage(history);
+      setMessages((prev) => [...prev, {
         sender: 'bot',
-        text: botResponse,
+        text: reply,
         time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-      };
-      setMessages((prev) => [...prev, botMsg]);
+      }]);
+    } catch (error) {
+      setMessages((prev) => [...prev, {
+        sender: 'bot',
+        text: error.response?.data?.message || 'I could not connect to the AI assistant. Please try again.',
+        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+      }]);
+    } finally {
       setLoading(false);
-    }, 600);
+    }
   };
 
   return (
@@ -87,28 +83,6 @@ export default function Chatbot() {
 
           {/* Controls */}
           <div className="flex items-center gap-2">
-            <div className="bg-gray-900/60 p-1 rounded-xl border border-gray-700 flex text-xs font-medium">
-              <button
-                onClick={() => setChatMode('agent')}
-                className={`px-3 py-1.5 rounded-lg transition-all ${chatMode === 'agent' ? 'bg-blue-600 text-white shadow' : 'text-gray-400 hover:text-white'}`}
-              >
-                Interactive Agent
-              </button>
-              <button
-                onClick={() => setChatMode('instant')}
-                className={`px-3 py-1.5 rounded-lg transition-all ${chatMode === 'instant' ? 'bg-blue-600 text-white shadow' : 'text-gray-400 hover:text-white'}`}
-              >
-                Quick Chat
-              </button>
-            </div>
-
-            <button
-              onClick={() => setIframeKey((k) => k + 1)}
-              title="Refresh Streamlit Agent"
-              className="p-2 text-gray-400 hover:text-white bg-gray-800 hover:bg-gray-700 rounded-xl border border-gray-700 transition-all"
-            >
-              <RefreshCw size={16} />
-            </button>
             <button
               onClick={() => setIsFullScreen(!isFullScreen)}
               title={isFullScreen ? "Exit Fullscreen" : "Fullscreen"}
@@ -125,7 +99,6 @@ export default function Chatbot() {
             <button
               key={idx}
               onClick={() => {
-                setChatMode('instant');
                 handleSend(prompt);
               }}
               className="text-xs bg-gray-800/60 hover:bg-gray-700/80 border border-gray-700/60 text-gray-300 hover:text-white px-3 py-1.5 rounded-xl transition-all"
@@ -137,18 +110,6 @@ export default function Chatbot() {
 
         {/* Chat Area */}
         <div className="flex-1 bg-gray-900/90 backdrop-blur-xl border border-gray-800 rounded-2xl overflow-hidden shadow-2xl flex flex-col min-h-[540px]">
-          {chatMode === 'agent' ? (
-            <div className="relative w-full h-full flex-1">
-              <iframe
-                key={iframeKey}
-                src="https://rihmag-myagent-myagentmain-kzujcs.streamlit.app/~/+//?embed_options=light_theme,show_padding,disable_scrolling,show_toolbar,show_footer,show_colored_line"
-                title="Embedded Streamlit App"
-                width="100%"
-                height="100%"
-                className="w-full h-full min-h-[540px] border-0"
-              />
-            </div>
-          ) : (
             <div className="flex flex-col h-full flex-1 p-4 sm:p-6">
               {/* Message List */}
               <div className="flex-1 overflow-y-auto space-y-4 pr-2">
@@ -211,7 +172,6 @@ export default function Chatbot() {
                 </button>
               </div>
             </div>
-          )}
         </div>
       </div>
     </div>

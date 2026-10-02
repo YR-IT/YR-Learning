@@ -85,8 +85,10 @@ export const articleService = {
       const response = await api.get(`/articles/${id}`);
       return response.data;
     } catch (error) {
-      console.error(`Error fetching article ${id}:`, error.message);
-      return null;
+      const fallbackArticles = await this.getAllArticles();
+      return fallbackArticles.find((article) =>
+        (article._id || article.id || article.slug) === id || article.slug === id
+      ) || null;
     }
   },
 

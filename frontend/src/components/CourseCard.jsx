@@ -21,6 +21,11 @@ export default function CourseCard({
   const [isLoading, setIsLoading] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
   const cardRef = useRef(null);
+  const imageSrc = courseImage
+    ? (/^(data:|https?:\/\/|\/)/.test(courseImage)
+      ? courseImage
+      : `data:image/jpeg;base64,${courseImage}`)
+    : "/images/Digital-Marketing.jpg";
 
   useEffect(() => {
     if (cardRef.current && isActive) {
@@ -108,7 +113,7 @@ export default function CourseCard({
         <Link to={`/course/${id}`} onClick={handleCourseClick} className={`flex-1 ${viewMode === "list" ? "flex flex-col sm:flex-row" : "flex flex-col"}`}>
           <div className={`relative overflow-hidden ${viewMode === "list" ? "sm:w-64 sm:flex-shrink-0" : ""}`}>
             <motion.img
-              src={`data:image/jpeg;base64,${courseImage}`}
+              src={imageSrc}
               alt={course}
               className={`w-full object-cover transition-transform duration-500 ${
                 viewMode === "list" ? "h-40 sm:h-full" : "h-40 sm:h-48"
@@ -122,7 +127,7 @@ export default function CourseCard({
                 className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-full px-2 sm:px-3 py-1 text-xs sm:text-sm font-semibold text-gray-800 dark:text-gray-100"
                 whileHover={{ scale: 1.05 }}
               >
-                ₹{price}
+                Rs. {price}
               </motion.div>
             </div>
             <div className="absolute bottom-3 sm:bottom-4 left-3 sm:left-4">
@@ -193,7 +198,7 @@ export default function CourseCard({
             >
               <span className={`font-bold text-blue-600 dark:text-blue-400 ${
                 viewMode === "list" ? "text-xl sm:text-2xl" : "text-lg sm:text-2xl"
-              }`}>₹{price}</span>
+              }`}>Rs. {price}</span>
               <motion.div
                 className="bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-500 dark:to-purple-500 text-white p-1.5 sm:p-2 rounded-full group-hover:from-blue-700 group-hover:to-purple-700 dark:group-hover:from-blue-600 dark:group-hover:to-purple-600 transition-all"
                 whileHover={{ scale: 1.1 }}

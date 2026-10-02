@@ -58,10 +58,10 @@ export default function Article() {
               <span className="text-sm font-semibold text-gray-700 dark:text-gray-300">Insights & Articles</span>
             </div>
             <h1 className="text-3xl md:text-5xl font-extrabold leading-tight bg-gradient-to-r from-blue-700 via-purple-700 to-indigo-700 dark:from-blue-300 dark:via-purple-300 dark:to-indigo-300 bg-clip-text text-transparent">
-              Learn Faster with Expert‑Written Guides
+              Data Structures and Algorithms in Java
             </h1>
             <p className="mt-4 text-gray-600 dark:text-gray-300 max-w-2xl mx-auto text-base">
-              Actionable engineering strategies, interview prep roadmaps, and career playbooks directly fetched from our learning platform.
+              Explore practical Java lessons on data structures, algorithms, and the patterns behind solving coding problems.
             </p>
           </div>
 

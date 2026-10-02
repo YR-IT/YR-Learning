@@ -19,6 +19,7 @@ export default function ArticleCard({ article, index = 0 }) {
   const articleId = _id || id;
 
   return (
+    <Link to={`/articles/${article.slug || articleId}`} className="block h-full focus-visible:outline focus-visible:outline-2 focus-visible:outline-blue-600">
     <motion.article
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
@@ -98,5 +99,6 @@ export default function ArticleCard({ article, index = 0 }) {
         </div>
       </div>
     </motion.article>
+    </Link>
   );
 }

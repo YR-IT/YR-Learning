@@ -210,7 +210,7 @@ export default function Testimonials() {
 	const reviewCount = getReviewCount();
 
 	return (
-		<section className="py-12 sm:py-16 lg:py-20 relative overflow-hidden transition-colors duration-300">
+		<section className="py-8 sm:py-10 lg:py-12 relative overflow-hidden transition-colors duration-300">
 			{/* Background decoration */}
 			<div className="absolute inset-0 dark:hidden">
 				<div className="absolute top-10 sm:top-20 left-5 sm:left-10 w-48 sm:w-72 h-48 sm:h-72 bg-blue-400/20 rounded-full blur-3xl animate-pulse transition-colors duration-300"></div>
@@ -219,8 +219,8 @@ export default function Testimonials() {
 
 			<div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 				{/* Header */}
-				<div className="text-center mb-12 sm:mb-16">
-					<div className="inline-flex items-center gap-2 px-3 sm:px-4 py-2 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border border-blue-100 dark:border-gray-700 rounded-full mb-4 sm:mb-6 shadow-sm">
+				<div className="text-center mb-8 sm:mb-10">
+					<div className="inline-flex items-center gap-2 px-3 sm:px-4 py-2 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border border-blue-100 dark:border-gray-700 rounded-full mb-3 sm:mb-4 shadow-sm">
 						<div className="flex gap-1">
 							<div className="w-1.5 sm:w-2 h-1.5 sm:h-2 bg-green-500 rounded-full animate-pulse"></div>
 							<div className="w-1.5 sm:w-2 h-1.5 sm:h-2 bg-blue-500 rounded-full animate-pulse" style={{ animationDelay: '0.2s' }}></div>

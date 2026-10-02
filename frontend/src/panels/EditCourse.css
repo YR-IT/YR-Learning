@@ -1,0 +1,17 @@
+.edit-course-admin { color: #182321; }
+.edit-course-heading { margin-bottom: 1.25rem; }
+.edit-course-heading h1 { margin: 0; color: #182321; font-size: 1.7rem; font-weight: 750; }
+.edit-course-heading > p:last-child { margin: 0.35rem 0 0; color: #66736f; font-size: 0.9rem; }
+.edit-course-admin .bg-white { border-color: #e2e9e5; border-radius: 7px; box-shadow: 0 1px 3px rgb(24 35 33 / 4%); }
+.edit-course-admin input:focus,
+.edit-course-admin textarea:focus,
+.edit-course-admin select:focus { outline: 2px solid #16795d; outline-offset: 1px; }
+.edit-course-admin button.bg-blue-600,
+.edit-course-admin button.bg-green-600 { background-color: #16795d; }
+.edit-course-admin button.hover\:bg-blue-700:hover,
+.edit-course-admin button.hover\:bg-green-700:hover { background-color: #11664e; }
+
+@media (max-width: 640px) {
+	.edit-course-admin .grid { grid-template-columns: minmax(0, 1fr); }
+	.edit-course-heading h1 { font-size: 1.45rem; }
+}

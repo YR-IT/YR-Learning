@@ -53,13 +53,20 @@ export default function Footer() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <div className="flex items-center space-x-2 mb-6">
-              <div className="w-10 h-10 bg-gradient-to-r from-blue-400 to-purple-400 dark:from-blue-500 dark:to-purple-500 rounded-xl flex items-center justify-center">
-                <BookOpen size={24} className="text-white" />
+            <div className="flex items-center space-x-3 mb-6">
+              <Link to="/" className="inline-block bg-white/10 dark:bg-white/5 p-2 rounded-xl backdrop-blur-sm border border-white/10 hover:border-white/20 transition-all">
+                <img
+                  src="/images/logo.png"
+                  alt="YR Learning"
+                  className="h-8 sm:h-9 w-auto object-contain"
+                />
+              </Link>
+              <div>
+                <span className="text-xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 dark:from-blue-300 dark:to-purple-300 bg-clip-text text-transparent block">
+                  YR Learning
+                </span>
+                <span className="text-xs text-gray-400 font-medium">Tech Academy</span>
               </div>
-              <span className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 dark:from-blue-300 dark:to-purple-300 bg-clip-text text-transparent">
-                Yr-learning
-              </span>
             </div>
             <p className="text-gray-300 dark:text-gray-400 mb-6 leading-relaxed">
               Empowering learners worldwide with cutting-edge courses and expert instructors. 

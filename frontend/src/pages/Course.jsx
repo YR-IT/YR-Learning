@@ -32,14 +32,10 @@ import {
   User
 } from "lucide-react";
 import toast from "react-hot-toast";
-import Roadmap from "../components/Roadmap"
 export default function Course() {
   const { courseId } = useParams();
   const [course, setCourse] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [lesson_data, setlesson_data] = useState([]);
-  const [expandedLesson, setExpandedLesson] = useState(null);
-  const [isEnrolled,setIsEnrolled]=useState(null)
   const [isLiked, setIsLiked] = useState(false);
   const [isEnrollModalOpen, setIsEnrollModalOpen] = useState(false);
 
@@ -55,7 +51,6 @@ export default function Course() {
 
         if (foundCourse) {
           setCourse(foundCourse);
-          setlesson_data(foundCourse.lessons || []);
         }
       } catch (err) {
         console.error("Error loading course details:", err);
@@ -65,10 +60,6 @@ export default function Course() {
     };
     fetchCourse();
   }, [courseId]);
-
-  const toggleLesson = (lessonId) => {
-    setExpandedLesson(expandedLesson === lessonId ? null : lessonId);
-  };
 
   const handleLike = () => {
     setIsLiked(!isLiked);
@@ -110,8 +101,13 @@ export default function Course() {
     </div>
   );
 
+  const curriculumSections = course.curriculum?.sections?.length
+    ? course.curriculum.sections
+    : (course.chapters || []).map((chapter) => ({ ...chapter, lessons: [] }));
+  const curriculumTopicCount = curriculumSections.reduce((total, section) => total + (section.lessons?.length || 0), 0);
+
   const courseFeatures = [
-    { icon: Play, title: "Video Lessons", value: `${lesson_data.length} lessons`, color: "text-red-500" },
+    { icon: BookOpen, title: "Curriculum", value: `${curriculumTopicCount} topics`, color: "text-red-500" },
     { icon: Clock, title: "Duration", value: "12+ hours", color: "text-blue-500" },
     { icon: Users, title: "Students", value: "2,500+", color: "text-green-500" },
     { icon: Award, title: "Certificate", value: "Included", color: "text-purple-500" },
@@ -169,8 +165,8 @@ export default function Course() {
               </div>
               
               <div className="flex items-center gap-4 mb-8">
-                <span className="text-3xl font-bold text-white">₹{course.price}</span>
-                <span className="text-lg text-gray-300 line-through">₹{Math.round(course.price * 1.5)}</span>
+                <span className="text-3xl font-bold text-white">Rs. {course.price}</span>
+                <span className="text-lg text-gray-300 line-through">Rs. {Math.round(course.price * 1.5)}</span>
                 <span className="bg-red-500 text-white px-2 py-1 rounded text-sm font-semibold">
                   33% OFF
                 </span>
@@ -221,7 +217,11 @@ export default function Course() {
             >
               <div className="relative rounded-2xl overflow-hidden shadow-2xl">
                 <img
-                  src={`data:image/jpeg;base64,${course.thumbnail}`}
+                  src={course.image || course.thumbnail
+                    ? (/^(data:|https?:\/\/|\/)/.test(course.image || course.thumbnail)
+                      ? course.image || course.thumbnail
+                      : `data:image/jpeg;base64,${course.image || course.thumbnail}`)
+                    : "/images/Digital-Marketing.jpg"}
                   alt={course.title}
                   className="w-full h-80 object-cover"
                 />
@@ -287,9 +287,6 @@ export default function Course() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
           {/* Left Content */}
           <div className="lg:col-span-2 space-y-16">
-            <Roadmap roadmap={course.roadmap}/>
-
-
             {/* Curriculum Section */}
             <section id="curriculum" className="scroll-mt-20">
               <div className="bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-xl">
@@ -297,92 +294,26 @@ export default function Course() {
                   <List className="w-8 h-8 text-blue-600" />
                   Course Curriculum
                 </h2>
-                {isEnrolled ? (
-                  <div className="space-y-6">
-                    {lesson_data.map((lesson, index) => (
-                      <motion.div
-                        key={lesson._id}
-                        className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden border border-gray-100 dark:border-gray-700"
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: index * 0.05 }}
-                      >
-                        <div className="p-5">
-                          <div className="flex items-start justify-between gap-4">
-                            <div className="flex items-start gap-4">
-                              <div className="w-10 h-10 bg-gradient-to-br from-blue-100 to-blue-200 dark:from-blue-900/30 dark:to-blue-800/30 rounded-lg flex items-center justify-center text-blue-600 dark:text-blue-400 font-bold text-sm flex-shrink-0">
-                                {index + 1}
-                              </div>
-                              <div>
-                                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">{lesson.title}</h3>
-                                <p className="text-sm text-gray-600 dark:text-gray-400 mt-1 flex items-center gap-2">
-                                  <Clock className="w-4 h-4" />
-                                  {lesson.duration} min • {lesson.type || 'Video'}
-                                </p>
-                              </div>
-                            </div>
-                            <motion.button
-                              onClick={() => toggleLesson(lesson._id)}
-                              className="text-sm font-medium text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors flex items-center gap-1"
-                              whileHover={{ x: 2 }}
-                            >
-                              {expandedLesson === lesson._id ? (
-                                <>
-                                  <ChevronUp className="w-4 h-4" />
-                                  Hide
-                                </> 
-                              ) : (
-                                <>
-                                  <PlayCircle className="w-4 h-4" />
-                                  Watch
-                                </>
-                              )}
-                            </motion.button>
-                          </div>
-                          
-                          <motion.div
-                            initial={{ opacity: 0, height: 0, marginTop: 0 }}
-                            animate={{
-                              opacity: expandedLesson === lesson._id ? 1 : 0,
-                              height: expandedLesson === lesson._id ? 'auto' : 0,
-                              marginTop: expandedLesson === lesson._id ? 16 : 0
-                            }}
-                            className="overflow-hidden"
-                          >
-                            <div className="pt-4 border-t border-gray-100 dark:border-gray-700 mt-4">
-                              <p className="text-gray-700 dark:text-gray-300 mb-4">{lesson.content || 'No description available for this lesson.'}</p>
-                              <div className="relative rounded-xl overflow-hidden bg-black/5 dark:bg-white/5 aspect-video">
-                                <video 
-                                  controls 
-                                  preload="none" 
-                                  poster={lesson.thumbnail ? `data:image/jpeg;base64,${lesson.thumbnail}` : undefined}
-                                  className="w-full h-full object-cover"
-                                >
-                                  <source src={lesson.video} type="video/mp4" />
-                                  Your browser does not support the video tag.
-                                </video>
-                              </div>
-                            </div>
-                          </motion.div>
+                {curriculumSections.length ? (
+                  <div className="space-y-4">
+                    {curriculumSections.map((section, sectionIndex) => (
+                      <div key={section._id || section.id || sectionIndex} className="rounded-lg border border-gray-200 dark:border-gray-700 p-5">
+                        <div className="flex items-center justify-between gap-3">
+                          <h3 className="font-semibold text-gray-900 dark:text-white">{sectionIndex + 1}. {section.title}</h3>
+                          <span className="text-sm text-gray-500 dark:text-gray-400">{section.lessons?.length || 0} topics</span>
                         </div>
-                      </motion.div>
+                        {section.lessons?.length > 0 && (
+                          <ol className="mt-3 ml-5 list-decimal space-y-2 text-gray-700 dark:text-gray-300">
+                            {section.lessons.map((lesson, lessonIndex) => (
+                              <li key={lesson._id || lessonIndex}>{typeof lesson === 'string' ? lesson : lesson.title}</li>
+                            ))}
+                          </ol>
+                        )}
+                      </div>
                     ))}
                   </div>
                 ) : (
-                  <div className="text-center py-12">
-                    <Lock className="w-16 h-16 mx-auto text-gray-400 dark:text-gray-500 mb-4" />
-                    <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">Lessons are Locked</h3>
-                    <p className="text-gray-600 dark:text-gray-400 mb-6">You need to enroll in this course to access the lessons.</p>
-                    <motion.button
-                      onClick={() => setIsEnrollModalOpen(true)}
-                      className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-4 rounded-xl font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-300 flex items-center gap-2 mx-auto w-fit cursor-pointer"
-                      whileHover={{ scale: 1.05, y: -2 }}
-                      whileTap={{ scale: 0.95 }}
-                    >
-                      <PlayCircle className="w-5 h-5" />
-                      Enroll Now
-                    </motion.button>
-                  </div>
+                  <p className="text-gray-600 dark:text-gray-400">Curriculum details will be added soon.</p>
                 )}
               </div>
             </section>
@@ -413,7 +344,7 @@ export default function Course() {
               >
                 <div className="p-6">
                   <div className="text-center mb-6">
-                    <span className="text-4xl font-bold text-gray-900 dark:text-white">₹{course.price}</span>
+                    <span className="text-4xl font-bold text-gray-900 dark:text-white">Rs. {course.price}</span>
                     <p className="text-gray-600 dark:text-gray-400 mt-2">One-time payment</p>
                   </div>
                   
@@ -482,7 +413,7 @@ export default function Course() {
                       <BookOpen className="w-4 h-4 text-purple-500" />
                       <span className="text-gray-700 dark:text-gray-300">Lessons</span>
                     </div>
-                    <span className="font-semibold text-gray-900 dark:text-white">{lesson_data.length}</span>
+                    <span className="font-semibold text-gray-900 dark:text-white">{curriculumTopicCount}</span>
                   </div>
                 </div>
               </motion.div>

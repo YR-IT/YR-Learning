@@ -22,25 +22,25 @@ const {
 // Standard REST endpoints
 router.get('/', getAllCourses);
 router.post('/', protectAdmin, createCourse);
-router.get('/:id', getCourseById);
-router.put('/:id', protectAdmin, updateCourse);
-router.delete('/:id', protectAdmin, deleteCourse);
 
 // Backward-compatible panel endpoints
 router.get('/allcourses', getAllCourses);
-router.post('/create', createCourse);
-router.put('/updatecourse/:id', updateCourse);
-router.delete('/deletecourse/:id', deleteCourse);
+router.post('/create', protectAdmin, createCourse);
+router.put('/updatecourse/:id', protectAdmin, updateCourse);
+router.delete('/deletecourse/:id', protectAdmin, deleteCourse);
 
 // Lesson endpoints
 router.get('/lessons/:courseId', getCourseLessons);
-router.post('/addlessons/:courseId', addLesson);
-router.put('/updatelessons/:courseId', updateLesson);
-router.delete('/deletelessons/:courseId/:lessonId', deleteLesson);
+router.post('/addlessons/:courseId', protectAdmin, addLesson);
+router.put('/updatelessons/:courseId', protectAdmin, updateLesson);
+router.delete('/deletelessons/:courseId/:lessonId', protectAdmin, deleteLesson);
 
 // Students & Enrollment
-router.get('/getstudents', getAllEnrollments);
+router.get('/getstudents', protectAdmin, getAllEnrollments);
 router.post('/enroll', submitEnrollment);
 router.post('/enroll/:courseId', submitEnrollment);
+
+// Keep the parameterized route after all named routes.
+router.get('/:id', getCourseById);
 
 module.exports = router;

@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Edit, Trash2, Plus, Save, X, Eye, Video, FileText, Book } from 'lucide-react';
+import { Edit, Trash2, Plus, Save, X, Eye, Video } from 'lucide-react';
 import { API_BASE_URL } from '../services/api';
+import toast from 'react-hot-toast';
+import './EditCourse.css';
 
 const EditCourse = () => {
   const [courses, setCourses] = useState([]);
@@ -19,18 +21,16 @@ const EditCourse = () => {
     title: '',
     description: '',
     category: '',
-    price: ''
+    price: '',
+    curriculum: [],
   });
 
   // Lesson form state
   const [lessonForm, setLessonForm] = useState({
     title: '',
-    video : null,
-    duration: 0,
-    content: '',
-    contentType: 'video',
-    resource:''
-    
+    videoUrl: '',
+    duration: '15:00',
+    description: '',
   });
  
   
@@ -57,9 +57,11 @@ const EditCourse = () => {
     try {
       const response = await fetch(`${API_BASE}/course/lessons/${courseId}`);
       const data = await response.json();
-      setLessons(data.data || data || []);
+      if (!response.ok) throw new Error(data.message || 'Failed to fetch lessons.');
+      setLessons(Array.isArray(data) ? data : data.lessons || []);
     } catch (error) {
       console.error('Error fetching lessons:', error);
+      toast.error(error.message || 'Could not load lessons.');
       setLessons([]);
     }
   };
@@ -94,21 +96,7 @@ const EditCourse = () => {
         console.log(res);
         const videoUrl = res.filesUploaded[0].url;
 
-        setLessonForm({ ...lessonForm, video: videoUrl });
-      }
-    };
-    client.picker(options).open();
-  }
-
-  const resource_upload = (e) => {
-    e.preventDefault();
-    const apikey = import.meta.env.VITE_FILESTACK_API_KEY;
-    const client = filestack.init(apikey);
-    const options = {
-      onUploadDone: (res) => {
-        console.log(res);
-        const resourceUrl = res.filesUploaded[0].url;
-        setLessonForm({ ...lessonForm, resource: resourceUrl });
+        setLessonForm((current) => ({ ...current, videoUrl }));
       }
     };
     client.picker(options).open();
@@ -117,6 +105,17 @@ const EditCourse = () => {
 
   // Update course
   const updateCourse = async () => {
+    const sections = (courseForm.curriculum || [])
+      .map((section) => ({
+        title: section.title.trim(),
+        lessons: section.lessons.map((lesson) => ({ title: lesson.title.trim() })).filter((lesson) => lesson.title),
+      }))
+      .filter((section) => section.title || section.lessons.length);
+    if (!sections.length || sections.some((section) => !section.title || !section.lessons.length)) {
+      toast.error('Add a title and at least one topic to each curriculum section.');
+      return;
+    }
+
     setIsUpdatingCourse(true);
     try { 
       const token = localStorage.getItem('token') || localStorage.getItem('adminToken');
@@ -126,16 +125,20 @@ const EditCourse = () => {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${token}`
         },
-        body: JSON.stringify(courseForm)
+        body: JSON.stringify({ ...courseForm, curriculum: { sections } })
       });
-      const updatedCourse = await response.json();
-      setCourses(courses.map(course => 
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.message || 'Failed to update course.');
+      const updatedCourse = data.course || data;
+      setCourses(current => current.map(course =>
         course._id === selectedCourse._id ? updatedCourse : course
       ));
       setSelectedCourse(updatedCourse);
       setIsEditingCourse(false);
+      toast.success('Course updated.');
     } catch (error) {
       console.error('Error updating course:', error);
+      toast.error(error.message || 'Could not update course.');
     } finally {
         setIsUpdatingCourse(false);
     }
@@ -145,8 +148,7 @@ const EditCourse = () => {
    const addLesson = async () => {
     setIsSubmitting(true);
     try {
-      if (!lessonForm.title.trim()) return alert('Lesson title is required');
-      if (!lessonForm.content.trim()) return alert('Lesson content is required');
+      if (!lessonForm.title.trim()) return toast.error('Lesson title is required.');
       
       const token = localStorage.getItem('token') || localStorage.getItem('adminToken');
       const response = await fetch(`${API_BASE}/course/addlessons/${selectedCourse._id}`, {
@@ -155,15 +157,23 @@ const EditCourse = () => {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
         },
-        body: JSON.stringify({ lessondata: lessonForm })
+        body: JSON.stringify({
+          title: lessonForm.title.trim(),
+          duration: lessonForm.duration || '15:00',
+          videoUrl: lessonForm.videoUrl.trim(),
+          description: lessonForm.description.trim(),
+        })
       });
       
       const data = await response.json();
+      if (!response.ok) throw new Error(data.message || 'Failed to add lesson.');
       await fetchLessons(selectedCourse._id);
       setIsAddingLesson(false);
       resetLessonForm();
+      toast.success('Lesson added.');
     } catch(error) {
-      console.log(error);
+      console.error('Error adding lesson:', error);
+      toast.error(error.message || 'Could not add lesson.');
     } finally {
       setIsSubmitting(false);
     }
@@ -180,14 +190,23 @@ const EditCourse = () => {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
         },
-        body: JSON.stringify({ data: lessonForm })
+        body: JSON.stringify({
+          lessonId: editingLesson._id,
+          title: lessonForm.title.trim(),
+          duration: lessonForm.duration || '15:00',
+          videoUrl: lessonForm.videoUrl.trim(),
+          description: lessonForm.description.trim(),
+        })
       });
-      await response.json();
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.message || 'Failed to update lesson.');
       await fetchLessons(selectedCourse._id);
       setEditingLesson(null);
       resetLessonForm();
+      toast.success('Lesson updated.');
     } catch (error) {
       console.error('Error updating lesson:', error);
+      toast.error(error.message || 'Could not update lesson.');
     } finally {
         setIsUpdating(false);
     }
@@ -199,44 +218,58 @@ const EditCourse = () => {
     
     try {
       const token = localStorage.getItem('token') || localStorage.getItem('adminToken');
-      await fetch(`${API_BASE}/course/deletelessons/${selectedCourse._id}/${lessonId}`, {
+      const response = await fetch(`${API_BASE}/course/deletelessons/${selectedCourse._id}/${lessonId}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`
         }
       });
-      setLessons(lessons.filter(lesson => lesson._id !== lessonId));
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.message || 'Failed to delete lesson.');
+      setLessons(current => current.filter(lesson => lesson._id !== lessonId));
+      toast.success('Lesson deleted.');
     } catch (error) {
       console.error('Error deleting lesson:', error);
+      toast.error(error.message || 'Could not delete lesson.');
     }
   };
 
 const resetLessonForm = () => {
   setLessonForm({
     title: '',
-    video: null,
-    duration: 0,
-    content: '',
-    contentType: 'video',
-    resource:''
+    videoUrl: '',
+    duration: '15:00',
+    description: '',
   });
 };
 
 
   const selectCourse = (course) => {
     setSelectedCourse(course);
+    const sections = course.curriculum?.sections?.length
+      ? course.curriculum.sections
+      : (course.chapters || []).map((chapter) => ({ title: chapter.title, lessons: [] }));
     setCourseForm({
       title: course.title,
       description: course.description,
       category: course.category,
-      price: course.price
+      price: course.price,
+      curriculum: sections.map((section) => ({
+        title: section.title || '',
+        lessons: (section.lessons || []).map((lesson) => ({ title: typeof lesson === 'string' ? lesson : lesson.title || '' })),
+      })),
     });
-    fetchLessons(course._id);
+    setLessons([]);
   };
 
   const startEditingLesson = (lesson) => {
   setEditingLesson(lesson);
-  setLessonForm({ ...lesson }); // it's fine to keep _id here for editing
+  setLessonForm({
+    title: lesson.title || '',
+    videoUrl: lesson.videoUrl || lesson.video || '',
+    duration: lesson.duration || '15:00',
+    description: lesson.description || lesson.content || '',
+  });
 };
 
 
@@ -245,18 +278,13 @@ const resetLessonForm = () => {
     resetLessonForm();
   };
 
-  const formatDuration = (seconds) => {
+  const formatDuration = (duration) => {
+    if (typeof duration === 'string' && duration.includes(':')) return duration;
+    const seconds = Number(duration);
+    if (!Number.isFinite(seconds)) return duration || '15:00';
     const mins = Math.floor(seconds / 60);
-    const secs = seconds % 60;
+    const secs = Math.floor(seconds % 60);
     return `${mins}:${secs.toString().padStart(2, '0')}`;
-  };
-
-  const getContentIcon = (contentType) => {
-    switch (contentType) {
-      case 'video': return <Video className="w-4 h-4" />;
-      case 'text': return <FileText className="w-4 h-4" />;
-      default: return <Book className="w-4 h-4" />;
-    }
   };
 
   useEffect(() => {
@@ -264,9 +292,13 @@ const resetLessonForm = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
+    <div className="edit-course-admin">
       <div className="max-w-7xl mx-auto">
-        <h1 className="text-3xl font-bold text-gray-900 mb-8">Course Management Dashboard</h1>
+        <header className="edit-course-heading">
+          <p className="admin-eyebrow">COURSE CONTENT</p>
+          <h1>Manage course curriculum</h1>
+          <p>Choose a course to update its details and curriculum topics.</p>
+        </header>
         
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Courses List */}
@@ -294,7 +326,7 @@ const resetLessonForm = () => {
                           <div className="flex-1">
                             <h3 className="font-medium text-gray-900 text-sm">{course.title}</h3>
                             <p className="text-xs text-gray-500 mt-1">{course.category}</p>
-                            <p className="text-sm font-semibold text-green-600 mt-1">${course.price}</p>
+                            <p className="text-sm font-semibold text-green-600 mt-1">Rs. {Number(course.price || 0).toLocaleString('en-IN')}</p>
                           </div>
                           <button
                             onClick={(e) => {
@@ -377,15 +409,113 @@ const resetLessonForm = () => {
                         <p className="text-gray-600">{selectedCourse.description}</p>
                         <div className="flex gap-4">
                           <span className="text-sm text-gray-500">Category: <span className="font-medium">{selectedCourse.category}</span></span>
-                          <span className="text-sm text-gray-500">Price: <span className="font-medium text-green-600">${selectedCourse.price}</span></span>
+                          <span className="text-sm text-gray-500">Price: <span className="font-medium text-green-600">Rs. {Number(selectedCourse.price || 0).toLocaleString('en-IN')}</span></span>
                         </div>
                       </div>
                     )}
                   </div>
                 </div>
 
-                {/* Lessons */}
                 <div className="bg-white rounded-lg shadow-sm border">
+                  <div className="p-4 border-b flex justify-between items-center">
+                    <h2 className="text-lg font-semibold text-gray-900">Curriculum</h2>
+                    {isEditingCourse && (
+                      <button
+                        type="button"
+                        onClick={() => setCourseForm((current) => ({ ...current, curriculum: [...current.curriculum, { title: '', lessons: [{ title: '' }] }] }))}
+                        className="flex items-center gap-2 px-3 py-1 text-sm bg-blue-600 text-white rounded hover:bg-blue-700"
+                      >
+                        <Plus className="w-4 h-4" /> Add section
+                      </button>
+                    )}
+                  </div>
+                  <div className="p-4 space-y-4">
+                    {(courseForm.curriculum || []).map((section, sectionIndex) => (
+                      <div key={sectionIndex} className="rounded-lg border border-gray-200 p-4 space-y-3">
+                        {isEditingCourse ? (
+                          <div className="flex items-center gap-2">
+                            <input
+                              type="text"
+                              value={section.title}
+                              placeholder={`Section ${sectionIndex + 1}`}
+                              aria-label={`Section ${sectionIndex + 1} title`}
+                              onChange={(event) => setCourseForm((current) => ({
+                                ...current,
+                                curriculum: current.curriculum.map((item, index) => index === sectionIndex ? { ...item, title: event.target.value } : item),
+                              }))}
+                              className="flex-1 p-2 border border-gray-300 rounded"
+                            />
+                            <button
+                              type="button"
+                              onClick={() => setCourseForm((current) => ({ ...current, curriculum: current.curriculum.filter((_, index) => index !== sectionIndex) }))}
+                              className="text-red-600 hover:text-red-800"
+                              aria-label={`Remove section ${sectionIndex + 1}`}
+                            >
+                              <Trash2 className="w-4 h-4" />
+                            </button>
+                          </div>
+                        ) : (
+                          <h3 className="font-semibold text-gray-900">{section.title}</h3>
+                        )}
+                        <ol className="space-y-2">
+                          {section.lessons.map((lesson, lessonIndex) => (
+                            <li key={lessonIndex} className="flex items-center gap-2">
+                              {isEditingCourse ? (
+                                <>
+                                  <input
+                                    type="text"
+                                    value={lesson.title}
+                                    placeholder={`Topic ${lessonIndex + 1}`}
+                                    aria-label={`Section ${sectionIndex + 1} topic ${lessonIndex + 1}`}
+                                    onChange={(event) => setCourseForm((current) => ({
+                                      ...current,
+                                      curriculum: current.curriculum.map((item, index) => index === sectionIndex ? {
+                                        ...item,
+                                        lessons: item.lessons.map((topic, topicIndex) => topicIndex === lessonIndex ? { ...topic, title: event.target.value } : topic),
+                                      } : item),
+                                    }))}
+                                    className="flex-1 p-2 border border-gray-300 rounded"
+                                  />
+                                  <button
+                                    type="button"
+                                    onClick={() => setCourseForm((current) => ({
+                                      ...current,
+                                      curriculum: current.curriculum.map((item, index) => index === sectionIndex ? { ...item, lessons: item.lessons.filter((_, topicIndex) => topicIndex !== lessonIndex) } : item),
+                                    }))}
+                                    className="text-red-600 hover:text-red-800"
+                                    aria-label={`Remove topic ${lessonIndex + 1}`}
+                                  >
+                                    <X className="w-4 h-4" />
+                                  </button>
+                                </>
+                              ) : (
+                                <span className="text-gray-700">{lesson.title}</span>
+                              )}
+                            </li>
+                          ))}
+                        </ol>
+                        {isEditingCourse && (
+                          <button
+                            type="button"
+                            onClick={() => setCourseForm((current) => ({
+                              ...current,
+                              curriculum: current.curriculum.map((item, index) => index === sectionIndex ? { ...item, lessons: [...item.lessons, { title: '' }] } : item),
+                            }))}
+                            className="text-sm font-medium text-blue-700 hover:text-blue-900"
+                          >
+                            Add topic
+                          </button>
+                        )}
+                      </div>
+                    ))}
+                    {(!courseForm.curriculum || courseForm.curriculum.length === 0) && (
+                      <p className="text-sm text-gray-500">No curriculum sections yet. Choose Edit to add one.</p>
+                    )}
+                  </div>
+                </div>
+
+                {/* Lessons */}
+                <div className="hidden">
                   <div className="p-4 border-b flex justify-between items-center">
                     <h2 className="text-lg font-semibold text-gray-900">Lessons ({lessons.length})</h2>
                     <button id = "addlesson"
@@ -414,38 +544,21 @@ const resetLessonForm = () => {
                           />
                           <textarea
                             placeholder="Video URL"
-                            value={lessonForm.video || ''}
-                            onChange={(e) => setLessonForm({...lessonForm, video: e.target.value})}
-                            className="p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                          />
-                          <textarea
-                            placeholder="Resource URL"
-                            value={lessonForm.resource || ''}
-                            onChange={(e) => setLessonForm({...lessonForm, resource: e.target.value})}
+                            value={lessonForm.videoUrl}
+                            onChange={(e) => setLessonForm({...lessonForm, videoUrl: e.target.value})}
                             className="p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                           />
                           <input
-                            type="number"
-                            placeholder="Duration (seconds)"
+                            type="text"
+                            placeholder="Duration (MM:SS)"
                             value={lessonForm.duration}
-                            onChange={(e) => setLessonForm({...lessonForm, duration: parseInt(e.target.value) || 0})}
+                            onChange={(e) => setLessonForm({...lessonForm, duration: e.target.value})}
                             className="p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                           />
-                          <select
-                            value={lessonForm.contentType}
-                            onChange={(e) => setLessonForm({...lessonForm, contentType: e.target.value})}
-                            className="p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                          >
-                            <option value="video">Video</option>
-                            <option value="text">Text</option>
-                            <option value="pdf">PDF</option>en-
-                            <option value="quiz">Quiz</option>
-                            <option value="assignment">Assignment</option>
-                          </select>
                           <textarea
-                            placeholder="Lesson Content"
-                            value={lessonForm.content}
-                            onChange={(e) => setLessonForm({...lessonForm, content: e.target.value})}
+                            placeholder="Lesson Description"
+                            value={lessonForm.description}
+                            onChange={(e) => setLessonForm({...lessonForm, description: e.target.value})}
                             className="md:col-span-2 p-2 border border-gray-300 rounded h-20 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                           />
                         </div>
@@ -463,9 +576,6 @@ const resetLessonForm = () => {
                           </button>
                           <button id='upload' onClick={video_upload} className='solid rounded-md  border-[3px] border-solid border-green-700 text-md bg-slate-200'>
                             Upload Video
-                          </button>
-                          <button id='upload_resource' onClick={resource_upload} className='solid border-width-3 border-[3px] rounded-md border-solid border-green-700 text-md bg-slate-200'>
-                            Upload Resource
                           </button>
                           <button
                             onClick={cancelAddLesson}
@@ -493,30 +603,18 @@ const resetLessonForm = () => {
                                  <button onClick={video_upload} className='solid rounded-md border-gray-800'>
                                     Upload New Video
                                   </button>
-                                  <button onClick={resource_upload} className='solid rounded-md border-gray-800'>
-                                    Upload New Resource
-                                  </button>
                                    <input
-                                  type="number"
+                                  type="text"
+                                  placeholder="Duration (MM:SS)"
                                   value={lessonForm.duration}
-                                  onChange={(e) => setLessonForm({...lessonForm, duration: parseInt(e.target.value) || 0})}
+                                  onChange={(e) => setLessonForm({...lessonForm, duration: e.target.value})}
                                   className="p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                                 />
-                                <select
-                                  value={lessonForm.contentType}
-                                  onChange={(e) => setLessonForm({...lessonForm, contentType: e.target.value})}
-                                  className="p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                >
-                                  <option value="video">Video</option>
-                                  <option value="text">Text</option>
-                                  <option value="pdf">PDF</option>
-                                  <option value="quiz">Quiz</option>
-                                  <option value="assignment">Assignment</option>
-                                </select>
                               </div>
                               <textarea
-                                value={lessonForm.content}
-                                onChange={(e) => setLessonForm({...lessonForm, content: e.target.value})}
+                                placeholder="Lesson Description"
+                                value={lessonForm.description}
+                                onChange={(e) => setLessonForm({...lessonForm, description: e.target.value})}
                                 className="w-full p-2 border border-gray-300 rounded h-20 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                               />
                               <div className="flex gap-2">
@@ -547,32 +645,21 @@ const resetLessonForm = () => {
                               <div className="flex-1">
                                 <div className="flex items-center gap-2 mb-2">
                                   <span className="text-sm font-medium text-gray-500">#{index + 1}</span>
-                                  {getContentIcon(lesson.contentType)}
+                                  <Video className="w-4 h-4" />
                                   <h4 className="font-medium text-gray-900">{lesson.title}</h4>
                                   <span className="text-sm text-gray-500">({formatDuration(lesson.duration)})</span>
                                 </div>
-                                <p className="text-sm text-gray-600 mb-2">{lesson.content}</p>
+                                <p className="text-sm text-gray-600 mb-2">{lesson.description || lesson.content}</p>
                                 <div className="flex gap-4">
-                                {lesson.video && (
+                                {(lesson.videoUrl || lesson.video) && (
                                   <a
-                                    href={lesson.video}
+                                    href={lesson.videoUrl || lesson.video}
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="text-blue-600 hover:text-blue-800 text-sm flex items-center gap-1"
                                   >
                                     <Eye className="w-4 h-4" />
                                     View Video
-                                  </a>
-                                )}
-                                {lesson.resource && (
-                                  <a
-                                    href={lesson.resource}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="text-blue-600 hover:text-blue-800 text-sm flex items-center gap-1"
-                                  >
-                                    <Eye className="w-4 h-4" />
-                                    View Resource
                                   </a>
                                 )}
                                 </div>

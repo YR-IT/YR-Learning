@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
+import { API_BASE_URL } from '../services/api';
 
 export default function SignUp() {
   const [formData, setFormData] = useState({
@@ -65,8 +66,8 @@ export default function SignUp() {
     }
 
     try {
-      const url="https://backend-1-bn9o.onrender.com/api/auth/signup"; 
-      const response=await fetch(url,
+      const url = `${API_BASE_URL}/auth/signup`; 
+      const response = await fetch(url,
         {
           method: 'POST',
           headers: {

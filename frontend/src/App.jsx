@@ -15,7 +15,7 @@ import CreatorPanel from "./panels/creatorpanel";
 import AddCourse from "./panels/AddCourse";
 import ManageCourses from "./panels/ManageCourses";
 import EnrolledStudents from "./panels/EnrolledStudents";
-import Earnings from "./panels/Earnings";
+import ManageArticles from "./panels/ManageArticles";
 import EditCourse from "./panels/EditCourse";
 import EditBanner from "./panels/EditBanner";
 import Chatbot from "./components/Chatbot";
@@ -24,6 +24,7 @@ import ScrollToTop from "./components/ScrollToTop";
 import Loader from "./components/Loader";
 import InstructorManager from "./panels/EditInstructorBanner";
 import Article from "./pages/Articles";
+import ArticleDetail from "./pages/ArticleDetail";
 import EnrollmentPage from "./pages/EnrollmentPage";
 import authService from "./services/authService";
 
@@ -65,6 +66,7 @@ function App() {
               <Route path="/courses" element={<AllCourses />} />
               <Route path="/course/:courseId" element={<Course />} />
               <Route path="/articles" element={<Article />} />
+              <Route path="/articles/:articleId" element={<ArticleDetail />} />
               <Route path="/about" element={<About />} />
               <Route path="/chatbot" element={<Chatbot />} />
               <Route path="/enroll" element={<EnrollmentPage />} />
@@ -87,13 +89,13 @@ function App() {
                   </AdminRoute>
                 }
               >
-                <Route index element={<ManageCourses />} />
+                <Route index element={<Navigate to="manage-courses" replace />} />
                 <Route path="manage-courses" element={<ManageCourses />} />
                 <Route path="add-course" element={<AddCourse />} />
                 <Route path="edit-banner" element={<EditBanner />} />
                 <Route path="edit-course/:courseId" element={<EditCourse />} />
                 <Route path="enrolled-students" element={<EnrolledStudents />} />
-                <Route path="earnings" element={<Earnings />} />
+                <Route path="articles" element={<ManageArticles />} />
                 <Route path="mobilebanners" element={<InstructorManager />} />
                 <Route path="add-student" element={<AddStudent />} />
               </Route>

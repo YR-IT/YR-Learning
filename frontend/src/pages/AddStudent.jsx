@@ -72,26 +72,30 @@ const AddStudent = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900">
-      <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-md dark:bg-gray-800">
-        <h1 className="text-2xl font-bold text-center text-gray-900 dark:text-white">Add Student</h1>
+    <div className="flex justify-center">
+      <div className="w-full max-w-2xl p-6 space-y-5 bg-white border border-gray-200 rounded-md">
+        <header>
+          <p className="admin-eyebrow">ENROLLMENT</p>
+          <h1 className="text-2xl font-bold text-gray-900">Add a student</h1>
+          <p className="mt-1 text-sm text-gray-600">Create a direct course enrollment for a student.</p>
+        </header>
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <label htmlFor="userId" className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
+            <label htmlFor="userId" className="block mb-2 text-sm font-medium text-gray-700">
               E-mail
             </label>
             <input
-              type="text"
+              type="email"
               id="userId"
               value={userId}
               onChange={(e) => setUserId(e.target.value)}
-              className="w-full px-3 py-2 text-gray-900 bg-gray-50 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
-              placeholder="Enter user ID"
+              className="w-full px-3 py-2 text-gray-900 bg-white border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+              placeholder="student@example.com"
               required
             />
           </div>
           <div>
-            <label htmlFor="userName" className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
+            <label htmlFor="userName" className="block mb-2 text-sm font-medium text-gray-700">
               Name
             </label>
             <input
@@ -99,25 +103,25 @@ const AddStudent = () => {
               id="userName"
               value={userName}
               onChange={(e) => setUserName(e.target.value)}
-              className="w-full px-3 py-2 text-gray-900 bg-gray-50 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+              className="w-full px-3 py-2 text-gray-900 bg-white border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
               placeholder="Enter user name"
               required
             />
           </div>
           <div>
-            <label htmlFor="courseId" className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
+            <label htmlFor="courseId" className="block mb-2 text-sm font-medium text-gray-700">
               Course
             </label>
             <select
               id="courseId"
               value={courseId}
               onChange={(e) => setCourseId(e.target.value)}
-              className="w-full px-3 py-2 text-gray-900 bg-gray-50 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+              className="w-full px-3 py-2 text-gray-900 bg-white border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
               required
             >
               <option value="" disabled>Select a course</option>
               {courses.map(course => (
-                <option key={course._id} value={course._id}>
+                  <option key={course._id || course.id} value={course._id || course.id}>
                   {course.title}
                 </option>
               ))}
@@ -125,7 +129,7 @@ const AddStudent = () => {
           </div>
           <button
             type="submit"
-            className="w-full px-4 py-2 text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 dark:bg-blue-500 dark:hover:bg-blue-600"
+            className="w-full px-4 py-2 text-white bg-emerald-700 rounded-md hover:bg-emerald-800 focus:ring-4 focus:ring-emerald-200"
           >
             Add Student
           </button>

@@ -85,10 +85,10 @@ export default function Navbar({ SetisAuthenticated }) {
 
   const navItems = [
     { path: "/", label: "Home", icon: Home },
+    { path: "/about", label: "About", icon: Info },
     { path: "/courses", label: "Courses", icon: BookOpen },
     { path: "/articles", label: "Articles", icon: FileText },
     { path: "/chatbot", label: "AI Chatbot", icon: Bot },
-    { path: "/about", label: "About", icon: Info },
   ];
 
   const bottomNavItems = navItems;
@@ -158,13 +158,12 @@ export default function Navbar({ SetisAuthenticated }) {
             <motion.div >
               <Link to="/" className="flex items-center ">
                 <img
-                  src="/images/Your_paragraph_text-removebg-preview.png"
+                  src="/images/logo.png"
                   alt="YR IT Solutions"
-                  className=""
+                  className="h-10 w-auto object-contain hover:opacity-95 transition-opacity"
                   loading="eager"
                   decoding="async"
                   draggable="false"
-                  style={{ height: "40px", width: "110px" }}
                 />
                 
               </Link>
@@ -309,7 +308,7 @@ export default function Navbar({ SetisAuthenticated }) {
                                         </div>
                                         <div className="text-right">
                                           <div className="text-sm font-bold text-blue-600 dark:text-blue-400">
-                                            ${course.price}
+                                            Rs. {course.price}
                                           </div>
                                           <ArrowRight size={16} className="text-gray-400 dark:text-gray-500 mt-1" />
                                         </div>
@@ -422,9 +421,18 @@ export default function Navbar({ SetisAuthenticated }) {
               </div>
             </div>
 
-            {/* Mobile Theme Toggle - Top Right Corner */}
-            <div className="md:hidden">
+            {/* Mobile Top Actions */}
+            <div className="md:hidden flex items-center gap-2">
               <ThemeToggle />
+              <button
+                type="button"
+                onClick={() => setIsMobileMenuOpen((open) => !open)}
+                className="flex h-10 w-10 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-700 shadow-sm transition-colors hover:bg-blue-50 hover:text-blue-600 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700 dark:hover:text-blue-400"
+                aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
+                aria-pressed={isMobileMenuOpen}
+              >
+                {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+              </button>
             </div>
           </div>
         </div>
@@ -504,7 +512,7 @@ export default function Navbar({ SetisAuthenticated }) {
                                         By {course.instructor}
                                       </p>
                                       <div className="text-sm font-bold text-blue-600 dark:text-blue-400 mt-1">
-                                        ${course.price}
+                                        Rs. {course.price}
                                       </div>
                                     </div>
                                   </div>
@@ -592,46 +600,6 @@ export default function Navbar({ SetisAuthenticated }) {
         )}
       </AnimatePresence>
 
-      {/* Bottom Mobile Navigation */}
-      <div className="fixed bottom-0 left-0 right-0 z-[70] md:hidden bg-white/90 dark:bg-gray-900/90 backdrop-blur border-t border-gray-200 dark:border-gray-800">
-        <nav className="max-w-7xl mx-auto px-2">
-          <ul className="flex items-stretch justify-between">
-            {bottomNavItems.map((item) => {
-              const Icon = item.icon;
-              const isActive = location.pathname === item.path;
-              return (
-                <li key={`bottom-${item.path}`} className="flex-1">
-                  <Link
-                    to={item.path}
-                    className={`flex flex-col items-center justify-center h-16 text-xs font-medium transition-colors ${
-                      isActive
-                        ? "text-blue-600 dark:text-blue-400"
-                        : "text-gray-600 dark:text-gray-300"
-                    }`}
-                  >
-                    <Icon size={20} />
-                    <span className="mt-0.5">{item.label}</span>
-                  </Link>
-                </li>
-              );
-            })}
-            {/* Menu button to open/close the rest of the items */}
-            <li className="flex-1">
-              <button
-                type="button"
-                onClick={() => setIsMobileMenuOpen((open) => !open)}
-                aria-pressed={isMobileMenuOpen}
-                className={`w-full flex flex-col items-center justify-center h-16 text-xs font-medium transition-colors ${
-                  isMobileMenuOpen ? "text-blue-600 dark:text-blue-400" : "text-gray-600 dark:text-gray-300"
-                }`}
-              >
-                {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
-                <span className="mt-0.5">{isMobileMenuOpen ? "Close" : "Menu"}</span>
-              </button>
-            </li>
-          </ul>
-        </nav>
-      </div>
     </>
   );
 }

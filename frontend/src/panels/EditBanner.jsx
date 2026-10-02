@@ -6,6 +6,7 @@ const BannerManager = () => {
     const [banners, setBanners] = useState([]);
     const [editingBanner, setEditingBanner] = useState(null);
     const [title, setTitle] = useState('');
+    const [link, setLink] = useState('');
     const [image, setImage] = useState(null);
     const [preview, setPreview] = useState('');
     const [error, setError] = useState('');
@@ -37,9 +38,10 @@ const BannerManager = () => {
     const resetForm = () => {
         setEditingBanner(null);
         setTitle('');
+        setLink('');
         setImage(null);
         setPreview('');
-        const fileInput = document.getElementById('image-input');
+        const fileInput = document.getElementById('banner');
         if (fileInput) fileInput.value = null;
     };
 
@@ -47,6 +49,7 @@ const BannerManager = () => {
     const handleSelectEdit = (banner) => {
         setEditingBanner(banner);
         setTitle(banner.title);
+        setLink(banner.link || '');
         setPreview(`data:image/jpeg;base64,${banner.image}`);
         setError('');
         window.scrollTo(0, 0);
@@ -70,6 +73,7 @@ const BannerManager = () => {
 
         const formData = new FormData();
         formData.append('title', title);
+        formData.append('link', link);
         if (image) formData.append('banner', image);
 
         const isEditMode = Boolean(editingBanner);
@@ -81,7 +85,8 @@ const BannerManager = () => {
 
         try {
             const response = await fetch(url, { method, body: formData });
-            if (!response.ok) throw new Error(`Failed to ${isEditMode ? 'update' : 'add'} banner.`);
+            const result = await response.json().catch(() => ({}));
+            if (!response.ok) throw new Error(result.message || `Failed to ${isEditMode ? 'update' : 'add'} banner.`);
             resetForm();
             await fetchAllBanners();
         } catch (err) {
@@ -100,7 +105,8 @@ const BannerManager = () => {
 
         try {
             const response = await fetch(`${baseUrl}/banner/deletebanner/${bannerId}`, { method: 'DELETE' });
-            if (!response.ok) throw new Error('Failed to delete banner.');
+            const result = await response.json().catch(() => ({}));
+            if (!response.ok) throw new Error(result.message || 'Failed to delete banner.');
             await fetchAllBanners();
             if (editingBanner && editingBanner._id === bannerId) {
                 resetForm();
@@ -125,9 +131,13 @@ const BannerManager = () => {
                         <input id="title" type="text" value={title} onChange={(e) => setTitle(e.target.value)} required />
                     </div>
                     <div className="form-group">
-                        <label htmlFor="image-input">Banner Image</label>
+                        <label htmlFor="banner-link">Banner Link</label>
+                        <input id="banner-link" type="url" value={link} onChange={(e) => setLink(e.target.value)} placeholder="https://example.com" />
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="banner">Banner Image</label>
                         {preview && <img src={preview} alt="Preview" className="image-preview" />}
-                        <input id="banner" type="file" onChange={handleFileChange} accept="banner/*" />
+                        <input id="banner" type="file" onChange={handleFileChange} accept="image/*" />
                     </div>
                     <div className="form-actions">
                         <button type="submit" disabled={loading}>{loading ? 'Saving...' : (editingBanner ? 'Update Banner' : 'Add Banner')}</button>
@@ -145,10 +155,8 @@ const BannerManager = () => {
                         <div className="banner-info">
                             <p>{banner.title}</p>
                             <div className="banner-actions">
-                                <button onClick={() => handleSelectEdit(banner)} disabled={loading}><p className='rounded-lg bg-slate-300 text-xl w-40'>Edit</p></button>
-                                <br />
-                                <br />
-                                <button onClick={() => handleDelete(banner._id)} disabled={loading} className="delete-button"><p className='rounded-lg bg-blue-200   text-xl w-40'>Delete</p></button>
+                                <button onClick={() => handleSelectEdit(banner)} disabled={loading}>Edit</button>
+                                <button onClick={() => handleDelete(banner._id)} disabled={loading} className="delete-button">Delete</button>
                             </div>
                         </div>
                     </div>

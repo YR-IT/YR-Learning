@@ -20,6 +20,7 @@ import {
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { getEnrollments, updateEnrollmentStatus, deleteEnrollment } from '../services/enrollmentService';
+import './EnrolledStudents.css';
 
 const EnrolledStudents = () => {
   const [enrolledUsers, setEnrolledUsers] = useState([]);
@@ -147,7 +148,7 @@ const EnrolledStudents = () => {
   const uniqueCourses = ['All', ...new Set(enrolledUsers.map(u => u.courseEnrolledFor || u.course).filter(Boolean))];
 
   return (
-    <div className="p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto space-y-6">
+    <div className="admin-enrollment p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto space-y-6">
       {/* Page Title & Actions */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-slate-900 border border-slate-800 p-6 rounded-3xl shadow-xl text-white">
         <div className="flex items-center gap-3">

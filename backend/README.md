@@ -14,6 +14,13 @@ To connect your MongoDB cluster:
    ```
 3. The server automatically uses the `yr_elearning` database and seeds initial courses, articles, and admin credentials if the database is fresh.
 
+To enable the Gemini-powered chatbot, add your Google AI Studio key to `backend/.env`:
+```env
+GEMINI_API_KEY=your_gemini_api_key
+GEMINI_MODEL=gemini-2.5-flash
+```
+Restart the backend after setting these values. The key is only used by the backend and must not be added to frontend environment variables.
+
 ## 🚀 Running the Backend
 
 ```bash
@@ -58,6 +65,9 @@ npm start
 - `POST /api/articles` - Create article (Admin only)
 - `PUT /api/articles/:id` - Update article (Admin only)
 - `DELETE /api/articles/:id` - Delete article (Admin only)
+
+### Chatbot
+- `POST /api/chatbot` - Generate a reply using Gemini (requires `GEMINI_API_KEY`)
 
 ### Banners
 - `GET /api/banner/getbanner` - Promotional banners

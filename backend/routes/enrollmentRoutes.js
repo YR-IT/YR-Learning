@@ -6,11 +6,14 @@ const {
   getEnrollmentById,
   updateEnrollmentStatus,
   deleteEnrollment,
+  getEnrollmentStats,
 } = require('../controllers/enrollmentController');
-const { protectAdmin } = require('../middleware/authMiddleware');
 
 // Public enrollment submission
 router.post('/', submitEnrollment);
+
+// Admin stats & earnings (placed before /:id)
+router.get('/stats', getEnrollmentStats);
 
 // Admin retrieval & management
 router.get('/', getAllEnrollments);

@@ -1,98 +1,24 @@
-/* EditBanner.css */
-.edit-banner-panel {
-    max-width: 600px;
-    margin: 2rem auto;
-    padding: 2rem;
-    background-color: #ffffff;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-.edit-banner-panel h2 {
-    text-align: center;
-    font-size: 1.75rem;
-    color: #111827;
-    margin-bottom: 2rem;
-}
-
-.edit-banner-form {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-}
-
-.form-group {
-    display: flex;
-    flex-direction: column;
-}
-
-.form-group label {
-    margin-bottom: 0.5rem;
-    font-weight: 600;
-    color: #374151;
-}
-
-.form-group input[type="text"],
-.form-group input[type="file"] {
-    padding: 0.75rem;
-    border: 1px solid #d1d5db;
-    border-radius: 6px;
-    font-size: 1rem;
-}
-
-.image-preview {
-    max-width: 100%;
-    height: auto;
-    max-height: 250px;
-    border-radius: 6px;
-    margin-top: 0.5rem;
-    border: 1px solid #e5e7eb;
-    object-fit: cover;
-}
-
-.form-actions {
-    display: flex;
-    justify-content: flex-end;
-    gap: 1rem;
-    margin-top: 1rem;
-}
-
-.form-actions button {
-    padding: 0.75rem 1.5rem;
-    border: none;
-    border-radius: 6px;
-    font-size: 1rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: background-color 0.2s, box-shadow 0.2s;
-}
-
-.form-actions button[type="submit"] {
-    background-color: #2563eb;
-    color: white;
-}
-
-.form-actions button[type="submit"]:hover {
-    background-color: #1d4ed8;
-}
-
-.form-actions button[type="button"] {
-    background-color: #f3f4f6;
-    color: #374151;
-    border: 1px solid #d1d5db;
-}
-
-.form-actions button[type="button"]:hover {
-    background-color: #e5e7eb;
-}
-
-.form-actions button:disabled {
-    background-color: #9ca3af;
-    cursor: not-allowed;
-}
-
-.error {
-    color: #ef4444;
-    text-align: center;
-    margin-top: 1rem;
-}
+.banner-panel { color: #182321; }
+.banner-panel > h2 { margin: 0 0 1.25rem; font-size: 1.55rem; font-weight: 750; }
+.banner-panel > h3 { margin: 1.5rem 0 0.8rem; color: #34423b; font-size: 1.05rem; font-weight: 700; }
+.banner-panel .edit-banner-panel { max-width: none; margin: 0; padding: 1.4rem; background: #fff; border: 1px solid #e2e9e5; border-radius: 7px; }
+.banner-panel .edit-banner-panel h3 { margin: 0 0 1rem; color: #34423b; font-size: 1rem; }
+.banner-panel .edit-banner-form { display: grid; gap: 1rem; max-width: 700px; }
+.banner-panel .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+.banner-panel .form-group label { color: #47554e; font-size: 0.82rem; font-weight: 700; }
+.banner-panel .form-group input { padding: 0.7rem; border: 1px solid #d5dfd9; border-radius: 5px; font: inherit; }
+.banner-panel .form-group input:focus { outline: 2px solid #16795d; outline-offset: 1px; }
+.banner-panel .image-preview { display: block; max-width: 100%; max-height: 220px; margin: 0.3rem 0 0; border: 1px solid #e2e9e5; border-radius: 5px; object-fit: contain; }
+.banner-panel .form-actions { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+.banner-panel .form-actions button, .banner-panel .banner-actions button { min-height: 38px; padding: 0.55rem 0.85rem; color: #fff; background: #16795d; border: 0; border-radius: 5px; font-size: 0.85rem; font-weight: 700; cursor: pointer; }
+.banner-panel .form-actions button[type="button"] { color: #47554e; background: #f1f6f3; border: 1px solid #dce5df; }
+.banner-panel button:disabled { opacity: 0.6; cursor: not-allowed; }
+.banner-panel .error { margin: 0.5rem 0; padding: 0.7rem; color: #a12a22; background: #fff1f0; border: 1px solid #f3d2cf; border-radius: 5px; }
+.banner-panel .banners-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1rem; }
+.banner-panel .banner-card { overflow: hidden; background: #fff; border: 1px solid #e2e9e5; border-radius: 7px; }
+.banner-panel .banner-card > img { display: block; width: 100%; height: 150px; object-fit: cover; background: #f1f6f3; }
+.banner-panel .banner-info { padding: 0.9rem; }
+.banner-panel .banner-info > p { margin: 0 0 0.7rem; color: #26352e; font-weight: 700; }
+.banner-panel .banner-actions { display: flex; gap: 0.5rem; }
+.banner-panel .banner-actions button { flex: 1; }
+.banner-panel .banner-actions .delete-button { color: #a12a22; background: #fff1f0; }

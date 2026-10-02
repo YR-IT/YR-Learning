@@ -2,6 +2,7 @@ const Admin = require('../models/Admin');
 const Course = require('../models/Course');
 const Article = require('../models/Article');
 const Enrollment = require('../models/Enrollment');
+const Banner = require('../models/Banner');
 
 const initialCourses = [
   {
@@ -393,6 +394,59 @@ const seedData = async () => {
       console.log(`🎓 Seeded ${sampleEnrollments.length} sample enrollments into yr_elearning!`);
     } else {
       console.log(`🎓 Enrollments collection already contains ${enrollmentCount} records.`);
+    }
+
+    // 5. Seed Banners & Instructor Banners
+    const bannerCount = await Banner.countDocuments();
+    if (bannerCount === 0) {
+      const sampleBanners = [
+        {
+          title: "Master High-Impact Tech Skills & Accelerate Your Career",
+          image: "/images/hero-tech.jpg",
+          type: "banner",
+          link: "/courses",
+        },
+        {
+          title: "Full-Stack Web Development Bootcamp - Live Projects & Mentorship",
+          image: "/images/webdev-workspace.jpg",
+          type: "banner",
+          link: "/courses",
+        },
+        {
+          title: "Artificial Intelligence & Generative AI Masterclass 2026",
+          image: "/images/Artificial-Intelligence-for-Materials-Discovery-and-Design.png",
+          type: "banner",
+          link: "/courses",
+        },
+        {
+          title: "Jane Smith - Senior Web Architect & Full-Stack Lead",
+          name: "Jane Smith",
+          about: "10+ years experience in building high-scale distributed applications and mentoring engineers.",
+          image: "/images/trainer1.jpg",
+          type: "instructor",
+          link: "/courses",
+        },
+        {
+          title: "Alex Johnson - AI / Machine Learning Specialist",
+          name: "Alex Johnson",
+          about: "Expert in PyTorch, Computer Vision, Generative AI models and production deployments.",
+          image: "/images/trainer2.jpg",
+          type: "instructor",
+          link: "/courses",
+        },
+        {
+          title: "Sarah Lee - Data Structures & Algorithms Guru",
+          name: "Sarah Lee",
+          about: "Ex-FAANG engineer specializing in advanced DSA, competitive programming, and interview prep.",
+          image: "/images/trainer3.jpg",
+          type: "instructor",
+          link: "/courses",
+        },
+      ];
+      await Banner.insertMany(sampleBanners);
+      console.log(`🖼️ Seeded ${sampleBanners.length} promotional and instructor banners into yr_elearning!`);
+    } else {
+      console.log(`🖼️ Banners collection already contains ${bannerCount} records.`);
     }
   } catch (error) {
     console.error('Error during data seeding:', error.message);

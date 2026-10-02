@@ -1,0 +1,25 @@
+.manage-articles-admin { color: #182321; }
+.articles-admin-header { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding-bottom: 1rem; border-bottom: 1px solid #e2e9e5; }
+.articles-admin-header h1 { margin: 0; color: #182321; font-size: 1.8rem; font-weight: 750; }
+.articles-admin-header > div > p:last-child { margin: 0.35rem 0 0; color: #66736f; font-size: 0.9rem; }
+.manage-articles-admin form { border-color: #e2e9e5; }
+.manage-articles-admin form h2,
+.manage-articles-admin > section > h2 { color: #26352e; }
+.manage-articles-admin form label { color: #47554e; font-size: 0.82rem; font-weight: 700; }
+.manage-articles-admin form input,
+.manage-articles-admin form textarea { color: #182321; background: #fff; border-color: #d5dfd9; border-radius: 5px; font: inherit; font-size: 0.9rem; }
+.manage-articles-admin form input:focus,
+.manage-articles-admin form textarea:focus { outline: 2px solid #16795d; outline-offset: 1px; border-color: #16795d; }
+.manage-articles-admin form button { min-height: 40px; border-radius: 5px; background: #16795d; }
+.manage-articles-admin form button:hover { background: #11664e; }
+.manage-articles-admin > section > h2 { display: flex; align-items: center; gap: 0.55rem; }
+.articles-count { display: inline-grid; min-width: 24px; height: 24px; place-items: center; color: #426354; background: #e5f3ed; border-radius: 4px; font-size: 0.75rem; }
+.manage-articles-admin > section > div.divide-y { background: #fff; border-color: #e2e9e5; }
+.manage-articles-admin > section > div.divide-y > div { padding-inline: 0.8rem; }
+.manage-articles-admin > section > div.divide-y > div h3 { color: #182321; }
+.manage-articles-admin a { color: #16795d; }
+
+@media (max-width: 640px) {
+    .articles-admin-header h1 { font-size: 1.55rem; }
+    .manage-articles-admin form { padding: 1rem; }
+}
