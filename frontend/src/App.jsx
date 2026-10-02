@@ -26,6 +26,7 @@ import InstructorManager from "./panels/EditInstructorBanner";
 import Article from "./pages/Articles";
 import ArticleDetail from "./pages/ArticleDetail";
 import EnrollmentPage from "./pages/EnrollmentPage";
+import Contact from "./pages/Contact";
 import authService from "./services/authService";
 
 // Protected Admin Route
@@ -68,6 +69,7 @@ function App() {
               <Route path="/articles" element={<Article />} />
               <Route path="/articles/:articleId" element={<ArticleDetail />} />
               <Route path="/about" element={<About />} />
+              <Route path="/contact" element={<Contact />} />
               <Route path="/chatbot" element={<Chatbot />} />
               <Route path="/enroll" element={<EnrollmentPage />} />
               <Route path="/enrollment" element={<EnrollmentPage />} />

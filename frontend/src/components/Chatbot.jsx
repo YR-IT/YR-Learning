@@ -32,10 +32,15 @@ export default function Chatbot() {
       time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
     };
 
-    const history = [...messages.slice(1), userMsg].slice(-12).map((message) => ({
-      role: message.sender === 'user' ? 'user' : 'model',
-      content: message.text,
-    }));
+    const prevHistory = messages
+      .filter((m, idx) => idx > 0 && !m.isError)
+      .slice(-10)
+      .map((m) => ({
+        role: m.sender === 'user' ? 'user' : 'model',
+        content: m.text,
+      }));
+    const history = [...prevHistory, { role: 'user', content: query }];
+
     setMessages((prev) => [...prev, userMsg]);
     setInputVal('');
     setLoading(true);
@@ -48,10 +53,12 @@ export default function Chatbot() {
         time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
       }]);
     } catch (error) {
+      const errorMsg = error.response?.data?.message || 'I could not connect to the AI assistant. Please ensure the backend server is running and try again.';
       setMessages((prev) => [...prev, {
         sender: 'bot',
-        text: error.response?.data?.message || 'I could not connect to the AI assistant. Please try again.',
-        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+        text: errorMsg,
+        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        isError: true
       }]);
     } finally {
       setLoading(false);
@@ -132,7 +139,7 @@ export default function Chatbot() {
                           : 'bg-gray-800 border border-gray-700/60 text-gray-200 rounded-tl-sm'
                       }`}
                     >
-                      <p>{m.text}</p>
+                      <p className="whitespace-pre-wrap">{m.text}</p>
                       <span className="block text-[10px] text-gray-400 mt-1.5 text-right">{m.time}</span>
                     </div>
                   </motion.div>

@@ -22,6 +22,7 @@ import {
   ShieldCheck,
   LogOut,
   Bot,
+  Mail,
 } from "lucide-react";
 import toast from "react-hot-toast";
 import { getCourses } from "../data/courses";
@@ -88,6 +89,7 @@ export default function Navbar({ SetisAuthenticated }) {
     { path: "/about", label: "About", icon: Info },
     { path: "/courses", label: "Courses", icon: BookOpen },
     { path: "/articles", label: "Articles", icon: FileText },
+    { path: "/contact", label: "Contact", icon: Mail },
     { path: "/chatbot", label: "AI Chatbot", icon: Bot },
   ];
 

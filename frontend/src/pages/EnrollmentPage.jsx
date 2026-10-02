@@ -19,6 +19,7 @@ import {
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { submitEnrollment } from '../services/enrollmentService';
+import { sendEnrollmentEmail } from '../services/emailService';
 
 export default function EnrollmentPage() {
   const [searchParams] = useSearchParams();
@@ -140,6 +141,11 @@ export default function EnrollmentPage() {
       setIsSuccess(true);
       setSubmittedData(res.enrollment || payload);
       toast.success('Enrollment submitted successfully!');
+
+      // Send email notification/confirmation via EmailJS
+      sendEnrollmentEmail(payload).catch((emailErr) => {
+        console.warn('EmailJS notification warning:', emailErr);
+      });
     } catch (err) {
       console.error('Enrollment error:', err);
       const msg = err.response?.data?.message || 'Failed to submit form. Please check your network and try again.';

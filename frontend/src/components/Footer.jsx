@@ -102,9 +102,9 @@ export default function Footer() {
                 { name: "Home", path: "/" },
                 { name: "Courses", path: "/courses" },
                 { name: "About Us", path: "/about" },
-                { name: "Dashboard", path: "/dashboard" },
-                { name: "Login", path: "/login" },
-                { name: "Sign Up", path: "/signup" },
+                { name: "Contact Us", path: "/contact" },
+                { name: "Enroll Now", path: "/enroll" },
+                { name: "Admin Login", path: "/login" },
               ].map((link) => (
                 <motion.div
                   key={link.name}

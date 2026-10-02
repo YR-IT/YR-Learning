@@ -45,10 +45,15 @@ export default function FloatingChatbot() {
       time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
     };
 
-    const history = [...messages.slice(1), userMessage].slice(-12).map((message) => ({
-      role: message.sender === 'user' ? 'user' : 'model',
-      content: message.text,
-    }));
+    const prevHistory = messages
+      .filter((m, idx) => idx > 0 && !m.isError)
+      .slice(-10)
+      .map((m) => ({
+        role: m.sender === 'user' ? 'user' : 'model',
+        content: m.text,
+      }));
+    const history = [...prevHistory, { role: 'user', content: text }];
+
     setMessages((prev) => [...prev, userMessage]);
     setInputVal('');
     setLoading(true);
@@ -61,10 +66,12 @@ export default function FloatingChatbot() {
         time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
       }]);
     } catch (error) {
+      const errorMsg = error.response?.data?.message || 'I could not connect to the AI assistant. Please ensure the backend server is running and try again.';
       setMessages((prev) => [...prev, {
         sender: 'bot',
-        text: error.response?.data?.message || 'I could not connect to the AI assistant. Please try again.',
-        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+        text: errorMsg,
+        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        isError: true
       }]);
     } finally {
       setLoading(false);
@@ -161,7 +168,7 @@ export default function FloatingChatbot() {
                   className={`flex flex-col ${msg.sender === 'user' ? 'items-end' : 'items-start'}`}
                 >
                   <div
-                    className={`max-w-[85%] rounded-2xl px-3.5 py-2.5 text-xs sm:text-sm leading-relaxed ${
+                    className={`max-w-[85%] rounded-2xl px-3.5 py-2.5 text-xs sm:text-sm leading-relaxed whitespace-pre-wrap ${
                       msg.sender === 'user'
                         ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-br-none shadow-md'
                         : 'bg-slate-800 border border-slate-700 text-slate-200 rounded-bl-none shadow-sm'

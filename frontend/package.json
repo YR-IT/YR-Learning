@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@emailjs/browser": "^4.4.1",
     "@tanstack/react-query": "^5.90.2",
     "axios": "^1.11.0",
     "framer-motion": "^12.23.12",

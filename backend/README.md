@@ -17,7 +17,7 @@ To connect your MongoDB cluster:
 To enable the Gemini-powered chatbot, add your Google AI Studio key to `backend/.env`:
 ```env
 GEMINI_API_KEY=your_gemini_api_key
-GEMINI_MODEL=gemini-2.5-flash
+GEMINI_MODEL=gemini-3.5-flash-lite
 ```
 Restart the backend after setting these values. The key is only used by the backend and must not be added to frontend environment variables.
 
