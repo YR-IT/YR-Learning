@@ -72,13 +72,13 @@ export default function InstructorShowcase() {
 			accent: "from-green-500 via-emerald-500 to-teal-500",
 		},
 		{
-			name: "Gauri Sharma",
-			role: "Machine Learning Trainer",
+			name: "Gauri Singhal",
+			role: "DSA & Java Lead Instructor",
 			avatar: "/images/Trainer8.jpeg",
 			bio:
-				"AI-ML Trainer at YR IT SOLUTIONS and AI-ML Developer and Researcher at AlonOS Noida. Learn from industry expert and gain hands-on experience in Machine Learning and AI.",
-			tags: ["Machine Learning", "AI", "Research", "Deep Learning"],
-			accent: "from-rose-500 via-pink-500 to-purple-500",
+				"Intern at YR IT Solution, Celebal Technologies | DSE @ Infosys. Expert in Java, Data Structures, Algorithms, and cracking product coding interviews.",
+			tags: ["Data Structures", "Java", "Algorithms", "Interview Prep"],
+			accent: "from-amber-500 via-orange-500 to-red-500",
 		},
 	];
 

@@ -1,0 +1,18 @@
+name: Wake Up Render Backend
+
+on:
+  schedule:
+    # Run every 14 minutes (Render free tier sleeps after 15 minutes of inactivity)
+    - cron: '*/14 * * * *'
+  workflow_dispatch:
+
+jobs:
+  keep-alive:
+    name: Ping Render Backend
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send Keep-Alive Ping
+        run: |
+          echo "Pinging YR Learning Backend on Render..."
+          curl -f -s -m 60 https://yr-learning.onrender.com/api/health || curl -f -s -m 60 https://yr-learning.onrender.com/ || echo "Ping dispatched"
+          echo "Keep-alive ping completed at $(date -u)"

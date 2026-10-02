@@ -3,6 +3,54 @@ import { Star, Users, BookOpen, MessageCircle, Twitter, Linkedin, Github, Mail, 
 
 // Instructor data mapped to course categories/names
 const INSTRUCTORS = {
+  'data structures': {
+    name: "Gauri Singhal",
+    role: "DSA & Java Instructor",
+    avatar: "/images/Trainer8.jpeg",
+    bio: "Intern at YR IT Solution, Celebal Technologies | DSE @ Infosys. Passionate about algorithms, interview problem solving, and mentoring students.",
+    rating: 4.9,
+    students: "6,500+",
+    courses: 5,
+    expertise: ["Java", "Data Structures", "Algorithms", "Competitive Programming", "System Design"],
+    social: {
+      twitter: "#",
+      linkedin: "#",
+      github: "#"
+    },
+    email: "gauri@example.com"
+  },
+  'digital marketing': {
+    name: "Jane Smith",
+    role: "Digital Marketing & SEO Lead",
+    avatar: "/images/trainer1.jpg",
+    bio: "Digital Marketing & SEO strategist with over 8 years of experience scaling organic traffic and marketing funnels.",
+    rating: 4.8,
+    students: "8,900+",
+    courses: 11,
+    expertise: ["SEO", "Content Marketing", "Google Ads", "Social Media", "Analytics"],
+    social: {
+      twitter: "#",
+      linkedin: "#",
+      github: "#"
+    },
+    email: "jane@example.com"
+  },
+  'graphic designing': {
+    name: "Isha",
+    role: "Graphic Design & Video Editing Specialist",
+    avatar: "/images/trainer2.jpg",
+    bio: "Professional Designer and Video Editor with 6+ years creating visual branding, Premiere Pro/After Effects pipelines, and UI assets.",
+    rating: 4.9,
+    students: "7,800+",
+    courses: 9,
+    expertise: ["Graphic Design", "Video Editing", "Premiere Pro", "After Effects", "Photoshop"],
+    social: {
+      twitter: "#",
+      linkedin: "#",
+      github: "#"
+    },
+    email: "isha@example.com"
+  },
   'data science': {
     name: "Vinay Sheoran",
     role: "Senior Data Science Trainer",
@@ -35,22 +83,6 @@ const INSTRUCTORS = {
     },
     email: "sumit@example.com"
   },
-  // 'data science': {
-  //   name: "Ridham",
-  //   role: "Data Science Trainer",
-  //   avatar: "/images/Trainer5.jpeg",
-  //   bio: "Ex-Data Science Trainee at Creator's Bite US. Specializes in Data Science, Machine Learning, and Analytics.",
-  //   rating: 4.7,
-  //   students: "7,200+",
-  //   courses: 10,
-  //   expertise: ["Data Science", "Machine Learning", "Analytics", "Python"],
-  //   social: {
-  //     twitter: "#",
-  //     linkedin: "#",
-  //     github: "#"
-  //   },
-  //   email: "ridham@example.com"
-  // },
   'cyber security': {
     name: "Gautam",
     role: "Cyber Security Trainer",
@@ -100,42 +132,60 @@ const INSTRUCTORS = {
     email: "isha@example.com"
   },
   'default': {
-    name: "Aryan Kumar",
-    role: "Web Development Trainer",
-    avatar: "/images/Trainer7.jpeg",
-    bio: "Official member of Superteam India and Ex-TA at Coding Ninjas. Expert in modern web technologies and frameworks.",
-    rating: 4.8,
+    name: "Gauri Singhal",
+    role: "DSA & Java Instructor",
+    avatar: "/images/Trainer8.jpeg",
+    bio: "Intern at YR IT Solution, Celebal Technologies | DSE @ Infosys. Expert in Java, algorithms, and interview preparation.",
+    rating: 4.9,
     students: "8,500+",
     courses: 12,
-    expertise: ["Web Development", "Frontend", "Backend", "Full Stack", "JavaScript"],
+    expertise: ["Java", "Data Structures", "Algorithms", "Interview Prep"],
     social: {
       twitter: "#",
       linkedin: "#",
       github: "#"
     },
-    email: "aryan@example.com"
+    email: "gauri@example.com"
   }
 };
 
 export default function InstructorCard({ courseTitle = '', instructor: propInstructor }) {
   // Get instructor based on course title or use the provided instructor prop
   const getInstructor = () => {
-    if (propInstructor) return propInstructor;
+    if (propInstructor) {
+      if (typeof propInstructor === 'object' && propInstructor.name) {
+        return {
+          ...INSTRUCTORS['default'],
+          ...propInstructor,
+          role: propInstructor.role || 'Course Instructor',
+          avatar: propInstructor.avatar || '/images/Trainer8.jpeg',
+          bio: propInstructor.bio || INSTRUCTORS['default'].bio,
+        };
+      }
+      if (typeof propInstructor === 'string') {
+        const found = Object.values(INSTRUCTORS).find(i => i.name.toLowerCase() === propInstructor.toLowerCase());
+        if (found) return found;
+      }
+    }
     
     const lowerTitle = courseTitle.toLowerCase();
     
-    if (lowerTitle.includes('web') || lowerTitle.includes('frontend') || lowerTitle.includes('full stack')) {
+    if (lowerTitle.includes('data structure') || lowerTitle.includes('dsa') || lowerTitle.includes('java')) {
+      return INSTRUCTORS['data structures'];
+    } else if (lowerTitle.includes('web') || lowerTitle.includes('frontend') || lowerTitle.includes('full stack')) {
       return INSTRUCTORS['web development'];
+    } else if (lowerTitle.includes('digital') || lowerTitle.includes('seo') || lowerTitle.includes('marketing')) {
+      return INSTRUCTORS['digital marketing'];
+    } else if (lowerTitle.includes('graphic') || lowerTitle.includes('video') || lowerTitle.includes('editing')) {
+      return INSTRUCTORS['graphic designing'];
+    } else if (lowerTitle.includes('machine learning') || lowerTitle.includes('ai') || lowerTitle.includes('artificial intelligence')) {
+      return INSTRUCTORS['machine learning'];
     } else if (lowerTitle.includes('data') || lowerTitle.includes('analytics')) {
       return INSTRUCTORS['data science'];
     } else if (lowerTitle.includes('cyber') || lowerTitle.includes('security')) {
       return INSTRUCTORS['cyber security'];
-    } else if (lowerTitle.includes('machine learning') || lowerTitle.includes('ai') || lowerTitle.includes('artificial intelligence')) {
-      return INSTRUCTORS['machine learning'];
     } else if (lowerTitle.includes('ui') || lowerTitle.includes('ux') || lowerTitle.includes('design')) {
       return INSTRUCTORS['ui/ux design'];
-    } else if (lowerTitle.includes('digital') || lowerTitle.includes('marketing')) {
-      return INSTRUCTORS['digital marketing'];
     }
     
     return INSTRUCTORS['default'];

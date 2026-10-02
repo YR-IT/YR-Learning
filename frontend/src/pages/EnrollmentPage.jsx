@@ -37,7 +37,7 @@ export default function EnrollmentPage() {
     statusOther: '',
     currentProfessionOrCourse: '',
     institutionOrCompany: '',
-    courseEnrolledFor: 'Website Development',
+    courseEnrolledFor: 'Data Structures and Algorithms in Java',
     courseOther: '',
     mode: 'Online',
     expectations: '',
@@ -54,18 +54,16 @@ export default function EnrollmentPage() {
   useEffect(() => {
     if (courseParam) {
       const lower = courseParam.toLowerCase();
-      if (lower.includes('web') || lower.includes('react') || lower.includes('full-stack') || lower.includes('javascript')) {
-        setFormData(prev => ({ ...prev, courseEnrolledFor: 'Website Development' }));
-      } else if (lower.includes('ui') || lower.includes('ux') || lower.includes('design')) {
-        setFormData(prev => ({ ...prev, courseEnrolledFor: 'UI/UX Designing' }));
-      } else if (lower.includes('data') || lower.includes('analytics')) {
-        setFormData(prev => ({ ...prev, courseEnrolledFor: 'Data Science' }));
+      if (lower.includes('data structure') || lower.includes('dsa') || lower.includes('java')) {
+        setFormData(prev => ({ ...prev, courseEnrolledFor: 'Data Structures and Algorithms in Java' }));
+      } else if (lower.includes('digital') || lower.includes('marketing') || lower.includes('seo')) {
+        setFormData(prev => ({ ...prev, courseEnrolledFor: 'Digital Marketing and SEO' }));
       } else if (lower.includes('ai') || lower.includes('machine learning')) {
-        setFormData(prev => ({ ...prev, courseEnrolledFor: 'Machine Learning / AI' }));
-      } else if (lower.includes('dsa') || lower.includes('algorithm') || lower.includes('python')) {
-        setFormData(prev => ({ ...prev, courseEnrolledFor: 'DSA ( Data Structure and Algorithms)' }));
-      } else if (lower.includes('security') || lower.includes('cyber')) {
-        setFormData(prev => ({ ...prev, courseEnrolledFor: 'Cybersecurity' }));
+        setFormData(prev => ({ ...prev, courseEnrolledFor: 'AI and Machine Learning' }));
+      } else if (lower.includes('web') || lower.includes('react') || lower.includes('full-stack') || lower.includes('javascript')) {
+        setFormData(prev => ({ ...prev, courseEnrolledFor: 'Web Development' }));
+      } else if (lower.includes('graphic') || lower.includes('video') || lower.includes('editing') || lower.includes('design')) {
+        setFormData(prev => ({ ...prev, courseEnrolledFor: 'Graphic Designing and Video Editing' }));
       } else {
         setFormData(prev => ({ ...prev, courseEnrolledFor: courseParam }));
       }
@@ -156,12 +154,11 @@ export default function EnrollmentPage() {
   };
 
   const coursesList = [
-    'Website Development',
-    'UI/UX Designing',
-    'Data Science',
-    'Machine Learning / AI',
-    'DSA ( Data Structure and Algorithms)',
-    'Cybersecurity',
+    'Data Structures and Algorithms in Java',
+    'Digital Marketing and SEO',
+    'AI and Machine Learning',
+    'Web Development',
+    'Graphic Designing and Video Editing',
     'Other',
   ];
 

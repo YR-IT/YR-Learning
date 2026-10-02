@@ -366,7 +366,7 @@ export default function Course() {
                       <span className="text-gray-700 dark:text-gray-300">Full lifetime access</span>
                       <CheckCircle className="w-5 h-5 text-green-500" />
                     </div>
-                 w   <div className="flex items-center justify-between">
+                    <div className="flex items-center justify-between">
                       <span className="text-gray-700 dark:text-gray-300">Access on mobile and TV</span>
                       <CheckCircle className="w-5 h-5 text-green-500" />
                     </div>

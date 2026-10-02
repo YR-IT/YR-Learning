@@ -1,14 +1,31 @@
 import axios from 'axios';
 
-// Base URL points to the local backend server (or environment variable in production)
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+// Smart determination of API base URL:
+// 1. User-defined VITE_API_URL
+// 2. Production URL (https://yr-learning.onrender.com/api) when running on Vercel or any live domain
+// 3. Fallback to localhost:5000/api for local development
+const getApiBaseUrl = () => {
+  if (import.meta.env.VITE_API_URL && !import.meta.env.VITE_API_URL.includes('localhost')) {
+    return import.meta.env.VITE_API_URL;
+  }
+  if (typeof window !== 'undefined' && window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+    return 'https://yr-learning.onrender.com/api';
+  }
+  return import.meta.env.VITE_API_URL || 'https://yr-learning.onrender.com/api';
+};
+
+const API_BASE_URL = getApiBaseUrl();
+
+// Backend server root URL (without /api)
+const BACKEND_ROOT_URL = API_BASE_URL.replace(/\/api\/?$/, '');
 
 const api = axios.create({
   baseURL: API_BASE_URL,
   headers: {
     'Content-Type': 'application/json',
   },
-  timeout: 10000,
+  // Set timeout to 60s to accommodate Render free-tier cold starts
+  timeout: 60000,
 });
 
 // Request interceptor to attach JWT token if present
@@ -30,8 +47,7 @@ api.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
-      // If unauthorized, clear storage if on admin route
-      if (window.location.pathname.startsWith('/panel')) {
+      if (typeof window !== 'undefined' && window.location.pathname.startsWith('/panel')) {
         localStorage.removeItem('adminToken');
         localStorage.removeItem('token');
         localStorage.removeItem('adminUser');
@@ -42,5 +58,36 @@ api.interceptors.response.use(
   }
 );
 
+/**
+ * Wake-up helper for Render backend.
+ * Free Render instances spin down after inactivity.
+ * Calling this on initial application load warms up the server immediately.
+ */
+let wakeUpPromise = null;
+export const wakeUpRenderBackend = async () => {
+  if (wakeUpPromise) return wakeUpPromise;
+
+  wakeUpPromise = (async () => {
+    try {
+      console.log('🔄 Pinging Render backend to warm up:', `${API_BASE_URL}/health`);
+      const response = await fetch(`${API_BASE_URL}/health`, {
+        method: 'GET',
+        headers: { 'Accept': 'application/json' },
+      });
+      if (response.ok) {
+        const data = await response.json();
+        console.log('✅ Render backend is active & healthy:', data);
+        return { status: 'online', data };
+      }
+      return { status: 'waking', code: response.status };
+    } catch (err) {
+      console.warn('⚠️ Render backend is waking up (cold start)...', err.message);
+      return { status: 'waking', error: err.message };
+    }
+  })();
+
+  return wakeUpPromise;
+};
+
 export default api;
-export { API_BASE_URL };
+export { API_BASE_URL, BACKEND_ROOT_URL };

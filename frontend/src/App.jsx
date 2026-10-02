@@ -28,6 +28,7 @@ import ArticleDetail from "./pages/ArticleDetail";
 import EnrollmentPage from "./pages/EnrollmentPage";
 import Contact from "./pages/Contact";
 import authService from "./services/authService";
+import { wakeUpRenderBackend } from "./services/api";
 
 // Protected Admin Route
 const AdminRoute = ({ children, isAuthenticated }) => {
@@ -40,6 +41,9 @@ function App() {
   const [isInitialLoading, setIsInitialLoading] = useState(true);
   
   useEffect(() => {
+    // Proactively warm up Render backend if it's asleep
+    wakeUpRenderBackend();
+
     // Show initial loader for first-time page load
     const timer = setTimeout(() => {
       setIsInitialLoading(false);

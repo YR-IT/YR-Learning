@@ -1,10 +1,12 @@
-const Admin = require('../models/Admin');
-const Course = require('../models/Course');
-const Article = require('../models/Article');
-const Enrollment = require('../models/Enrollment');
-const Banner = require('../models/Banner');
+const mongoose = require('mongoose');
+const dotenv = require('dotenv');
+const path = require('path');
 
-const initialCourses = [
+dotenv.config({ path: path.join(__dirname, '../.env') });
+
+const Course = require('../models/Course');
+
+const targetCourses = [
   {
     title: "Data Structures and Algorithms in Java",
     description: "Master Data Structures and Algorithms in Java with a comprehensive 45-day structured plan. From time complexity and recursion to binary trees, graphs, and dynamic programming, crack top product-based company coding interviews.",
@@ -323,229 +325,37 @@ const initialCourses = [
   }
 ];
 
-const initialArticles = [
-  {
-    title: "10 Proven Techniques to Boost React App Performance in 2026",
-    slug: "react-performance-2026",
-    excerpt: "From compiler-driven memoization to streaming SSR and bundle optimization, learn the practical steps top engineering teams use to ship snappy apps.",
-    content: "Modern web applications demand peak performance. In this article, we explore key techniques including code splitting, lazy loading, reducing re-renders with optimized hook usage, utilizing Web Workers for intensive calculations, and monitoring Largest Contentful Paint (LCP) and Interaction to Next Paint (INP).",
-    category: "Web Development",
-    readTime: 8,
-    date: "2026-02-15",
-    author: "Ananya Rao",
-    tags: ["React", "Optimization", "Best Practices", "Performance"],
-    cover: "/images/articles/react-performance.jpg"
-  },
-  {
-    title: "The Ultimate DSA Roadmap: From Arrays to DP (with Patterns)",
-    slug: "dsa-roadmap-mastery",
-    excerpt: "A structured, pattern-first approach to mastering Data Structures and Algorithms for top tech interviews—complete with practice ladders.",
-    content: "Mastering DSA is not about memorizing 500 problems; it's about recognizing underlying patterns: Two Pointers, Sliding Window, Fast & Slow Pointers, Monotonic Stacks, BFS/DFS tree traversals, and Dynamic Programming state transitions.",
-    category: "Data Structures",
-    readTime: 12,
-    date: "2026-01-28",
-    author: "Rahul Mehta",
-    tags: ["DSA", "Interviews", "Roadmap", "Python"],
-    cover: "/images/articles/dsa-roadmap.jpg"
-  },
-  {
-    title: "Design a Hiring-Ready Developer Portfolio (That Actually Converts)",
-    slug: "portfolio-ux-that-converts",
-    excerpt: "Craft a portfolio that showcases proof of skill, not just boilerplate code—learn layout hierarchy, storytelling, and UX cues that impress recruiters.",
-    content: "A compelling developer portfolio focuses on outcomes: live demos, measurable impact, clean architecture, responsive design, and clear calls to action. We break down the top portfolio teardowns from senior hiring managers.",
-    category: "UI/UX",
-    readTime: 7,
-    date: "2026-01-10",
-    author: "Meera Iyer",
-    tags: ["Portfolio", "UX", "Careers", "Design"],
-    cover: "/images/articles/portfolio-ux.jpg"
-  },
-  {
-    title: "CI/CD for Busy Devs: From Zero to Production in a Weekend",
-    slug: "cicd-production-weekend",
-    excerpt: "A pragmatic guide to setting up automated GitHub Actions pipelines, containerized environments, and cloud observability without drowning in tooling.",
-    content: "Automating your deployment pipeline gives you confidence and velocity. Learn how to write concise GitHub Actions workflows for linting, testing, Docker image building, and deployment to cloud targets with automated rollbacks.",
-    category: "DevOps",
-    readTime: 10,
-    date: "2025-12-20",
-    author: "Kartik Singh",
-    tags: ["DevOps", "CI/CD", "Docker", "AWS"],
-    cover: "/images/articles/devops-cicd.jpg"
-  },
-  {
-    title: "Breaking into AI/ML in 2026: What Recruiters Actually Look For",
-    slug: "breaking-into-ai-ml-2026",
-    excerpt: "Degrees vs. real production projects, Kaggle vs. deployment—understand the signals that matter most and how to build high-impact AI portfolios.",
-    content: "The AI landscape is moving fast. Companies look for practitioners who can not only train models, but also evaluate, fine-tune, deploy, and monitor LLMs and machine learning pipelines in production.",
-    category: "AI/ML",
-    readTime: 9,
-    date: "2025-11-18",
-    author: "Priya Desai",
-    tags: ["AI/ML", "Careers", "LLMs", "Data Science"],
-    cover: "/images/articles/aiml-career.jpg"
-  },
-  {
-    title: "Cyber Security Foundations: Threats, Tools, and Best Practices",
-    slug: "cyber-security-foundations",
-    excerpt: "Understand modern attack vectors, essential defensive practices, OWASP Top 10 vulnerabilities, and how to secure web applications end-to-end.",
-    content: "Security is non-negotiable. Learn how to implement proper authentication, sanitize user input, manage environment secrets securely, prevent CSRF/XSS, and set up Content Security Policies (CSP).",
-    category: "Cyber Security",
-    readTime: 10,
-    date: "2025-10-05",
-    author: "Neha Kapoor",
-    tags: ["Cyber Security", "OWASP", "Authentication", "InfoSec"],
-    cover: "/images/articles/cyber-security.jpg"
-  }
-];
-
-const seedData = async () => {
+async function updateDbCourses() {
   try {
-    // 1. Seed Admin
-    const adminEmail = (process.env.ADMIN_EMAIL || 'admin@yrelearning.com').toLowerCase().trim();
-    const adminPassword = process.env.ADMIN_PASSWORD || 'admin123';
-
-    const existingAdmin = await Admin.findOne({ email: adminEmail });
-    if (!existingAdmin) {
-      await Admin.create({
-        name: 'Super Admin',
-        email: adminEmail,
-        password: adminPassword,
-        role: 'admin',
-      });
-      console.log(`👤 Admin created -> Email: ${adminEmail} | Password: ${adminPassword}`);
-    } else {
-      console.log(`👤 Admin already exists: ${adminEmail}`);
+    const mongoUri = process.env.MONGO_URI;
+    if (!mongoUri) {
+      throw new Error('MONGO_URI is not defined in .env');
     }
 
-    // 2. Seed Courses
-    const courseCount = await Course.countDocuments();
-    if (courseCount === 0) {
-      await Course.insertMany(initialCourses);
-      console.log(`📚 Seeded ${initialCourses.length} initial courses into MongoDB database yr_elearning!`);
-    } else {
-      console.log(`📚 Courses collection already contains ${courseCount} courses.`);
-    }
+    console.log('Connecting to MongoDB...');
+    await mongoose.connect(mongoUri);
+    console.log('Connected successfully!');
 
-    // 3. Seed Articles
-    const articleCount = await Article.countDocuments();
-    if (articleCount === 0) {
-      await Article.insertMany(initialArticles);
-      console.log(`📰 Seeded ${initialArticles.length} initial articles into MongoDB database yr_elearning!`);
-    } else {
-      console.log(`📰 Articles collection already contains ${articleCount} articles.`);
-    }
+    // Remove old predefined courses from database
+    console.log('Removing old courses from database...');
+    const deleteResult = await Course.deleteMany({});
+    console.log(`Deleted ${deleteResult.deletedCount} old courses.`);
 
-    // 4. Seed Enrollments
-    const enrollmentCount = await Enrollment.countDocuments();
-    if (enrollmentCount === 0) {
-      const sampleEnrollments = [
-        {
-          name: 'Gaurav Singhal',
-          email: 'singhalg818@gmail.com',
-          phoneNumber: '+91 98765 43210',
-          gender: 'Male',
-          city: 'Panipat',
-          currentStatus: 'Student',
-          currentProfessionOrCourse: 'B.Tech CSE',
-          institutionOrCompany: 'PIET College',
-          courseEnrolledFor: 'Website Development',
-          mode: 'Online',
-          expectations: 'Master Full Stack development and build production ready real-world applications',
-          couponCode: 'PIET2026',
-          comments: 'Interested in the upcoming weekend batch',
-          declarationConfirmed: true,
-          status: 'Confirmed',
-        },
-        {
-          name: 'Ananya Sharma',
-          email: 'ananya.sharma@example.com',
-          phoneNumber: '+91 98123 45678',
-          gender: 'Female',
-          city: 'Delhi',
-          currentStatus: 'Working Professional',
-          currentProfessionOrCourse: 'Software Engineer',
-          institutionOrCompany: 'Tech Innovators Ltd',
-          courseEnrolledFor: 'Machine Learning / AI',
-          mode: 'Online',
-          expectations: 'Upskill in Generative AI, PyTorch and deploy LLM applications',
-          couponCode: '',
-          comments: '',
-          declarationConfirmed: true,
-          status: 'Pending',
-        }
-      ];
-      await Enrollment.insertMany(sampleEnrollments);
-      console.log(`🎓 Seeded ${sampleEnrollments.length} sample enrollments into yr_elearning!`);
-    } else {
-      console.log(`🎓 Enrollments collection already contains ${enrollmentCount} records.`);
-    }
+    // Insert the 5 requested courses
+    console.log('Inserting 5 new courses at Rs 3500 each...');
+    const inserted = await Course.insertMany(targetCourses);
+    console.log(`Successfully seeded ${inserted.length} new courses:`);
+    inserted.forEach(c => {
+      console.log(`- ${c.title} (Price: Rs. ${c.price}, Category: ${c.category})`);
+    });
 
-    // 5. Seed Banners & Instructor Banners
-    const bannerCount = await Banner.countDocuments();
-    if (bannerCount === 0) {
-      const sampleBanners = [
-        {
-          title: "Master High-Impact Tech Skills & Accelerate Your Career",
-          image: "/images/hero-tech.jpg",
-          type: "banner",
-          link: "/courses",
-        },
-        {
-          title: "Full-Stack Web Development Bootcamp - Live Projects & Mentorship",
-          image: "/images/webdev-workspace.jpg",
-          type: "banner",
-          link: "/courses",
-        },
-        {
-          title: "Artificial Intelligence & Generative AI Masterclass 2026",
-          image: "/images/Artificial-Intelligence-for-Materials-Discovery-and-Design.png",
-          type: "banner",
-          link: "/courses",
-        },
-        {
-          title: "Jane Smith - Senior Web Architect & Full-Stack Lead",
-          name: "Jane Smith",
-          about: "10+ years experience in building high-scale distributed applications and mentoring engineers.",
-          image: "/images/trainer1.jpg",
-          type: "instructor",
-          link: "/courses",
-        },
-        {
-          title: "Alex Johnson - AI / Machine Learning Specialist",
-          name: "Alex Johnson",
-          about: "Expert in PyTorch, Computer Vision, Generative AI models and production deployments.",
-          image: "/images/trainer2.jpg",
-          type: "instructor",
-          link: "/courses",
-        },
-        {
-          title: "Sarah Lee - Data Structures & Algorithms Guru",
-          name: "Sarah Lee",
-          about: "Ex-FAANG engineer specializing in advanced DSA, competitive programming, and interview prep.",
-          image: "/images/trainer3.jpg",
-          type: "instructor",
-          link: "/courses",
-        },
-      ];
-      await Banner.insertMany(sampleBanners);
-      console.log(`🖼️ Seeded ${sampleBanners.length} promotional and instructor banners into yr_elearning!`);
-    } else {
-      console.log(`🖼️ Banners collection already contains ${bannerCount} records.`);
-    }
-  } catch (error) {
-    console.error('Error during data seeding:', error.message);
-  }
-};
-
-module.exports = seedData;
-
-// Allow direct execution: `node seeders/seed.js`
-if (require.main === module) {
-  require('dotenv').config();
-  const connectDB = require('../config/db');
-  (async () => {
-    await connectDB();
-    await seedData();
+    await mongoose.disconnect();
+    console.log('Done!');
     process.exit(0);
-  })();
+  } catch (error) {
+    console.error('Error updating courses:', error);
+    process.exit(1);
+  }
 }
+
+updateDbCourses();
