@@ -6,7 +6,7 @@ const INSTRUCTORS = {
   'data structures': {
     name: "Gauri Singhal",
     role: "DSA & Java Instructor",
-    avatar: "/images/Trainer8.jpeg",
+    avatar: "/images/dsa_instructor.png",
     bio: "Intern at YR IT Solution, Celebal Technologies | DSE @ Infosys. Passionate about algorithms, interview problem solving, and mentoring students.",
     rating: 4.9,
     students: "6,500+",
@@ -14,7 +14,7 @@ const INSTRUCTORS = {
     expertise: ["Java", "Data Structures", "Algorithms", "Competitive Programming", "System Design"],
     social: {
       twitter: "#",
-      linkedin: "#",
+      linkedin: "https://www.linkedin.com/in/gaurisinghal28",
       github: "#"
     },
     email: "gauri@example.com"
@@ -134,7 +134,7 @@ const INSTRUCTORS = {
   'default': {
     name: "Gauri Singhal",
     role: "DSA & Java Instructor",
-    avatar: "/images/Trainer8.jpeg",
+    avatar: "/images/dsa_instructor.png",
     bio: "Intern at YR IT Solution, Celebal Technologies | DSE @ Infosys. Expert in Java, algorithms, and interview preparation.",
     rating: 4.9,
     students: "8,500+",
@@ -142,7 +142,7 @@ const INSTRUCTORS = {
     expertise: ["Java", "Data Structures", "Algorithms", "Interview Prep"],
     social: {
       twitter: "#",
-      linkedin: "#",
+      linkedin: "https://www.linkedin.com/in/gaurisinghal28",
       github: "#"
     },
     email: "gauri@example.com"
@@ -158,7 +158,7 @@ export default function InstructorCard({ courseTitle = '', instructor: propInstr
           ...INSTRUCTORS['default'],
           ...propInstructor,
           role: propInstructor.role || 'Course Instructor',
-          avatar: propInstructor.avatar || '/images/Trainer8.jpeg',
+          avatar: propInstructor.avatar || '/images/dsa_instructor.png',
           bio: propInstructor.bio || INSTRUCTORS['default'].bio,
         };
       }
@@ -314,17 +314,16 @@ export default function InstructorCard({ courseTitle = '', instructor: propInstr
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
                       onClick={() => {
-                        // Open LinkedIn profile in a new tab
-                        if (instructor.social?.linkedin) {
-                          window.open(instructor.social.linkedin, '_blank', 'noopener,noreferrer');
+                        const linkedinUrl = instructor.social?.linkedin || instructor.linkedin;
+                        if (linkedinUrl && linkedinUrl !== '#') {
+                          window.open(linkedinUrl, '_blank', 'noopener,noreferrer');
                         } else {
-                          // Fallback to email if LinkedIn is not available
                           window.location.href = `mailto:${instructor.email}?subject=Question about your course`;
                         }
                       }}
                     >
-                      <MessageCircle size={16} />
-                      Contact via LinkedIn
+                      <Linkedin size={16} />
+                      Connect on LinkedIn
                     </motion.button>
                   </div>
                 </div>

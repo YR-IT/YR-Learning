@@ -69,9 +69,9 @@ export default function Contact() {
       icon: MapPin,
       title: 'Headquarters',
       value: 'Gurugram, Haryana, India',
-      subtext: 'Tech Corridor & Hub',
-      actionUrl: 'https://maps.google.com/?q=Gurugram,+Haryana,+India',
-      actionLabel: 'View on Maps',
+      subtext: 'Tech Corridor & Innovation Hub',
+      actionUrl: '',
+      actionLabel: 'HQ Location',
       gradient: 'from-purple-600 to-pink-600',
     },
     {
@@ -94,7 +94,7 @@ export default function Contact() {
     {
       question: 'Are the training batches online or offline?',
       answer:
-        'We offer both interactive Online live sessions (with recordings, GitHub repositories, and interactive code labs) as well as Offline immersive batches for select institutions and tech hubs.',
+        'All our courses are completely online with live interactive sessions, class recordings, hands-on project repositories, and 1-on-1 mentor support in Hindi + English.',
     },
     {
       question: 'Do you offer college discounts or coupon codes?',
@@ -477,37 +477,6 @@ export default function Contact() {
                     Curriculum built around React 19, Node.js, AI/ML, and production architectures.
                   </div>
                 </div>
-              </div>
-            </div>
-
-            {/* Office Location / Map Card */}
-            <div className="bg-slate-900/90 backdrop-blur-xl border border-slate-800 rounded-3xl p-5 shadow-xl overflow-hidden">
-              <div className="flex items-center justify-between mb-3 px-1">
-                <div className="flex items-center gap-2">
-                  <MapPin size={16} className="text-pink-400" />
-                  <span className="text-xs font-bold text-white">Our Location</span>
-                </div>
-                <a
-                  href="https://maps.google.com/?q=Gurugram,+Haryana,+India"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-[11px] text-indigo-400 hover:text-indigo-300 flex items-center gap-1"
-                >
-                  Open in Maps <ExternalLink size={11} />
-                </a>
-              </div>
-
-              <div className="rounded-2xl overflow-hidden border border-slate-800 h-48 w-full bg-slate-950 relative">
-                <iframe
-                  title="YR IT Solutions Location"
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d112343.83981881665!2d76.94828114675713!3d28.45949651717282!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390d19d582e38859%3A0x2cf5fe8e5c64b1e!2sGurugram%2C%20Haryana!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin"
-                  width="100%"
-                  height="100%"
-                  style={{ border: 0, filter: 'contrast(1.05) invert(0.9) hue-rotate(180deg)' }}
-                  allowFullScreen=""
-                  loading="lazy"
-                  referrerPolicy="no-referrer-when-downgrade"
-                />
               </div>
             </div>
           </motion.div>

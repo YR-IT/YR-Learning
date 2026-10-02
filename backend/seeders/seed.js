@@ -19,7 +19,8 @@ const initialCourses = [
       name: "Gauri Singhal",
       role: "DSA & Java Instructor",
       bio: "Intern at YR IT Solution, Celebal Technologies | DSE @ Infosys. Passionate about algorithms, interview problem solving, and mentoring students.",
-      avatar: "/images/Trainer8.jpeg"
+      avatar: "/images/dsa_instructor.png",
+      linkedin: "https://www.linkedin.com/in/gaurisinghal28"
     },
     chapters: [
       { id: 1, title: "Day 01-07: Java Essentials, OOP & Complexity Analysis" },
@@ -519,10 +520,10 @@ const seedData = async () => {
           link: "/courses",
         },
         {
-          title: "Sarah Lee - Data Structures & Algorithms Guru",
-          name: "Sarah Lee",
-          about: "Ex-FAANG engineer specializing in advanced DSA, competitive programming, and interview prep.",
-          image: "/images/trainer3.jpg",
+          title: "Gauri Singhal - Data Structures & Algorithms Guru",
+          name: "Gauri Singhal",
+          about: "Intern at YR IT Solution, Celebal Technologies | DSE @ Infosys. Expert in Java, algorithms, and interview preparation.",
+          image: "/images/dsa_instructor.png",
           type: "instructor",
           link: "/courses",
         },

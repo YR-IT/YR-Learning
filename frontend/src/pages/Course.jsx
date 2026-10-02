@@ -29,7 +29,8 @@ import {
   ChevronDown,
   ChevronUp,
   List,
-  User
+  User,
+  Monitor
 } from "lucide-react";
 import toast from "react-hot-toast";
 export default function Course() {
@@ -108,11 +109,11 @@ export default function Course() {
 
   const courseFeatures = [
     { icon: BookOpen, title: "Curriculum", value: `${curriculumTopicCount} topics`, color: "text-red-500" },
-    { icon: Clock, title: "Duration", value: "12+ hours", color: "text-blue-500" },
-    { icon: Users, title: "Students", value: "2,500+", color: "text-green-500" },
+    { icon: Clock, title: "Duration", value: course.duration ? `${course.duration} days` : "12+ hours", color: "text-blue-500" },
+    { icon: Users, title: "Students", value: "5,000+", color: "text-green-500" },
     { icon: Award, title: "Certificate", value: "Included", color: "text-purple-500" },
-    { icon: Globe, title: "Language", value: "English", color: "text-orange-500" },
-    { icon: Smartphone, title: "Mobile Access", value: "Available", color: "text-pink-500" }
+    { icon: Globe, title: "Language", value: course.language || "Hindi + English", color: "text-orange-500" },
+    { icon: Monitor, title: "Mode", value: course.mode || "100% Online", color: "text-emerald-500" }
   ];
 
 
@@ -135,9 +136,15 @@ export default function Course() {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8 }}
             >
-              <div className="flex items-center gap-2 mb-4">
+              <div className="flex items-center gap-2 mb-4 flex-wrap">
                 <span className="bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-3 py-1 rounded-full text-sm font-semibold">
-                  ⭐ Bestseller
+                  ⭐ {course.badge || "Bestseller"}
+                </span>
+                <span className="bg-emerald-600/90 text-white px-3 py-1 rounded-full text-sm font-semibold flex items-center gap-1 shadow-sm">
+                  🌐 100% Online
+                </span>
+                <span className="bg-indigo-600/90 text-white px-3 py-1 rounded-full text-sm font-semibold flex items-center gap-1 shadow-sm">
+                  🗣️ Hindi + English
                 </span>
                 <span className="bg-white/20 backdrop-blur-sm text-white px-3 py-1 rounded-full text-sm">
                   {course.category}
@@ -155,12 +162,12 @@ export default function Course() {
               <div className="flex items-center gap-6 mb-8">
                 <div className="flex items-center gap-2">
                   <Star className="w-5 h-5 text-yellow-400 fill-current" />
-                  <span className="text-white font-semibold">4.8</span>
-                  <span className="text-gray-300">(2,847 ratings)</span>
+                  <span className="text-white font-semibold">{course.rating || 4.9}</span>
+                  <span className="text-gray-300">({(course.students || 5000).toLocaleString()} reviews)</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <Users className="w-5 h-5 text-blue-400" />
-                  <span className="text-white">12,543 students</span>
+                  <span className="text-white">5,000+ students</span>
                 </div>
               </div>
               

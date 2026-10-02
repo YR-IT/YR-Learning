@@ -5,10 +5,27 @@ export const courseService = {
   async getAllCourses(params = {}) {
     try {
       const response = await api.get('/courses', { params });
+      if (Array.isArray(response.data) && response.data.length > 0) {
+        return response.data;
+      }
       return response.data || [];
     } catch (error) {
-      console.warn('Backend unavailable, checking fallback courses:', error.message);
-      // Fallback to local import if backend is offline
+      console.warn('Backend unavailable on primary URL, trying alternative:', error.message);
+      try {
+        const altBase = api.defaults.baseURL && api.defaults.baseURL.includes('localhost')
+          ? 'https://yr-learning.onrender.com/api'
+          : 'http://localhost:5000/api';
+        const altResponse = await fetch(`${altBase}/courses`, { signal: AbortSignal.timeout(4000) });
+        if (altResponse.ok) {
+          const data = await altResponse.json();
+          if (Array.isArray(data) && data.length > 0) {
+            return data;
+          }
+        }
+      } catch (altErr) {
+        console.warn('Alternative backend URL also failed:', altErr.message);
+      }
+      // Fallback to local import if all backends are offline
       try {
         const fallback = await import('../data/frontendcourses.js');
         return fallback.default || [];

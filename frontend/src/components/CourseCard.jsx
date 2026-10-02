@@ -73,15 +73,15 @@ export default function CourseCard({
   return (
     <motion.div
       ref={cardRef}
-      className="relative group w-full"
+      className="relative group w-full h-full flex flex-col"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6 }}
       whileHover={{ y: -8 }}
     >
       <motion.div 
-        className={`bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-2xl shadow-lg hover:shadow-2xl dark:hover:shadow-gray-900/50 overflow-hidden border border-white/20 dark:border-gray-700/20 transition-all duration-300 relative h-full ${
-          viewMode === "list" ? "flex flex-col sm:flex-row" : "flex flex-col"
+        className={`bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-2xl shadow-lg hover:shadow-2xl dark:hover:shadow-gray-900/50 overflow-hidden border border-white/20 dark:border-gray-700/20 transition-all duration-300 relative w-full h-full flex flex-1 ${
+          viewMode === "list" ? "flex-col sm:flex-row" : "flex-col"
         }`}
         whileHover={{ scale: 1.02 }}
         transition={{ duration: 0.3 }}
@@ -110,21 +110,19 @@ export default function CourseCard({
           </motion.button>
         </div>
 
-        <Link to={`/course/${id}`} onClick={handleCourseClick} className={`flex-1 ${viewMode === "list" ? "flex flex-col sm:flex-row" : "flex flex-col"}`}>
-          <div className={`relative overflow-hidden ${viewMode === "list" ? "sm:w-64 sm:flex-shrink-0" : ""}`}>
+        <Link to={`/course/${id}`} onClick={handleCourseClick} className={`w-full flex-1 flex ${viewMode === "list" ? "flex-col sm:flex-row" : "flex-col"}`}>
+          <div className={`relative overflow-hidden w-full ${viewMode === "list" ? "sm:w-64 sm:flex-shrink-0" : "h-48 sm:h-52 flex-shrink-0"}`}>
             <motion.img
               src={imageSrc}
               alt={course}
-              className={`w-full object-cover transition-transform duration-500 ${
-                viewMode === "list" ? "h-40 sm:h-full" : "h-40 sm:h-48"
-              }`}
+              className="w-full h-full object-cover transition-transform duration-500"
               whileHover={{ scale: 1.1 }}
               loading="lazy"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
             <div className="absolute top-3 sm:top-4 right-3 sm:right-4">
               <motion.div 
-                className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-full px-2 sm:px-3 py-1 text-xs sm:text-sm font-semibold text-gray-800 dark:text-gray-100"
+                className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-full px-2 sm:px-3 py-1 text-xs sm:text-sm font-semibold text-gray-800 dark:text-gray-100 shadow-sm"
                 whileHover={{ scale: 1.05 }}
               >
                 Rs. {price}
@@ -132,7 +130,7 @@ export default function CourseCard({
             </div>
             <div className="absolute bottom-3 sm:bottom-4 left-3 sm:left-4">
               <motion.div 
-                className="bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-500 dark:to-purple-500 text-white rounded-full px-2 sm:px-3 py-1 text-xs sm:text-sm font-medium"
+                className="bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-500 dark:to-purple-500 text-white rounded-full px-2 sm:px-3 py-1 text-xs sm:text-sm font-medium shadow-sm"
                 whileHover={{ scale: 1.05 }}
               >
                 {category}
@@ -155,52 +153,54 @@ export default function CourseCard({
             )}
           </div>
           
-          <div className={`p-4 sm:p-6 flex-1 flex flex-col ${viewMode === "list" ? "justify-between" : ""}`}>
-            <motion.h3 
-              className={`font-bold mb-2 sm:mb-3 text-gray-900 dark:text-gray-100 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors line-clamp-2 ${
-                viewMode === "list" ? "text-lg sm:text-xl" : "text-base sm:text-xl"
-              }`}
-              whileHover={{ x: 5 }}
-              transition={{ duration: 0.2 }}
-            >
-              {course}
-            </motion.h3>
-            
-            <p className="text-gray-600 dark:text-gray-400 text-xs sm:text-sm mb-3 sm:mb-4 line-clamp-2 flex-shrink-0">
-              By {typeof instructor === 'string' ? instructor : (instructor?.name || 'YR Instructor')}
-            </p>
-            
-            <div className={`flex items-center justify-between mb-3 sm:mb-4 flex-shrink-0 ${
-              viewMode === "list" ? "flex-wrap gap-2" : ""
-            }`}>
-              <div className="flex items-center gap-3 sm:gap-4 text-xs sm:text-sm text-gray-500 dark:text-gray-400">
-                <div className="flex items-center gap-1">
-                  <Clock size={12} />
-                  <span>12h</span>
-                </div>
-                <div className="flex items-center gap-1">
-                  <Users size={12} />
-                  <span>1.2k</span>
-                </div>
-                <div className="flex items-center gap-1">
-                  <Star size={12} className="text-yellow-500 dark:text-yellow-400" />
-                  <span>4.8</span>
+          <div className="p-4 sm:p-6 flex-1 flex flex-col justify-between">
+            <div>
+              <motion.h3 
+                className={`font-bold mb-2 sm:mb-3 text-gray-900 dark:text-gray-100 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors line-clamp-2 ${
+                  viewMode === "list" ? "text-lg sm:text-xl" : "text-base sm:text-lg min-h-[3rem] sm:min-h-[3.5rem] flex items-start"
+                }`}
+                whileHover={{ x: 5 }}
+                transition={{ duration: 0.2 }}
+              >
+                {course}
+              </motion.h3>
+              
+              <p className="text-gray-600 dark:text-gray-400 text-xs sm:text-sm mb-3 sm:mb-4 line-clamp-1 h-5 flex items-center flex-shrink-0">
+                By {typeof instructor === 'string' ? instructor : (instructor?.name || 'YR Instructor')}
+              </p>
+              
+              <div className={`flex items-center justify-between mb-3 sm:mb-4 flex-shrink-0 ${
+                viewMode === "list" ? "flex-wrap gap-2" : ""
+              }`}>
+                <div className="flex items-center gap-3 sm:gap-4 text-xs sm:text-sm text-gray-500 dark:text-gray-400">
+                  <div className="flex items-center gap-1">
+                    <Clock size={12} />
+                    <span>12h</span>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <Users size={12} />
+                    <span>1.2k</span>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <Star size={12} className="text-yellow-500 dark:text-yellow-400" />
+                    <span>4.8</span>
+                  </div>
                 </div>
               </div>
             </div>
             
             <motion.div
-              className={`flex items-center justify-between mt-auto ${
+              className={`flex items-center justify-between mt-auto pt-3 border-t border-gray-100 dark:border-gray-700/60 ${
                 viewMode === "list" ? "flex-row-reverse sm:flex-row" : ""
               }`}
               whileHover={{ x: 5 }}
               transition={{ duration: 0.2 }}
             >
               <span className={`font-bold text-blue-600 dark:text-blue-400 ${
-                viewMode === "list" ? "text-xl sm:text-2xl" : "text-lg sm:text-2xl"
+                viewMode === "list" ? "text-xl sm:text-2xl" : "text-lg sm:text-xl"
               }`}>Rs. {price}</span>
               <motion.div
-                className="bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-500 dark:to-purple-500 text-white p-1.5 sm:p-2 rounded-full group-hover:from-blue-700 group-hover:to-purple-700 dark:group-hover:from-blue-600 dark:group-hover:to-purple-600 transition-all"
+                className="bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-500 dark:to-purple-500 text-white p-1.5 sm:p-2 rounded-full group-hover:from-blue-700 group-hover:to-purple-700 dark:group-hover:from-blue-600 dark:group-hover:to-purple-600 transition-all shadow-sm"
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
               >

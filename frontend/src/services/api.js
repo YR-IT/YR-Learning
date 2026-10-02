@@ -5,11 +5,11 @@ import axios from 'axios';
 // 2. Production URL (https://yr-learning.onrender.com/api) when running on Vercel or any live domain
 // 3. Fallback to localhost:5000/api for local development
 const getApiBaseUrl = () => {
-  if (import.meta.env.VITE_API_URL && !import.meta.env.VITE_API_URL.includes('localhost')) {
-    return import.meta.env.VITE_API_URL;
-  }
-  if (typeof window !== 'undefined' && window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
-    return 'https://yr-learning.onrender.com/api';
+  if (typeof window !== 'undefined') {
+    const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+    if (isLocalhost) {
+      return import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+    }
   }
   return import.meta.env.VITE_API_URL || 'https://yr-learning.onrender.com/api';
 };

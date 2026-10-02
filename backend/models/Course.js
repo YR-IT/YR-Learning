@@ -64,6 +64,14 @@ const courseSchema = new mongoose.Schema(
       type: String,
       default: 'Bestseller',
     },
+    language: {
+      type: String,
+      default: 'Hindi + English',
+    },
+    mode: {
+      type: String,
+      default: '100% Online',
+    },
     chapters: [chapterSchema],
     curriculum: {
       sections: [sectionSchema],

@@ -103,6 +103,12 @@ export default function InstructorCard({ instructor }) {
           className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-2 px-4 rounded-xl font-medium hover:from-blue-700 hover:to-purple-700 transition-all duration-300 flex items-center justify-center gap-2 group/btn"
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
+          onClick={() => {
+            const url = instructor?.linkedin || instructor?.social?.linkedin;
+            if (url && url !== '#') {
+              window.open(url, '_blank', 'noopener,noreferrer');
+            }
+          }}
         >
           <span>View Profile</span>
           <ExternalLink size={14} className="group-hover/btn:translate-x-1 transition-transform" />

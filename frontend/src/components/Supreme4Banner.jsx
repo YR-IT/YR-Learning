@@ -39,9 +39,9 @@ const defaultInstructors = [
   },
   {
     _id: "inst-3",
-    title: "Sarah Lee - DSA & System Design Specialist",
-    titleRest: "Sarah Lee - DSA & System Design Specialist",
-    imageSrc: "/images/trainer3.jpg",
+    title: "Gauri Singhal - DSA & Java Specialist",
+    titleRest: "Gauri Singhal - DSA & Java Specialist",
+    imageSrc: "/images/dsa_instructor.png",
   },
 ];
 

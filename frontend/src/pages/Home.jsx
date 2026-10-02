@@ -3,8 +3,8 @@ import AdvertisementBanner from "../components/AdvertisementBanner";
 import InstructorShowcase from "../components/InstructorShowcase";
 import Testimonials from "../components/Testimonials";
 import WhyChooseUs from "../components/WhyChooseUs";
-import { getCourses } from "../data/courses";
-import { useState, useEffect } from "react";
+import courseService from "../services/courseService";
+import { useState, useEffect, useMemo } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import CountUp from "react-countup";
@@ -36,27 +36,40 @@ export default function Home() {
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
-      const found_courses = await getCourses();
-      setCourses(found_courses);
-
-      const uniqueInstructors = Object.values(
-        found_courses.reduce((acc, course) => {
-          const instName = typeof course.instructor === 'string' ? course.instructor : course.instructor?.name;
-          if (instName && !acc[instName]) {
-            acc[instName] = course.instructor;
-          }
-          return acc;
-        }, {})
-      );
-      setInstructors(uniqueInstructors);
-      setLoading(false);
+      try {
+        const found_courses = await courseService.getAllCourses();
+        if (Array.isArray(found_courses)) {
+          setCourses(found_courses);
+          const uniqueInstructors = Object.values(
+            found_courses.reduce((acc, course) => {
+              const instName = typeof course.instructor === 'string' ? course.instructor : course.instructor?.name;
+              if (instName && !acc[instName]) {
+                acc[instName] = course.instructor;
+              }
+              return acc;
+            }, {})
+          );
+          setInstructors(uniqueInstructors);
+        }
+      } catch (err) {
+        console.error("Failed to fetch courses from backend:", err);
+      } finally {
+        setLoading(false);
+      }
     };
     fetchData();
     setIsVisible(true);
   }, []);
 
   const categories = ["All", ...new Set(courses.map(course => course.category))];
-  const featuredCourses = courses.slice(0, 3);
+  const featuredCourses = useMemo(() => {
+    if (!courses || courses.length === 0) return [];
+    const featured = courses.filter(
+      (c) => c.badge === "Bestseller" || c.badge === "Featured" || c.badge === "Top Rated" || c.isFeatured === true
+    );
+    if (featured.length >= 3) return featured.slice(0, 3);
+    return courses.slice(0, 3);
+  }, [courses]);
 
   const filteredCourses = courses.filter(course => {
     const matchesSearch = course.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -189,7 +202,7 @@ export default function Home() {
                   ))}
                 </div>
                 <div className="text-gray-600 dark:text-gray-300 text-center lg:text-left">
-                  <span className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white">50,000+</span>
+                  <span className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white">5,000+</span>
                   <span className="ml-2 text-xs sm:text-sm">Students Enrolled</span>
                 </div>
               </motion.div>
@@ -308,10 +321,10 @@ export default function Home() {
 
           {/* Enhanced Courses Grid */}
           <div className="relative z-10">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10 items-stretch">
               {featuredCourses.map((course, index) => (
                 <motion.div
-                  key={course._id}
+                  key={course._id || course.id || index}
                   initial={{ opacity: 0, y: 50, rotateX: 15 }}
                   animate={{ opacity: 1, y: 0, rotateX: 0 }}
                   transition={{ 
@@ -320,15 +333,15 @@ export default function Home() {
                     type: "spring",
                     stiffness: 100
                   }}
-                  className="group relative"
+                  className="group relative h-full flex flex-col"
                 >
                   {/* Glow Effect */}
                   <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 via-purple-500/20 to-pink-500/20 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10"></div>
 
                   {/* Course Card Container */}
-                  <div className="relative transform group-hover:scale-105 transition-all duration-500">
+                  <div className="relative transform group-hover:scale-105 transition-all duration-500 h-full flex flex-col flex-1">
                     <CourseCard 
-                      id={course._id} 
+                      id={course._id || course.id} 
                       course={course.title}
                       courseImage={course.image || course.thumbnail}
                       price={course.price}

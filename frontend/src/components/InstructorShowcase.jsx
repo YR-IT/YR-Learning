@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { Linkedin } from "lucide-react";
 
 export default function InstructorShowcase() {
 	const [currentIndex, setCurrentIndex] = useState(0);
@@ -8,6 +9,16 @@ export default function InstructorShowcase() {
 
 	// Instructor data with enhanced styling
 	const instructors = [
+		{
+			name: "Gauri Singhal",
+			role: "DSA & Java Lead Instructor",
+			avatar: "/images/dsa_instructor.png",
+			bio:
+				"Intern at YR IT Solution, Celebal Technologies | DSE @ Infosys. Expert in Java, Data Structures, Algorithms, and cracking product coding interviews.",
+			tags: ["Data Structures", "Java", "Algorithms", "Interview Prep"],
+			accent: "from-amber-500 via-orange-500 to-red-500",
+			linkedin: "https://www.linkedin.com/in/gaurisinghal28",
+		},
 		{
 			name: "Vinay Sheoran",
 			role: "Senior Data Science Trainer",
@@ -34,6 +45,7 @@ export default function InstructorShowcase() {
 				"Professional Designer at MAAC with 6+ years of experience in creating user-centric interfaces, visual design systems, and responsive mobile/web UI.",
 			tags: ["UI/UX", "Design Systems", "Wireframing", "User Research"],
 			accent: "from-pink-500 via-rose-500 to-red-500",
+			linkedin: "https://LinkedIn.com/in/isha-uiux",
 		},
 		{
 			name: "Ridham",
@@ -70,15 +82,6 @@ export default function InstructorShowcase() {
 				"Official member of Superteam India and Ex-TA at Coding Ninjas. Learn from industry expert and gain hands-on experience in Web Development.",
 			tags: ["Web Development", "React", "Node.js", "Mentorship"],
 			accent: "from-green-500 via-emerald-500 to-teal-500",
-		},
-		{
-			name: "Gauri Singhal",
-			role: "DSA & Java Lead Instructor",
-			avatar: "/images/Trainer8.jpeg",
-			bio:
-				"Intern at YR IT Solution, Celebal Technologies | DSE @ Infosys. Expert in Java, Data Structures, Algorithms, and cracking product coding interviews.",
-			tags: ["Data Structures", "Java", "Algorithms", "Interview Prep"],
-			accent: "from-amber-500 via-orange-500 to-red-500",
 		},
 	];
 
@@ -212,13 +215,25 @@ export default function InstructorShowcase() {
 									</div>
 									
 									{/* Info */}
-									<div className="text-center mb-4 sm:mb-6">
+									<div className="text-center mb-3 sm:mb-4">
 										<h4 className="font-bold text-gray-900 dark:text-white text-sm sm:text-base lg:text-lg mb-1 transition-colors duration-300">
 											{instructor.name}
 										</h4>
-										<p className={`bg-gradient-to-r ${instructor.accent} bg-clip-text text-transparent font-medium text-xs sm:text-sm mb-3`}>
+										<p className={`bg-gradient-to-r ${instructor.accent} bg-clip-text text-transparent font-medium text-xs sm:text-sm mb-2`}>
 											{instructor.role}
 										</p>
+										{instructor.linkedin && (
+											<a
+												href={instructor.linkedin}
+												target="_blank"
+												rel="noopener noreferrer"
+												onClick={(e) => e.stopPropagation()}
+												className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 hover:bg-blue-600 hover:text-white text-xs font-semibold transition-all shadow-sm"
+											>
+												<Linkedin size={12} />
+												<span>LinkedIn</span>
+											</a>
+										)}
 									</div>
 									
 									{/* Bio content */}

@@ -38,8 +38,8 @@ export default function WhyChooseUs() {
     },
     {
       icon: <Monitor className="w-8 h-8" />,
-      title: "Online & Offline Access",
-      description: "Our platform is available for both online and offline learning, so you can study anytime, anywhere.",
+      title: "100% Online Learning",
+      description: "Our courses are completely online with live interactive sessions, recordings, and projects in Hindi + English.",
       gradient: "from-indigo-500 to-blue-500",
       bgGradient: "from-indigo-50 to-blue-50 dark:from-indigo-900/20 dark:to-blue-900/20",
       borderColor: "border-indigo-200 dark:border-indigo-700"
