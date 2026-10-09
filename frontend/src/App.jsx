@@ -58,11 +58,11 @@ function App() {
   
   return (
     <ThemeProvider>
-      <div className="min-h-screen bg-white dark:bg-gray-900 transition-colors duration-300">
+      <div className="min-h-screen bg-white dark:bg-gray-950 transition-colors duration-300">
         <Router>
           <ScrollToTop />
           <Refreshhandler SetIsAuthenticated={setIsAuthenticated} />
-          <div className="pt-20">
+          <div className="pt-16">
             <Navbar SetisAuthenticated={setIsAuthenticated} />
             
             <Routes>

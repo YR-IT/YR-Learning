@@ -20,10 +20,10 @@ const INSTRUCTORS = {
     email: "gauri@example.com"
   },
   'digital marketing': {
-    name: "Jane Smith",
-    role: "Digital Marketing & SEO Lead",
-    avatar: "/images/trainer1.jpg",
-    bio: "Digital Marketing & SEO strategist with over 8 years of experience scaling organic traffic and marketing funnels.",
+    name: "DivyaRaj Kush",
+    role: "SEO & Digital Marketing Lead",
+    avatar: "/seo_and_marketing_trainer.jpeg",
+    bio: "SEO and Growth Marketing Strategist specializing in search engine optimization, content scaling, and performance marketing.",
     rating: 4.8,
     students: "8,900+",
     courses: 11,
@@ -33,26 +33,26 @@ const INSTRUCTORS = {
       linkedin: "#",
       github: "#"
     },
-    email: "jane@example.com"
+    email: "divyaraj@example.com"
   },
   'graphic designing': {
     name: "Isha",
-    role: "Graphic Design & Video Editing Specialist",
+    role: "UI/UX Design Specialist",
     avatar: "/images/trainer2.jpg",
-    bio: "Professional Designer and Video Editor with 6+ years creating visual branding, Premiere Pro/After Effects pipelines, and UI assets.",
+    bio: "Professional Designer at MAAC with 6+ years creating user-centric interfaces, design systems, and responsive UI.",
     rating: 4.9,
     students: "7,800+",
     courses: 9,
-    expertise: ["Graphic Design", "Video Editing", "Premiere Pro", "After Effects", "Photoshop"],
+    expertise: ["UI/UX", "Figma", "Design Systems", "Wireframing"],
     social: {
       twitter: "#",
-      linkedin: "#",
+      linkedin: "https://LinkedIn.com/in/isha-uiux",
       github: "#"
     },
     email: "isha@example.com"
   },
   'data science': {
-    name: "Vinay Sheoran",
+    name: "Vijay Sheoran",
     role: "Senior Data Science Trainer",
     avatar: "/images/trainer1.jpg",
     bio: "Ex-Data Scientist at Flipkart & Publicis Re:Sources, with 8+ years of expertise in Machine Learning, Artificial Intelligence, and Big Data Analytics.",
@@ -65,7 +65,7 @@ const INSTRUCTORS = {
       linkedin: "#",
       github: "#"
     },
-    email: "vinay@example.com"
+    email: "vijay@example.com"
   },
   'web development': {
     name: "Sumit Kumar",

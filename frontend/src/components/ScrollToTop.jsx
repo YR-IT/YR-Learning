@@ -5,12 +5,7 @@ const ScrollToTop = () => {
   const { pathname } = useLocation();
 
   useEffect(() => {
-    const body = document.body;
-    const html = document.documentElement;
-    const height = Math.max(body.scrollHeight, body.offsetHeight, 
-                           html.clientHeight, html.scrollHeight, html.offsetHeight);
-    window.scrollTo(0, height);
-    window.scrollTo({top: 0, behavior: 'smooth'});
+    window.scrollTo(0, 0);
   }, [pathname]);
 
   return null;

@@ -12,8 +12,12 @@
 .admin-enrollment .text-slate-200,
 .admin-enrollment .text-slate-300 { color: #47554e !important; }
 .admin-enrollment .text-slate-400,
-.admin-enrollment .text-slate-500 { color: #718078 !important; }
-.admin-enrollment .text-slate-600 { color: #87938d !important; }
+.admin-enrollment .text-slate-500,
+.admin-enrollment .text-slate-600 { color: #53605b !important; }
+.admin-enrollment .text-blue-400 { color: #1d4ed8 !important; }
+.admin-enrollment .text-amber-400 { color: #a16207 !important; }
+.admin-enrollment .text-purple-300 { color: #7e22ce !important; }
+.admin-enrollment .text-emerald-300 { color: #047857 !important; }
 .admin-enrollment input.bg-slate-950,
 .admin-enrollment select.bg-slate-950 { color: #26352e !important; }
 .admin-enrollment .bg-slate-800\/40:hover { background-color: #f7faf8 !important; }
@@ -21,7 +25,8 @@
 .admin-enrollment .bg-slate-900 .bg-slate-800\/60 { background-color: #f7faf8 !important; }
 .admin-enrollment .bg-gradient-to-r.from-blue-700 { background-image: linear-gradient(110deg, #16795d, #245b4b) !important; }
 .admin-enrollment .bg-gradient-to-r.from-blue-700 .text-white,
-.admin-enrollment button.text-white { color: #fff !important; }
+.admin-enrollment button.text-white,
+.admin-enrollment .bg-gradient-to-tr .text-white { color: #fff !important; }
 .admin-enrollment .bg-gradient-to-r.from-blue-700 .text-blue-200 { color: #e3f2eb !important; }
 .admin-enrollment .rounded-3xl,
 .admin-enrollment .rounded-2xl { border-radius: 7px !important; }

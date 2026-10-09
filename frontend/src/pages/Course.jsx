@@ -15,7 +15,6 @@ import {
   BookOpen, 
   Download, 
   Share2, 
-  Heart,
   CheckCircle,
   Globe,
   Smartphone,
@@ -37,7 +36,6 @@ export default function Course() {
   const { courseId } = useParams();
   const [course, setCourse] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [isLiked, setIsLiked] = useState(false);
   const [isEnrollModalOpen, setIsEnrollModalOpen] = useState(false);
 
   useEffect(() => {
@@ -47,7 +45,11 @@ export default function Course() {
         let foundCourse = await courseService.getCourseById(courseId);
         if (!foundCourse) {
           const courses = await getCourses();
-          foundCourse = courses.find((c) => String(c._id) === String(courseId) || String(c.id) === String(courseId));
+          foundCourse = courses.find((c) => 
+            String(c._id) === String(courseId) || 
+            String(c.id) === String(courseId) ||
+            (c.slug && String(c.slug).toLowerCase() === String(courseId).toLowerCase())
+          );
         }
 
         if (foundCourse) {
@@ -61,11 +63,6 @@ export default function Course() {
     };
     fetchCourse();
   }, [courseId]);
-
-  const handleLike = () => {
-    setIsLiked(!isLiked);
-    toast.success(isLiked ? "Removed from wishlist" : "Added to wishlist!");
-  };
 
   const handleShare = () => {
     if (navigator.share) {
@@ -81,7 +78,7 @@ export default function Course() {
   };
 
   if (loading) return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 flex items-center justify-center">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-gray-950 dark:via-gray-900 dark:to-gray-950 flex items-center justify-center">
       <div className="text-center">
         <motion.div 
           className="w-16 h-16 border-4 border-blue-600 border-t-transparent rounded-full mx-auto mb-4"
@@ -94,7 +91,7 @@ export default function Course() {
   );
   
   if (!course) return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 flex items-center justify-center">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-gray-950 dark:via-gray-900 dark:to-gray-950 flex items-center justify-center">
       <div className="text-center">
         <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">Course not found</h2>
         <p className="text-gray-600 dark:text-gray-300">The course you're looking for doesn't exist.</p>
@@ -116,13 +113,22 @@ export default function Course() {
     { icon: Monitor, title: "Mode", value: course.mode || "100% Online", color: "text-emerald-500" }
   ];
 
+  const courseImage = course.image || course.thumbnail;
+  const courseImageUrl = courseImage
+    ? (/^(data:|https?:\/\/|\/)/.test(courseImage)
+      ? courseImage
+      : `data:image/jpeg;base64,${courseImage}`)
+    : "/images/Digital-Marketing.jpg";
 
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-gray-950 dark:via-gray-900 dark:to-gray-950">
       {/* Hero Section */}
-      <div className="relative overflow-hidden bg-gradient-to-r from-blue-900 via-purple-900 to-indigo-900 dark:from-gray-900 dark:via-blue-900 dark:to-purple-900">
-        <div className="absolute inset-0 bg-black/20"></div>
+      <div
+        className="relative overflow-hidden bg-cover bg-center"
+        style={{ backgroundImage: `url("${courseImageUrl}")` }}
+      >
+        <div className="absolute inset-0 bg-gradient-to-r from-gray-950/95 via-gray-950/85 to-gray-950/70"></div>
         <div className="absolute inset-0">
           <div className="absolute top-0 left-0 w-72 h-72 bg-blue-500/30 rounded-full mix-blend-multiply filter blur-xl animate-pulse"></div>
           <div className="absolute top-0 right-0 w-72 h-72 bg-purple-500/30 rounded-full mix-blend-multiply filter blur-xl animate-pulse" style={{ animationDelay: '2s' }}></div>
@@ -141,7 +147,10 @@ export default function Course() {
                   ⭐ {course.badge || "Bestseller"}
                 </span>
                 <span className="bg-emerald-600/90 text-white px-3 py-1 rounded-full text-sm font-semibold flex items-center gap-1 shadow-sm">
-                  🌐 100% Online
+                  🌐 Online
+                </span>
+                <span className="bg-sky-600/90 text-white px-3 py-1 rounded-full text-sm font-semibold flex items-center gap-1 shadow-sm">
+                  🏫 Offline
                 </span>
                 <span className="bg-indigo-600/90 text-white px-3 py-1 rounded-full text-sm font-semibold flex items-center gap-1 shadow-sm">
                   🗣️ Hindi + English
@@ -191,20 +200,6 @@ export default function Course() {
                 </motion.button>
                 
                 <motion.button
-                  onClick={handleLike}
-                  className={`px-6 py-4 rounded-xl font-semibold transition-all duration-300 flex items-center gap-2 ${
-                    isLiked 
-                      ? "bg-red-500 text-white" 
-                      : "bg-white/20 backdrop-blur-sm text-white hover:bg-white/30"
-                  }`}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  <Heart className={`w-5 h-5 ${isLiked ? 'fill-current' : ''}`} />
-                  {isLiked ? 'Saved' : 'Save'}
-                </motion.button>
-                
-                <motion.button
                   onClick={handleShare}
                   className="bg-white/20 backdrop-blur-sm text-white hover:bg-white/30 px-6 py-4 rounded-xl font-semibold transition-all duration-300 flex items-center gap-2"
                   whileHover={{ scale: 1.05 }}
@@ -224,11 +219,7 @@ export default function Course() {
             >
               <div className="relative rounded-2xl overflow-hidden shadow-2xl">
                 <img
-                  src={course.image || course.thumbnail
-                    ? (/^(data:|https?:\/\/|\/)/.test(course.image || course.thumbnail)
-                      ? course.image || course.thumbnail
-                      : `data:image/jpeg;base64,${course.image || course.thumbnail}`)
-                    : "/images/Digital-Marketing.jpg"}
+                  src={courseImageUrl}
                   alt={course.title}
                   className="w-full h-80 object-cover"
                 />
@@ -256,7 +247,7 @@ export default function Course() {
               >
                 <div className="flex items-center gap-2">
                   <Zap className="w-5 h-5 text-blue-500" />
-                  <span className="font-semibold text-gray-900 dark:text-white">Updated 2024</span>
+                  <span className="font-semibold text-gray-900 dark:text-white">Updated 2026</span>
                 </div>
               </motion.div>
             </motion.div>
@@ -332,7 +323,7 @@ export default function Course() {
                   Meet Your Instructor
                 </h2>
               </div>
-              <InstructorComponent courseTitle={course.title} />
+              <InstructorComponent courseTitle={course.title} instructor={course.instructor} />
             </section>
 
             {/* Reviews Section */}

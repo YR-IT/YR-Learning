@@ -95,7 +95,7 @@ export default function FloatingChatbot() {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.85, y: 30 }}
             transition={{ duration: 0.25, ease: 'easeOut' }}
-            className="mb-3 w-[360px] sm:w-[420px] max-h-[580px] h-[520px] bg-slate-900/95 backdrop-blur-2xl border border-slate-700/80 rounded-3xl shadow-2xl flex flex-col overflow-hidden text-white"
+            className="mb-3 w-[360px] sm:w-[420px] max-h-[580px] h-[520px] bg-white/95 backdrop-blur-2xl border border-slate-200 rounded-3xl shadow-2xl flex flex-col overflow-hidden text-slate-900 dark:bg-slate-900/95 dark:border-slate-700/80 dark:text-white"
           >
             {/* Header */}
             <div className="bg-gradient-to-r from-blue-700 via-indigo-700 to-purple-800 p-4 flex items-center justify-between shadow-md">
@@ -148,12 +148,12 @@ export default function FloatingChatbot() {
             </div>
 
             {/* Quick Prompts Bar */}
-            <div className="px-3 py-2 bg-slate-950/60 border-b border-slate-800/80 flex items-center gap-2 overflow-x-auto no-scrollbar">
+            <div className="px-3 py-2 bg-slate-100/90 border-b border-slate-200 flex items-center gap-2 overflow-x-auto no-scrollbar dark:bg-slate-950/60 dark:border-slate-800/80">
               {quickPrompts.map((prompt, i) => (
                 <button
                   key={i}
                   onClick={() => handleSend(prompt)}
-                  className="whitespace-nowrap px-2.5 py-1 rounded-full text-[11px] font-medium bg-slate-800/90 hover:bg-indigo-600/80 text-slate-300 hover:text-white border border-slate-700 hover:border-indigo-400 transition-all"
+                  className="whitespace-nowrap px-2.5 py-1 rounded-full text-[11px] font-medium bg-white hover:bg-indigo-600/80 text-slate-700 hover:text-white border border-slate-300 hover:border-indigo-400 transition-all dark:bg-slate-800/90 dark:text-slate-300 dark:border-slate-700"
                 >
                   {prompt}
                 </button>
@@ -171,19 +171,19 @@ export default function FloatingChatbot() {
                     className={`max-w-[85%] rounded-2xl px-3.5 py-2.5 text-xs sm:text-sm leading-relaxed whitespace-pre-wrap ${
                       msg.sender === 'user'
                         ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-br-none shadow-md'
-                        : 'bg-slate-800 border border-slate-700 text-slate-200 rounded-bl-none shadow-sm'
+                        : 'bg-slate-100 border border-slate-200 text-slate-800 rounded-bl-none shadow-sm dark:bg-slate-800 dark:border-slate-700 dark:text-slate-200'
                     }`}
                   >
                     {msg.text}
                   </div>
-                  <span className="text-[10px] text-slate-500 mt-1 px-1">
+                  <span className="text-[10px] text-slate-600 mt-1 px-1 dark:text-slate-500">
                     {msg.time}
                   </span>
                 </div>
               ))}
 
               {loading && (
-                <div className="flex items-center gap-2 text-slate-400 text-xs bg-slate-800/70 border border-slate-700/60 rounded-2xl px-3 py-2 w-fit">
+                <div className="flex items-center gap-2 text-slate-600 text-xs bg-slate-100 border border-slate-200 rounded-2xl px-3 py-2 w-fit dark:text-slate-400 dark:bg-slate-800/70 dark:border-slate-700/60">
                   <div className="w-2 h-2 rounded-full bg-blue-400 animate-bounce" />
                   <div className="w-2 h-2 rounded-full bg-purple-400 animate-bounce" style={{ animationDelay: '0.15s' }} />
                   <div className="w-2 h-2 rounded-full bg-indigo-400 animate-bounce" style={{ animationDelay: '0.3s' }} />
@@ -194,15 +194,15 @@ export default function FloatingChatbot() {
             </div>
 
             {/* Input Bar */}
-            <div className="p-3 bg-slate-950/80 border-t border-slate-800">
-              <div className="flex items-center gap-2 bg-slate-900 border border-slate-700/80 rounded-2xl px-3 py-1.5 focus-within:border-indigo-500 focus-within:ring-1 focus-within:ring-indigo-500">
+            <div className="p-3 bg-slate-50 border-t border-slate-200 dark:bg-slate-950/80 dark:border-slate-800">
+              <div className="flex items-center gap-2 bg-white border border-slate-300 rounded-2xl px-3 py-1.5 focus-within:border-indigo-500 focus-within:ring-1 focus-within:ring-indigo-500 dark:bg-slate-900 dark:border-slate-700/80">
                 <input
                   type="text"
                   placeholder="Ask anything about our courses or coding..."
                   value={inputVal}
                   onChange={(e) => setInputVal(e.target.value)}
                   onKeyDown={handleKeyDown}
-                  className="flex-1 bg-transparent text-xs text-white placeholder-slate-400 focus:outline-none py-1.5"
+                  className="flex-1 bg-transparent text-xs text-slate-900 placeholder-slate-500 focus:outline-none py-1.5 dark:text-white dark:placeholder-slate-400"
                 />
                 <button
                   onClick={() => handleSend()}
@@ -214,14 +214,14 @@ export default function FloatingChatbot() {
               </div>
 
               {/* Bottom Footer Info */}
-              <div className="mt-2 flex items-center justify-between text-[11px] text-slate-400 px-1">
+              <div className="mt-2 flex items-center justify-between text-[11px] text-slate-600 px-1 dark:text-slate-400">
                 <span>Looking for the full workspace?</span>
                 <button
                   onClick={() => {
                     setIsOpen(false);
                     navigate('/chatbot');
                   }}
-                  className="text-indigo-400 hover:text-indigo-300 font-semibold flex items-center gap-0.5"
+                  className="text-indigo-700 hover:text-indigo-600 font-semibold flex items-center gap-0.5 dark:text-indigo-400 dark:hover:text-indigo-300"
                 >
                   Full AI Studio <ArrowRight size={11} />
                 </button>

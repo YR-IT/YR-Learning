@@ -29,9 +29,11 @@ import {
 import { useState, useEffect } from "react";
 import { getCourses } from "../data/courses";
 import InstructorShowcase from "../components/InstructorShowcase";
+import { useTheme } from "../contexts/ThemeContext";
 
 export default function About() {
   const navigate = useNavigate();
+  const { theme } = useTheme();
   const [activeFeature, setActiveFeature] = useState(0);
   const [courses, setCourses] = useState([]);
   const [instructors, setInstructors] = useState([]);
@@ -145,7 +147,7 @@ export default function About() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 relative overflow-hidden transition-colors duration-300">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-gray-950 dark:via-gray-900 dark:to-gray-950 relative overflow-hidden transition-colors duration-300">
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-20 dark:opacity-10">
         <div className="absolute top-0 left-0 w-48 sm:w-64 md:w-80 lg:w-96 h-48 sm:h-64 md:h-80 lg:h-96 bg-gradient-to-br from-blue-400 to-purple-400 dark:from-blue-600 dark:to-purple-600 rounded-full mix-blend-multiply filter blur-xl animate-pulse"></div>
@@ -155,7 +157,7 @@ export default function About() {
 
       {/* Geometric Shapes */}
       <div className="absolute inset-0 opacity-10 dark:opacity-5">
-        <motion.div 
+        <motion.div
           className="absolute top-10 sm:top-20 left-4 sm:left-10 w-16 sm:w-24 lg:w-32 h-16 sm:h-24 lg:h-32 border-2 border-blue-300 dark:border-blue-600 rounded-full"
           animate={{ rotate: 360 }}
           transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
@@ -172,24 +174,24 @@ export default function About() {
         />
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-12 relative z-10">
-        {/* Hero Section */}
-        <motion.div 
-          ref={heroRef}
-          className="text-center mb-12 sm:mb-16 lg:mb-20 relative"
-          style={{ y }}
-          initial={{ opacity: 0, y: 50 }}
-          animate={heroInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8 }}
-        >
+      {/* Hero Section */}
+      <motion.div
+        ref={heroRef}
+        className="relative z-10 mb-0 flex min-h-[92vh] sm:min-h-[96vh] w-full flex-col items-center justify-center overflow-hidden bg-cover bg-center px-4 py-24 sm:py-32 text-center transition-all duration-500"
+        style={{ y, backgroundImage: `url('/images/${theme === 'dark' ? 'webdev-workspace.jpg' : 'webdev-workspace-light.jpg'}')` }}
+        initial={{ opacity: 0, y: 50 }}
+        animate={heroInView ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.8 }}
+      >
+          <div className="absolute inset-0 bg-white/10 dark:bg-gray-950/50 transition-colors duration-500 pointer-events-none" />
           <motion.div
-            className="absolute top-4 sm:top-10 left-4 sm:left-10 w-12 sm:w-16 lg:w-20 h-12 sm:h-16 lg:h-20 bg-gradient-to-r from-blue-400 to-purple-400 dark:from-blue-500 dark:to-purple-500 rounded-full opacity-60"
+            className="absolute top-4 left-4 z-0 h-12 w-12 rounded-full bg-gradient-to-r from-blue-400 to-purple-400 opacity-60 sm:top-10 sm:left-10 sm:h-16 sm:w-16 lg:h-20 lg:w-20"
             animate={{ y: [0, -20, 0], rotate: [0, 180, 360] }}
             transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
           />
           
           <motion.h1 
-            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-4 sm:mb-6 bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 dark:from-blue-400 dark:via-purple-400 dark:to-indigo-400 bg-clip-text text-transparent leading-tight pb-2 sm:pb-3"
+            className="relative z-10 mb-4 bg-gradient-to-r from-blue-700 via-purple-700 to-indigo-700 dark:from-blue-300 dark:via-purple-300 dark:to-indigo-200 bg-clip-text pb-2 text-3xl font-bold leading-tight text-transparent sm:mb-6 sm:pb-3 sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl drop-shadow-sm"
             initial={{ scale: 0.5, opacity: 0 }}
             animate={heroInView ? { scale: 1, opacity: 1 } : {}}
             transition={{ duration: 0.8, delay: 0.2 }}
@@ -198,7 +200,7 @@ export default function About() {
           </motion.h1>
           
           <motion.p 
-            className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-700 dark:text-gray-300 mb-6 sm:mb-8 max-w-2xl mx-auto leading-relaxed px-2 sm:px-4"
+            className="relative z-10 mb-6 max-w-2xl px-2 text-sm leading-relaxed text-gray-900 dark:text-gray-100 sm:mb-8 sm:px-4 sm:text-base md:text-lg lg:text-xl font-medium drop-shadow-sm"
             initial={{ y: 30, opacity: 0 }}
             animate={heroInView ? { y: 0, opacity: 1 } : {}}
             transition={{ duration: 0.8, delay: 0.4 }}
@@ -208,26 +210,27 @@ export default function About() {
           </motion.p>
 
           <motion.div
-            className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 mb-8 sm:mb-12 px-2 w-full"
+            className="relative z-10 mb-8 flex w-full flex-col items-center justify-center gap-3 px-2 sm:mb-10 sm:flex-row sm:gap-4"
             initial={{ y: 30, opacity: 0 }}
             animate={heroInView ? { y: 0, opacity: 1 } : {}}
             transition={{ duration: 0.8, delay: 0.6 }}
           >
-            <div className="flex items-center justify-center space-x-2 bg-white/80 dark:bg-gray-800 backdrop-blur-sm rounded-full px-4 sm:px-6 py-2 sm:py-3 shadow-lg w-full sm:w-auto max-w-xs sm:max-w-none">
+            <div className="flex w-full max-w-xs items-center justify-center space-x-2 rounded-full border border-gray-200/80 dark:border-transparent bg-white/85 dark:bg-gray-900/75 px-4 py-2 shadow-lg backdrop-blur-md sm:w-auto sm:max-w-none sm:px-6 sm:py-3 transition-colors duration-300">
               <Award className="text-yellow-500 flex-shrink-0" size={16} />
-              <span className="font-semibold text-gray-700 dark:text-gray-300 text-sm sm:text-base text-center">Award-Winning Platform</span>
+              <span className="text-center text-sm font-semibold text-gray-800 dark:text-white sm:text-base">Award-Winning Platform</span>
             </div>
-            <div className="flex items-center justify-center space-x-2 bg-white/80 dark:bg-gray-800 backdrop-blur-sm rounded-full px-4 sm:px-6 py-2 sm:py-3 shadow-lg w-full sm:w-auto max-w-xs sm:max-w-none">
+            <div className="flex w-full max-w-xs items-center justify-center space-x-2 rounded-full border border-gray-200/80 dark:border-transparent bg-white/85 dark:bg-gray-900/75 px-4 py-2 shadow-lg backdrop-blur-md sm:w-auto sm:max-w-none sm:px-6 sm:py-3 transition-colors duration-300">
               <Users className="text-blue-500 flex-shrink-0" size={16} />
-              <span className="font-semibold text-gray-700 dark:text-gray-300 text-sm sm:text-base text-center">10K+ Active Learners</span>
+              <span className="text-center text-sm font-semibold text-gray-800 dark:text-white sm:text-base">10K+ Active Learners</span>
             </div>
-            <div className="flex items-center justify-center space-x-2 bg-white/80 dark:bg-gray-800 backdrop-blur-sm rounded-full px-4 sm:px-6 py-2 sm:py-3 shadow-lg w-full sm:w-auto max-w-xs sm:max-w-none">
+            <div className="flex w-full max-w-xs items-center justify-center space-x-2 rounded-full border border-gray-200/80 dark:border-transparent bg-white/85 dark:bg-gray-900/75 px-4 py-2 shadow-lg backdrop-blur-md sm:w-auto sm:max-w-none sm:px-6 sm:py-3 transition-colors duration-300">
               <Star className="text-purple-500 flex-shrink-0" size={16} />
-              <span className="font-semibold text-gray-700 dark:text-gray-300 text-sm sm:text-base text-center">4.9/5 Rating</span>
+              <span className="text-center text-sm font-semibold text-gray-800 dark:text-white sm:text-base">4.9/5 Rating</span>
             </div>
           </motion.div>
-        </motion.div>
+      </motion.div>
 
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-0 pb-6 sm:pt-2 sm:pb-8 lg:pt-3 lg:pb-12 -mt-6 sm:-mt-10 lg:-mt-14 relative z-10">
         {/* Stats Section */}
         <motion.div 
           ref={statsRef}

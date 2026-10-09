@@ -106,7 +106,7 @@ export default function Navbar({ SetisAuthenticated }) {
   };
 
   const handleCourseClick = (course) => {
-    navigate(`/course/${course._id}`);
+    navigate(`/course/${course.slug || course._id}`);
     setSearchTerm("");
     setIsSearchOpen(false);
     setSearchResults([]);

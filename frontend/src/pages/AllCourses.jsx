@@ -91,7 +91,7 @@ export default function AllCourses() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 relative overflow-hidden transition-colors duration-300">
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-gray-950 dark:via-gray-900 dark:to-gray-950 relative overflow-hidden transition-colors duration-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 relative z-10">
           <div className="text-center">
             <div className="text-4xl mb-4">📚</div>
@@ -104,7 +104,7 @@ export default function AllCourses() {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 relative overflow-hidden transition-colors duration-300">
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-gray-950 dark:via-gray-900 dark:to-gray-950 relative overflow-hidden transition-colors duration-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 relative z-10">
           <div className="flex items-center justify-center min-h-[60vh]">
             <motion.div
@@ -129,7 +129,7 @@ export default function AllCourses() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 relative overflow-hidden transition-colors duration-300">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-gray-950 dark:via-gray-900 dark:to-gray-950 relative overflow-hidden transition-colors duration-300">
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-20 dark:opacity-10">
         <div className="absolute top-0 left-0 w-96 h-96 bg-gradient-to-br from-blue-400 to-purple-400 dark:from-blue-600 dark:to-purple-600 rounded-full mix-blend-multiply filter blur-xl animate-pulse"></div>
@@ -220,7 +220,7 @@ export default function AllCourses() {
         <motion.div 
           className={`grid gap-4 sm:gap-6 lg:gap-8 mb-8 sm:mb-12 items-stretch ${
             viewMode === 'grid' 
-              ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4' 
+              ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3'
               : 'grid-cols-1'
           }`}
           initial={{ opacity: 0 }}
@@ -261,10 +261,12 @@ export default function AllCourses() {
               >
                 <CourseCard 
                   course={course.title}
-                  id={course._id}
+                  id={course.slug || course._id}
+                  slug={course.slug}
                   courseImage={course.image || course.thumbnail}
                   price={course.price}
                   description={course.description}
+                  rating={course.rating}
                   instructor={course.instructor}
                   category={course.category}
                   isActive={activeCard === course._id}

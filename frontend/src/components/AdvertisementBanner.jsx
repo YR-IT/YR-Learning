@@ -17,7 +17,7 @@ export default function AdvertisementBanner() {
         title: course.title,
         description: course.description,
         button: `View ${course.title}`,
-        link: `/course/${course._id || course.id}`,
+        link: `/course/${course.slug || course._id || course.id}`,
         image: course.image || (course.thumbnail ? `data:image/jpeg;base64,${course.thumbnail}` : '/images/webdev-workspace.jpg'),
         price: course.price,
         category: course.category,

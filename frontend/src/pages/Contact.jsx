@@ -9,7 +9,6 @@ import {
   CheckCircle,
   MessageSquare,
   User,
-  Sparkles,
   HelpCircle,
   ArrowRight,
   BookOpen,
@@ -21,13 +20,15 @@ import {
 import { Link } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { sendContactEmail } from '../services/emailService';
+import { useTheme } from '../contexts/ThemeContext';
 
 export default function Contact() {
+  const { theme } = useTheme();
   const initialForm = {
     name: '',
     email: '',
     phone: '',
-    subject: 'Course Inquiry',
+    subject: 'Courses',
     message: '',
   };
 
@@ -37,7 +38,7 @@ export default function Contact() {
   const [openFaq, setOpenFaq] = useState(0);
 
   const subjectOptions = [
-    'Course Inquiry',
+    'Courses',
     'Enrollment Assistance',
     'Corporate & College Training',
     'Syllabus & Learning Roadmap',
@@ -94,7 +95,7 @@ export default function Contact() {
     {
       question: 'Are the training batches online or offline?',
       answer:
-        'All our courses are completely online with live interactive sessions, class recordings, hands-on project repositories, and 1-on-1 mentor support in Hindi + English.',
+        'Courses are available in both online and offline modes. Contact our team to confirm the available mode, batch schedule, and location for your course.',
     },
     {
       question: 'Do you offer college discounts or coupon codes?',
@@ -125,9 +126,11 @@ export default function Contact() {
       setSubmitting(true);
       const res = await sendContactEmail(formData);
 
-      if (res.success || res.simulated) {
+      if (res.success) {
         setIsSuccess(true);
         toast.success('Your message has been sent successfully!');
+      } else if (res.simulated) {
+        toast.error('The contact form is not configured yet. Please email us directly or contact us on WhatsApp.');
       } else {
         toast.error('Could not send message. Please try again or reach out on WhatsApp.');
       }
@@ -140,7 +143,7 @@ export default function Contact() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 transition-colors duration-300 relative overflow-hidden">
+    <div className="min-h-screen bg-slate-50 text-slate-900 transition-colors duration-300 relative overflow-hidden dark:bg-slate-950 dark:text-slate-100">
       {/* Background Glows and Decorative Orbs */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-[600px] pointer-events-none -z-0">
         <div className="absolute top-10 left-10 w-96 h-96 bg-blue-600/15 rounded-full blur-3xl animate-pulse" />
@@ -148,32 +151,20 @@ export default function Contact() {
         <div className="absolute top-64 left-1/3 w-80 h-80 bg-indigo-600/10 rounded-full blur-3xl" />
       </div>
 
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-20">
+      <div className="relative z-10">
         {/* Header Hero Section */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="text-center max-w-3xl mx-auto mb-16"
+          className="relative mb-16 flex min-h-[75vh] w-full flex-col items-center justify-center overflow-hidden bg-cover bg-center px-4 py-20 text-center transition-all duration-500"
+          style={{ backgroundImage: `url('/images/${theme === 'dark' ? 'contactUs.png' : 'contactUs-light.png'}')` }}
         >
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-gradient-to-r from-blue-500/10 via-indigo-500/10 to-purple-500/10 border border-indigo-500/30 text-indigo-300 text-xs font-semibold mb-4 shadow-sm backdrop-blur-md">
-            <Sparkles size={14} className="text-yellow-400" />
-            <span>Connect with YR Learning Team</span>
-          </div>
-
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight">
-            We’d Love to{' '}
-            <span className="bg-gradient-to-r from-blue-400 via-indigo-300 to-purple-400 bg-clip-text text-transparent">
-              Hear From You
-            </span>
-          </h1>
-
-          <p className="mt-4 text-base sm:text-lg text-slate-400 leading-relaxed font-normal">
-            Have questions about our developer bootcamps, syllabi, batch timings, or corporate workshops?
-            Reach out directly and our mentors will guide you every step of the way.
-          </p>
+          <div className="absolute inset-0 bg-white/5 dark:bg-gray-950/40 transition-colors duration-500 pointer-events-none" />
         </motion.div>
+      </div>
 
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
         {/* 4 Cards Grid - Quick Contact Channels */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-16">
           {contactCards.map((card, idx) => {
@@ -185,7 +176,7 @@ export default function Contact() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: idx * 0.1 }}
                 whileHover={{ y: -4 }}
-                className="bg-slate-900/80 backdrop-blur-xl border border-slate-800 rounded-2xl p-6 shadow-xl flex flex-col justify-between hover:border-indigo-500/50 transition-all group"
+                className="bg-white border border-slate-200 rounded-2xl p-6 shadow-lg flex flex-col justify-between hover:border-indigo-300 transition-all group dark:bg-slate-900/80 dark:border-slate-800 dark:hover:border-indigo-500/50"
               >
                 <div>
                   <div
@@ -193,23 +184,23 @@ export default function Contact() {
                   >
                     <Icon size={22} />
                   </div>
-                  <h3 className="text-xs uppercase font-bold tracking-wider text-slate-400 mb-1">
+                  <h3 className="text-xs uppercase font-bold tracking-wider text-slate-500 dark:text-slate-400 mb-1">
                     {card.title}
                   </h3>
-                  <p className="text-base font-semibold text-white break-words">
+                  <p className="text-base font-semibold text-slate-900 dark:text-white break-words">
                     {card.value}
                   </p>
-                  <p className="text-xs text-slate-400 mt-1 leading-relaxed">
+                  <p className="text-xs text-slate-600 dark:text-slate-400 mt-1 leading-relaxed">
                     {card.subtext}
                   </p>
                 </div>
 
-                <div className="pt-5 mt-4 border-t border-slate-800/80 flex items-center gap-2">
+                <div className="pt-5 mt-4 border-t border-slate-200 dark:border-slate-800/80 flex items-center gap-2">
                   <a
                     href={card.actionUrl}
                     target={card.actionUrl.startsWith('http') ? '_blank' : '_self'}
                     rel="noopener noreferrer"
-                    className="text-xs font-semibold text-indigo-400 hover:text-indigo-300 inline-flex items-center gap-1 transition-colors"
+                    className="text-xs font-semibold text-indigo-700 dark:text-indigo-400 hover:text-indigo-600 dark:hover:text-indigo-300 inline-flex items-center gap-1 transition-colors"
                   >
                     {card.actionLabel}
                     <ArrowRight size={13} />
@@ -238,19 +229,19 @@ export default function Contact() {
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
-            className="lg:col-span-7 bg-slate-900/90 backdrop-blur-2xl border border-slate-800 rounded-3xl p-6 sm:p-10 shadow-2xl relative"
+            className="lg:col-span-7 bg-white border border-slate-200 rounded-3xl p-6 sm:p-10 shadow-xl relative dark:bg-slate-900/90 dark:border-slate-800"
           >
-            <div className="flex items-center justify-between mb-6 pb-4 border-b border-slate-800">
+            <div className="flex items-center justify-between mb-6 pb-4 border-b border-slate-200 dark:border-slate-800">
               <div>
-                <h2 className="text-xl sm:text-2xl font-bold text-white flex items-center gap-2.5">
-                  <MessageSquare className="text-indigo-400" size={24} />
+                <h2 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white flex items-center gap-2.5">
+                  <MessageSquare className="text-indigo-600 dark:text-indigo-400" size={24} />
                   Send an Inquiry
                 </h2>
-                <p className="text-xs sm:text-sm text-slate-400 mt-1">
+                <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mt-1">
                   Fill in your details and we’ll get back to you via email or phone.
                 </p>
               </div>
-              <span className="px-3 py-1 rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/20 text-xs font-medium hidden sm:inline-block">
+              <span className="px-3 py-1 rounded-full bg-blue-500/10 text-blue-700 border border-blue-500/20 text-xs font-medium hidden sm:inline-block dark:text-blue-400">
                 EmailJS Powered
               </span>
             </div>
@@ -264,12 +255,12 @@ export default function Contact() {
                 <div className="w-16 h-16 rounded-full bg-emerald-500/20 border-2 border-emerald-500 text-emerald-400 flex items-center justify-center mx-auto shadow-lg shadow-emerald-500/20">
                   <CheckCircle size={36} />
                 </div>
-                <h3 className="text-2xl font-bold text-white">Thank You for Connecting!</h3>
-                <p className="text-sm text-slate-300 max-w-md mx-auto">
+                <h3 className="text-2xl font-bold text-slate-900 dark:text-white">Thank You for Connecting!</h3>
+                <p className="text-sm text-slate-700 dark:text-slate-300 max-w-md mx-auto">
                   We have received your message regarding{' '}
-                  <span className="text-indigo-400 font-semibold">{formData.subject}</span>. Our team
+                  <span className="text-indigo-700 dark:text-indigo-400 font-semibold">{formData.subject}</span>. Our team
                   will review your inquiry and reach out to{' '}
-                  <span className="text-white font-semibold">{formData.email}</span> shortly.
+                  <span className="text-slate-900 dark:text-white font-semibold">{formData.email}</span> shortly.
                 </p>
                 <div className="pt-4 flex justify-center gap-3">
                   <button
@@ -277,7 +268,7 @@ export default function Contact() {
                       setIsSuccess(false);
                       setFormData(initialForm);
                     }}
-                    className="px-6 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-semibold text-slate-200 transition-colors"
+                    className="px-6 py-2.5 rounded-xl bg-slate-200 hover:bg-slate-300 text-xs font-semibold text-slate-800 transition-colors dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-slate-200"
                   >
                     Send Another Message
                   </button>
@@ -294,11 +285,11 @@ export default function Contact() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {/* Name */}
                   <div>
-                    <label className="block text-xs font-semibold text-slate-300 mb-1.5">
+                    <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
                       Your Full Name <span className="text-rose-400">*</span>
                     </label>
                     <div className="relative">
-                      <User className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500" size={16} />
+                      <User className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500 dark:text-slate-500" size={16} />
                       <input
                         type="text"
                         name="name"
@@ -306,14 +297,14 @@ export default function Contact() {
                         placeholder="e.g. Rahul Sharma"
                         value={formData.name}
                         onChange={handleChange}
-                        className="w-full bg-slate-950 border border-slate-800 rounded-xl pl-10 pr-4 py-3 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all"
+                        className="w-full bg-white border border-slate-300 rounded-xl pl-10 pr-4 py-3 text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all dark:bg-slate-950 dark:border-slate-800 dark:text-white dark:placeholder-slate-500"
                       />
                     </div>
                   </div>
 
                   {/* Email */}
                   <div>
-                    <label className="block text-xs font-semibold text-slate-300 mb-1.5">
+                    <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
                       Email Address <span className="text-rose-400">*</span>
                     </label>
                     <div className="relative">
@@ -325,7 +316,7 @@ export default function Contact() {
                         placeholder="e.g. rahul@example.com"
                         value={formData.email}
                         onChange={handleChange}
-                        className="w-full bg-slate-950 border border-slate-800 rounded-xl pl-10 pr-4 py-3 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all"
+                        className="w-full bg-white border border-slate-300 rounded-xl pl-10 pr-4 py-3 text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all dark:bg-slate-950 dark:border-slate-800 dark:text-white dark:placeholder-slate-500"
                       />
                     </div>
                   </div>
@@ -334,7 +325,7 @@ export default function Contact() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {/* Phone */}
                   <div>
-                    <label className="block text-xs font-semibold text-slate-300 mb-1.5">
+                    <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
                       Phone Number <span className="text-slate-500 text-[11px]">(Optional)</span>
                     </label>
                     <div className="relative">
@@ -345,24 +336,24 @@ export default function Contact() {
                         placeholder="e.g. +91 98765 43210"
                         value={formData.phone}
                         onChange={handleChange}
-                        className="w-full bg-slate-950 border border-slate-800 rounded-xl pl-10 pr-4 py-3 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all"
+                        className="w-full bg-white border border-slate-300 rounded-xl pl-10 pr-4 py-3 text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all dark:bg-slate-950 dark:border-slate-800 dark:text-white dark:placeholder-slate-500"
                       />
                     </div>
                   </div>
 
                   {/* Subject Topic */}
                   <div>
-                    <label className="block text-xs font-semibold text-slate-300 mb-1.5">
+                    <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
                       Topic / Subject <span className="text-rose-400">*</span>
                     </label>
                     <select
                       name="subject"
                       value={formData.subject}
                       onChange={handleChange}
-                      className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-3 text-sm text-white focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all"
+                      className="w-full bg-white border border-slate-300 rounded-xl px-3.5 py-3 text-sm text-slate-900 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all dark:bg-slate-950 dark:border-slate-800 dark:text-white"
                     >
                       {subjectOptions.map((subj, i) => (
-                        <option key={i} value={subj} className="bg-slate-900 text-white">
+                        <option key={i} value={subj} className="bg-white text-slate-900 dark:bg-slate-900 dark:text-white">
                           {subj}
                         </option>
                       ))}
@@ -372,7 +363,7 @@ export default function Contact() {
 
                 {/* Message */}
                 <div>
-                  <label className="block text-xs font-semibold text-slate-300 mb-1.5">
+                  <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
                     Your Message / Question <span className="text-rose-400">*</span>
                   </label>
                   <textarea
@@ -382,7 +373,7 @@ export default function Contact() {
                     placeholder="Tell us what you're looking for, which course interests you, or how we can help..."
                     value={formData.message}
                     onChange={handleChange}
-                    className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all resize-none"
+                    className="w-full bg-white border border-slate-300 rounded-xl px-4 py-3 text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all resize-none dark:bg-slate-950 dark:border-slate-800 dark:text-white dark:placeholder-slate-500"
                   />
                 </div>
 
@@ -418,17 +409,17 @@ export default function Contact() {
             className="lg:col-span-5 space-y-6"
           >
             {/* Direct Enroll Banner */}
-            <div className="bg-gradient-to-br from-indigo-900/60 via-purple-900/40 to-slate-900/80 border border-indigo-500/30 rounded-3xl p-6 sm:p-7 shadow-xl">
+            <div className="bg-gradient-to-br from-indigo-50 via-purple-50 to-white border border-indigo-200 rounded-3xl p-6 sm:p-7 shadow-xl dark:from-indigo-900/60 dark:via-purple-900/40 dark:to-slate-900/80 dark:border-indigo-500/30">
               <div className="flex items-center gap-3 mb-3">
-                <div className="p-2.5 rounded-xl bg-yellow-400/20 text-yellow-300 border border-yellow-400/30">
+                <div className="p-2.5 rounded-xl bg-yellow-100 text-yellow-800 border border-yellow-300 dark:bg-yellow-400/20 dark:text-yellow-300 dark:border-yellow-400/30">
                   <GraduationCap size={22} />
                 </div>
                 <div>
-                  <h3 className="text-base font-bold text-white">Ready to Start Learning?</h3>
-                  <p className="text-xs text-indigo-200">Official Admissions are open for upcoming batches</p>
+                  <h3 className="text-base font-bold text-slate-900 dark:text-white">Ready to Start Learning?</h3>
+                  <p className="text-xs text-indigo-700 dark:text-indigo-200">Official Admissions are open for upcoming batches</p>
                 </div>
               </div>
-              <p className="text-xs text-slate-300 leading-relaxed mb-4">
+              <p className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed mb-4">
                 Skip general inquiries and submit your student admission application directly to secure your seat.
               </p>
               <Link
@@ -441,19 +432,19 @@ export default function Contact() {
             </div>
 
             {/* Why Reach Out Highlights */}
-            <div className="bg-slate-900/90 backdrop-blur-xl border border-slate-800 rounded-3xl p-6 sm:p-7 shadow-xl space-y-4">
-              <h3 className="text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
-                <BookOpen size={16} className="text-indigo-400" />
+            <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-7 shadow-xl space-y-4 dark:bg-slate-900/90 dark:border-slate-800">
+              <h3 className="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider flex items-center gap-2">
+                <BookOpen size={16} className="text-indigo-600 dark:text-indigo-400" />
                 Why Connect With YR Learning?
               </h3>
 
-              <div className="space-y-3.5 text-xs text-slate-300">
+              <div className="space-y-3.5 text-xs text-slate-700 dark:text-slate-300">
                 <div className="flex items-start gap-3">
                   <div className="w-6 h-6 rounded-lg bg-blue-500/20 text-blue-400 flex items-center justify-center shrink-0 mt-0.5">
                     ✓
                   </div>
                   <div>
-                    <strong className="text-white block font-semibold">1-on-1 Free Career Counseling</strong>
+                    <strong className="text-slate-900 dark:text-white block font-semibold">1-on-1 Free Career Counseling</strong>
                     Speak with real engineers about tech stacks, salaries, and interview expectations.
                   </div>
                 </div>
@@ -463,7 +454,7 @@ export default function Contact() {
                     ✓
                   </div>
                   <div>
-                    <strong className="text-white block font-semibold">College & Training Partnerships</strong>
+                    <strong className="text-slate-900 dark:text-white block font-semibold">College & Training Partnerships</strong>
                     Special corporate and college programs with tailored training schedules.
                   </div>
                 </div>
@@ -473,7 +464,7 @@ export default function Contact() {
                     ✓
                   </div>
                   <div>
-                    <strong className="text-white block font-semibold">Guaranteed Syllabus Roadmap</strong>
+                    <strong className="text-slate-900 dark:text-white block font-semibold">Guaranteed Syllabus Roadmap</strong>
                     Curriculum built around React 19, Node.js, AI/ML, and production architectures.
                   </div>
                 </div>
@@ -491,11 +482,11 @@ export default function Contact() {
           className="max-w-4xl mx-auto mt-10"
         >
           <div className="text-center mb-8">
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-white flex items-center justify-center gap-2">
-              <HelpCircle className="text-indigo-400" size={26} />
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white flex items-center justify-center gap-2">
+              <HelpCircle className="text-indigo-600 dark:text-indigo-400" size={26} />
               Frequently Asked Questions
             </h2>
-            <p className="text-xs sm:text-sm text-slate-400 mt-2">
+            <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mt-2">
               Quick answers to common questions about admissions, batches, and curricula.
             </p>
           </div>
@@ -506,17 +497,17 @@ export default function Contact() {
               return (
                 <div
                   key={i}
-                  className="bg-slate-900/80 border border-slate-800 rounded-2xl overflow-hidden transition-colors"
+                  className="bg-white border border-slate-200 rounded-2xl overflow-hidden transition-colors dark:bg-slate-900/80 dark:border-slate-800"
                 >
                   <button
                     onClick={() => setOpenFaq(isOpen ? -1 : i)}
-                    className="w-full flex items-center justify-between p-4 sm:p-5 text-left text-sm font-semibold text-white hover:text-indigo-300 transition-colors"
+                    className="w-full flex items-center justify-between p-4 sm:p-5 text-left text-sm font-semibold text-slate-900 hover:text-indigo-700 transition-colors dark:text-white dark:hover:text-indigo-300"
                   >
                     <span>{faq.question}</span>
                     <ChevronDown
                       size={18}
-                      className={`text-slate-400 transition-transform duration-200 shrink-0 ${
-                        isOpen ? 'rotate-180 text-indigo-400' : ''
+                      className={`text-slate-500 dark:text-slate-400 transition-transform duration-200 shrink-0 ${
+                        isOpen ? 'rotate-180 text-indigo-600 dark:text-indigo-400' : ''
                       }`}
                     />
                   </button>
@@ -529,7 +520,7 @@ export default function Contact() {
                         exit={{ opacity: 0, height: 0 }}
                         transition={{ duration: 0.2 }}
                       >
-                        <div className="px-4 pb-4 sm:px-5 sm:pb-5 text-xs sm:text-sm text-slate-300 leading-relaxed border-t border-slate-800/60 pt-3">
+                        <div className="px-4 pb-4 sm:px-5 sm:pb-5 text-xs sm:text-sm text-slate-700 dark:text-slate-300 leading-relaxed border-t border-slate-200 dark:border-slate-800/60 pt-3">
                           {faq.answer}
                         </div>
                       </motion.div>

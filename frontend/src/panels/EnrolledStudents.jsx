@@ -321,19 +321,19 @@ const EnrolledStudents = () => {
 
                       {/* Course & Mode */}
                       <td className="px-5 py-4 space-y-1.5">
-                        <span className="inline-block px-2.5 py-1 rounded-lg text-xs font-semibold bg-indigo-950/80 text-indigo-300 border border-indigo-700/50">
+                        <span className="inline-block px-2.5 py-1 rounded-lg text-xs font-semibold bg-indigo-100 text-indigo-950 border border-indigo-300 dark:bg-indigo-950/80 dark:text-indigo-200 dark:border-indigo-700/50">
                           {user.courseEnrolledFor || user.course || 'Website Development'}
                         </span>
                         <div className="flex items-center gap-1.5 text-[11px]">
                           <span className={`px-2 py-0.5 rounded-md font-medium ${
                             (user.mode || 'Online') === 'Online' 
-                              ? 'bg-blue-900/40 text-blue-300 border border-blue-600/30' 
-                              : 'bg-emerald-900/40 text-emerald-300 border border-emerald-600/30'
+                              ? 'bg-blue-100 text-blue-950 border border-blue-300 dark:bg-blue-900/40 dark:text-blue-200 dark:border-blue-600/30' 
+                              : 'bg-emerald-100 text-emerald-950 border border-emerald-300 dark:bg-emerald-900/40 dark:text-emerald-200 dark:border-emerald-600/30'
                           }`}>
                             {user.mode || 'Online'}
                           </span>
                           {user.couponCode && (
-                            <span className="px-2 py-0.5 rounded-md bg-purple-900/40 text-purple-300 border border-purple-600/30 font-mono">
+                            <span className="px-2 py-0.5 rounded-md bg-purple-100 text-purple-950 border border-purple-300 dark:bg-purple-900/40 dark:text-purple-200 dark:border-purple-600/30 font-mono">
                               🎫 {user.couponCode}
                             </span>
                           )}
@@ -451,11 +451,11 @@ const EnrolledStudents = () => {
                 <div className="grid grid-cols-2 gap-3">
                   <div>
                     <span className="text-slate-400 block text-[11px]">Course Enrolled For</span>
-                    <span className="font-semibold text-indigo-400">{selectedStudent.courseEnrolledFor || selectedStudent.course}</span>
+                    <span className="font-semibold text-slate-900 dark:text-indigo-400">{selectedStudent.courseEnrolledFor || selectedStudent.course}</span>
                   </div>
                   <div>
                     <span className="text-slate-400 block text-[11px]">Mode</span>
-                    <span className="font-semibold text-emerald-400">{selectedStudent.mode || 'Online'}</span>
+                    <span className="font-semibold text-slate-900 dark:text-emerald-400">{selectedStudent.mode || 'Online'}</span>
                   </div>
                 </div>
                 {selectedStudent.couponCode && (

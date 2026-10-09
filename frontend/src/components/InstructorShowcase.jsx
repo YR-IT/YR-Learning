@@ -20,13 +20,22 @@ export default function InstructorShowcase() {
 			linkedin: "https://www.linkedin.com/in/gaurisinghal28",
 		},
 		{
-			name: "Vinay Sheoran",
+			name: "Vijay Sheoran",
 			role: "Senior Data Science Trainer",
 			avatar: "/images/trainer1.jpg",
 			bio:
 				"Ex-Data Scientist at Flipkart & Publicis Re:Sources, with 8+ years of expertise in Machine Learning, Artificial Intelligence, and Big Data Analytics.",
-			tags: ["System Design", "DSA", "Java", "Mentorship"],
+			tags: ["Data Science", "Python", "Machine Learning", "Analytics"],
 			accent: "from-blue-500 via-indigo-500 to-purple-500",
+		},
+		{
+			name: "DivyaRaj Kush",
+			role: "SEO & Digital Marketing Lead",
+			avatar: "/seo_and_marketing_trainer.jpeg",
+			bio:
+				"SEO and Growth Marketing Strategist specializing in search engine optimization, content scaling, and performance marketing.",
+			tags: ["SEO", "Digital Marketing", "Google Ads", "Content"],
+			accent: "from-amber-500 via-orange-500 to-yellow-500",
 		},
 		{
 			name: "Sumit Kumar",

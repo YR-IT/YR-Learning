@@ -1,4 +1,18 @@
 const Course = require('../models/Course');
+const mongoose = require('mongoose');
+
+const slugify = (text) =>
+  text
+    ? text
+        .toString()
+        .toLowerCase()
+        .trim()
+        .replace(/\s+/g, '-')
+        .replace(/[^\w\-]+/g, '')
+        .replace(/\-\-+/g, '-')
+        .replace(/^-+/, '')
+        .replace(/-+$/, '')
+    : '';
 
 // @desc    Get all courses
 // @route   GET /api/courses or /api/course/allcourses
@@ -28,12 +42,29 @@ const getAllCourses = async (req, res) => {
   }
 };
 
-// @desc    Get course by ID
+// @desc    Get course by ID or Slug
 // @route   GET /api/courses/:id or /api/course/:id
 // @access  Public
 const getCourseById = async (req, res) => {
   try {
-    const course = await Course.findById(req.params.id);
+    const param = req.params.id;
+    let course = null;
+
+    if (mongoose.Types.ObjectId.isValid(param)) {
+      course = await Course.findById(param);
+    }
+
+    if (!course) {
+      course = await Course.findOne({ slug: param.toLowerCase() });
+    }
+
+    if (!course) {
+      const normalizedTitle = param.replace(/-/g, ' ');
+      course = await Course.findOne({
+        title: { $regex: new RegExp(`^${normalizedTitle}$`, 'i') }
+      });
+    }
+
     if (!course) {
       return res.status(404).json({ message: 'Course not found' });
     }
@@ -68,6 +99,7 @@ const createCourse = async (req, res) => {
 
     const newCourse = await Course.create({
       title,
+      slug: req.body.slug || slugify(title),
       description,
       image: image || '/images/Digital-Marketing.jpg',
       price: Number(price),
@@ -97,7 +129,11 @@ const createCourse = async (req, res) => {
 const updateCourse = async (req, res) => {
   try {
     const courseId = req.params.id;
-    const updated = await Course.findByIdAndUpdate(courseId, req.body, {
+    const updateData = { ...req.body };
+    if (updateData.title && !updateData.slug) {
+      updateData.slug = slugify(updateData.title);
+    }
+    const updated = await Course.findByIdAndUpdate(courseId, updateData, {
       new: true,
       runValidators: true,
     });

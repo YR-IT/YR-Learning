@@ -103,6 +103,240 @@
     margin: 0 auto;
 }
 
+.dark .creator-panel {
+    --admin-ink: #f3f4f6;
+    --admin-muted: #a1a1aa;
+    --admin-line: #3f3f46;
+    --admin-canvas: #18181b;
+    --admin-green: #6ee7b7;
+    --admin-green-soft: #12352b;
+    background: var(--admin-canvas);
+    color: var(--admin-ink);
+}
+
+.dark .creator-panel .panel-sidebar,
+.dark .creator-panel .course-summary-row,
+.dark .creator-panel .course-table-panel,
+.dark .creator-panel .add-course-container,
+.dark .creator-panel .banner-panel .edit-banner-panel,
+.dark .creator-panel .banner-card,
+.dark .creator-panel .edit-instructor-panel > div,
+.dark .creator-panel .instructor-item,
+.dark .creator-panel .enrolled-students-container,
+.dark .creator-panel .earnings-container,
+.dark .creator-panel .earnings-container .card,
+.dark .creator-panel .edit-course-admin .bg-white,
+.dark .creator-panel .manage-articles-admin form,
+.dark .creator-panel .manage-articles-admin > section > div.divide-y {
+    color: #f3f4f6;
+    background-color: #27272a;
+    border-color: #3f3f46;
+}
+
+.dark .creator-panel .panel-brand h2,
+.dark .creator-panel .manage-courses-header h1,
+.dark .creator-panel .course-summary-row strong,
+.dark .creator-panel .course-table-title-cell strong,
+.dark .creator-panel .course-price,
+.dark .creator-panel .add-course-container h2,
+.dark .creator-panel .edit-course-heading h1,
+.dark .creator-panel .edit-course-admin h2,
+.dark .creator-panel .edit-course-admin h3,
+.dark .creator-panel .edit-course-admin h4,
+.dark .creator-panel .articles-admin-header h1,
+.dark .creator-panel .manage-articles-admin h2,
+.dark .creator-panel .manage-articles-admin h3,
+.dark .creator-panel .banner-panel,
+.dark .creator-panel .banner-panel h3,
+.dark .creator-panel .edit-instructor-panel,
+.dark .creator-panel .edit-instructor-panel h3,
+.dark .creator-panel .edit-instructor-panel .instructor-info h4,
+.dark .creator-panel .enrolled-students-container h2,
+.dark .creator-panel .earnings-container h2,
+.dark .creator-panel .earnings-container h3,
+.dark .creator-panel .edit-course-admin .text-gray-900 {
+    color: #f3f4f6 !important;
+}
+
+.dark .creator-panel .panel-brand p,
+.dark .creator-panel .admin-page-description,
+.dark .creator-panel .course-summary-row span,
+.dark .creator-panel .course-table-title-cell span,
+.dark .creator-panel .course-management-table td,
+.dark .creator-panel .edit-course-heading > p:last-child,
+.dark .creator-panel .manage-articles-admin > section > div.divide-y p,
+.dark .creator-panel .edit-instructor-panel .instructor-info p,
+.dark .creator-panel .earnings-container .chart-placeholder,
+.dark .creator-panel .edit-course-admin .text-gray-500,
+.dark .creator-panel .edit-course-admin .text-gray-600,
+.dark .creator-panel .edit-course-admin .text-gray-700,
+.dark .creator-panel .manage-articles-admin .text-gray-600,
+.dark .creator-panel .manage-articles-admin .text-gray-700 {
+    color: #c4c4cc !important;
+}
+
+.dark .creator-panel .panel-sidebar nav a {
+    color: #d4d4d8;
+}
+
+.dark .creator-panel .panel-sidebar nav a:hover {
+    color: #fafafa;
+    background: #3f3f46;
+}
+
+.dark .creator-panel .panel-sidebar nav a.active-link {
+    color: #6ee7b7;
+    background: #12352b;
+}
+
+.dark .creator-panel .course-table-toolbar,
+.dark .creator-panel .course-management-table th,
+.dark .creator-panel .students-table th,
+.dark .creator-panel .transactions-table th,
+.dark .creator-panel .thumbnail-preview,
+.dark .creator-panel .edit-course-admin .bg-gray-50 {
+    color: #e4e4e7;
+    background-color: #18181b;
+    border-color: #3f3f46;
+}
+
+.dark .creator-panel .course-management-table td,
+.dark .creator-panel .students-table td,
+.dark .creator-panel .transactions-table td,
+.dark .creator-panel .edit-course-admin .border-gray-200,
+.dark .creator-panel .edit-course-admin .border-gray-300 {
+    border-color: #3f3f46;
+}
+
+.dark .creator-panel .students-table th,
+.dark .creator-panel .transactions-table th {
+    color: #e4e4e7;
+    background-color: #18181b;
+}
+
+.dark .creator-panel .students-table td,
+.dark .creator-panel .transactions-table td {
+    color: #d4d4d8;
+}
+
+.dark .creator-panel .course-management-table tbody tr:hover {
+    background: #303036;
+}
+
+.dark .creator-panel .course-search-box,
+.dark .creator-panel .course-table-toolbar select,
+.dark .creator-panel .add-course-form input,
+.dark .creator-panel .add-course-form textarea,
+.dark .creator-panel .banner-panel .form-group input,
+.dark .creator-panel .edit-instructor-panel .form-group input,
+.dark .creator-panel .edit-instructor-panel .form-group textarea,
+.dark .creator-panel .manage-articles-admin form input,
+.dark .creator-panel .manage-articles-admin form textarea,
+.dark .creator-panel .edit-course-admin input,
+.dark .creator-panel .edit-course-admin textarea,
+.dark .creator-panel .edit-course-admin select,
+.dark .creator-panel .course-filter-select {
+    color: #f4f4f5;
+    background-color: #18181b;
+    border-color: #52525b;
+}
+
+.dark .creator-panel input::placeholder,
+.dark .creator-panel textarea::placeholder {
+    color: #a1a1aa;
+}
+
+.dark .creator-panel .course-row-actions a,
+.dark .creator-panel .course-row-actions button,
+.dark .creator-panel .edit-course-admin .bg-gray-300,
+.dark .creator-panel .manage-articles-admin .text-gray-700 {
+    color: #e4e4e7;
+    background-color: #3f3f46;
+    border-color: #52525b;
+}
+
+.dark .creator-panel .admin-enrollment .bg-slate-900,
+.dark .creator-panel .admin-enrollment .bg-slate-900\/90 {
+    background-color: #27272a !important;
+}
+
+.dark .creator-panel .admin-enrollment .bg-slate-950,
+.dark .creator-panel .admin-enrollment .bg-slate-950\/80 {
+    background-color: #18181b !important;
+}
+
+.dark .creator-panel .admin-enrollment .bg-slate-800,
+.dark .creator-panel .admin-enrollment .bg-slate-800\/60 {
+    background-color: #3f3f46 !important;
+}
+
+.dark .creator-panel .admin-enrollment .border-slate-800,
+.dark .creator-panel .admin-enrollment .border-slate-700,
+.dark .creator-panel .admin-enrollment .border-slate-700\/60 {
+    border-color: #52525b !important;
+}
+
+.dark .creator-panel .admin-enrollment .text-white {
+    color: #fafafa !important;
+}
+
+.dark .creator-panel .admin-enrollment .text-slate-200,
+.dark .creator-panel .admin-enrollment .text-slate-300 {
+    color: #e4e4e7 !important;
+}
+
+.dark .creator-panel .admin-enrollment .text-slate-400,
+.dark .creator-panel .admin-enrollment .text-slate-500,
+.dark .creator-panel .admin-enrollment .text-slate-600 {
+    color: #a1a1aa !important;
+}
+
+.dark .creator-panel .admin-enrollment input.bg-slate-950,
+.dark .creator-panel .admin-enrollment select.bg-slate-950 {
+    color: #f4f4f5 !important;
+}
+
+.dark .creator-panel .admin-enrollment .text-indigo-400,
+.dark .creator-panel .admin-enrollment .text-indigo-300 {
+    color: #a5b4fc !important;
+}
+
+.dark .creator-panel .admin-enrollment .text-emerald-400 {
+    color: #6ee7b7 !important;
+}
+
+.dark .creator-panel .admin-enrollment .text-rose-400 {
+    color: #fda4af !important;
+}
+
+.dark .creator-panel .admin-enrollment .bg-slate-800\/40:hover {
+    background-color: #3f3f46 !important;
+}
+
+.dark .creator-panel .admin-enrollment .bg-slate-900 .bg-slate-800\/60 {
+    background-color: #3f3f46 !important;
+}
+
+.dark .creator-panel .admin-enrollment .bg-slate-800.hover\:bg-rose-950\/80:hover {
+    background-color: #4c1d2b !important;
+}
+
+.dark .creator-panel .enrolled-students-container .course-filter-select {
+    background-color: #18181b;
+}
+
+.dark .creator-panel .earnings-container .chart-placeholder {
+    background-color: #18181b;
+    border: 1px solid #3f3f46;
+}
+
+.dark .creator-panel .edit-instructor-panel .cancel-btn,
+.dark .creator-panel .banner-panel .form-actions button[type="button"] {
+    color: #e4e4e7;
+    background-color: #3f3f46;
+    border-color: #52525b;
+}
+
 @media (max-width: 760px) {
     .creator-panel {
         display: block;

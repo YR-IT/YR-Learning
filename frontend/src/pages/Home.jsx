@@ -11,6 +11,7 @@ import CountUp from "react-countup";
 import { Search, Filter, TrendingUp, Users, Award, Clock, Code, BookOpen, FileText, Zap, Globe, Target, Play, Video, Trophy, Briefcase, Wrench, FolderOpen, Monitor, Book } from "lucide-react";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import { useTheme } from "../contexts/ThemeContext";
 
 export default function Home() {
   const [courses, setCourses] = useState([]);
@@ -22,6 +23,7 @@ export default function Home() {
   const { scrollY } = useScroll();
   const y = useTransform(scrollY, [0, 300], [0, -30]);
   const navigate = useNavigate();
+  const { theme } = useTheme();
 
   const [statsRef, statsInView] = useInView({
     threshold: 0.3,
@@ -96,7 +98,7 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 relative overflow-hidden transition-colors duration-300">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-gray-950 dark:via-gray-900 dark:to-gray-950 relative overflow-hidden transition-colors duration-300">
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-30 dark:opacity-20">
         <div className="absolute top-0 left-0 w-96 h-96 bg-gradient-to-br from-blue-400 to-purple-400 dark:from-blue-600 dark:to-purple-600 rounded-full mix-blend-multiply filter blur-xl animate-pulse"></div>
@@ -115,11 +117,13 @@ export default function Home() {
       {/* Hero Section */}
       <motion.div 
         ref={heroRef}
-        className="relative min-h-[80vh] flex items-center"
+        className="relative min-h-screen flex items-center bg-cover bg-center transition-all duration-500"
+        style={{ backgroundImage: `url('/images/${theme === 'dark' ? 'hero-tech.jpg' : 'hero-tech-light.jpg'}')` }}
         initial={{ opacity: 0 }}
         animate={{ opacity: heroInView ? 1 : 0 }}
         transition={{ duration: 0.8 }}
       >
+        <div className="absolute inset-0 bg-gradient-to-r from-white/30 via-white/10 to-transparent dark:from-gray-950/80 dark:via-gray-950/60 dark:to-gray-950/40 transition-colors duration-500 pointer-events-none" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
             
@@ -138,38 +142,17 @@ export default function Home() {
                 transition={{ duration: 0.8, delay: 0.4 }}
               >
                 <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold leading-tight">
-                  <span className="text-gray-900 dark:text-white">Master Skills That</span>
+                  <span className="text-gray-900 dark:text-white drop-shadow-sm">Master Skills That</span>
                   <br />
-                  <span className="text-gray-900 dark:text-white">Define Your </span>
+                  <span className="text-gray-900 dark:text-white drop-shadow-sm">Define Your </span>
                   <span className="bg-gradient-to-r from-purple-600 to-blue-600 dark:from-purple-400 dark:to-blue-400 bg-clip-text text-transparent">
                     Future Career
                   </span>
                 </h1>
                 
-                <p className="text-base sm:text-lg lg:text-xl text-gray-600 dark:text-gray-300 leading-relaxed max-w-lg mx-auto lg:mx-0">
+                <p className="text-base sm:text-lg lg:text-xl text-gray-800 dark:text-gray-100 leading-relaxed max-w-lg mx-auto lg:mx-0 font-medium drop-shadow-sm">
                   Transform your career with expert-led courses, hands-on projects, and industry-recognized certifications from top professionals.
                 </p>
-              </motion.div>
-
-              {/* CTA Buttons */}
-              <motion.div
-                className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start"
-                initial={{ y: 30, opacity: 0 }}
-                animate={heroInView ? { y: 0, opacity: 1 } : {}}
-                transition={{ duration: 0.8, delay: 0.6 }}
-              >
-                <motion.button
-                  className="bg-purple-600 hover:bg-purple-700 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-semibold text-sm sm:text-base shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2 w-full sm:w-auto"
-                  whileHover={{ scale: 1.02, y: -2 }}
-                  whileTap={{ scale: 0.98 }}
-                  onClick={() => {
-                    toast.success("Redirecting to courses...");
-                    navigate("/courses");
-                  }}
-                >
-                  Explore Courses
-                </motion.button>
-                
               </motion.div>
 
               {/* Student Avatars */}
@@ -183,7 +166,7 @@ export default function Home() {
                   {[1, 2, 3, 4, 5, 6].map((i) => (
                     <motion.div
                       key={i}
-                      className="w-8 h-8 sm:w-10 sm:h-10 rounded-full border-2 border-gray-200 dark:border-gray-700 overflow-hidden"
+                      className="w-8 h-8 sm:w-10 sm:h-10 rounded-full border-2 border-white/70 overflow-hidden"
                       initial={{ scale: 0, opacity: 0 }}
                       animate={{ scale: 1, opacity: 1 }}
                       transition={{ delay: 0.9 + i * 0.1 }}
@@ -201,7 +184,7 @@ export default function Home() {
                     </motion.div>
                   ))}
                 </div>
-                <div className="text-gray-600 dark:text-gray-300 text-center lg:text-left">
+                <div className="text-gray-700 dark:text-gray-100 text-center lg:text-left">
                   <span className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white">5,000+</span>
                   <span className="ml-2 text-xs sm:text-sm">Students Enrolled</span>
                 </div>
@@ -215,55 +198,39 @@ export default function Home() {
               animate={heroInView ? { x: 0, opacity: 1 } : {}}
               transition={{ duration: 0.8, delay: 0.4 }}
             >
-              {/* Main Visual Card with Glowing Backdrop */}
-              <div className="relative w-full max-w-lg">
-                <div className="absolute -inset-1.5 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 rounded-3xl blur-xl opacity-40 group-hover:opacity-60 transition duration-1000 animate-pulse"></div>
-                
-                <div className="relative rounded-3xl overflow-hidden border border-white/20 dark:border-gray-700/60 shadow-2xl bg-gray-900 aspect-video group">
-                  <img
-                    src="/images/hero-tech.jpg"
-                    alt="YR Tech Academy"
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                    onError={(e) => { e.currentTarget.src = "/images/webdev-workspace.jpg"; }}
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-gray-950/80 via-transparent to-black/20"></div>
-
-                  {/* Floating Badge 1 (Top Left) */}
-                  <motion.div
-                    className="absolute top-3 left-3 bg-gray-900/80 backdrop-blur-md border border-white/20 px-3 py-1.5 rounded-full text-xs font-semibold text-white flex items-center gap-1.5 shadow-lg"
-                    animate={{ y: [0, -4, 0] }}
-                    transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-                  >
-                    <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
-                    <span>Live Tech Mentorship</span>
-                  </motion.div>
-
-                  {/* Floating Badge 2 (Bottom Right) */}
-                  <motion.div
-                    className="absolute bottom-3 right-3 bg-gradient-to-r from-blue-600/90 to-purple-600/90 backdrop-blur-md px-3.5 py-1.5 rounded-full text-xs font-bold text-white shadow-xl flex items-center gap-1.5"
-                    animate={{ y: [0, 4, 0] }}
-                    transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
-                  >
-                    <span>⭐ 4.9/5 Rating (12k+ Reviews)</span>
-                  </motion.div>
-                </div>
+              <div className="w-full max-w-lg rounded-3xl border border-gray-200/80 dark:border-white/20 bg-white/85 dark:bg-gray-950/40 p-5 sm:p-7 shadow-2xl backdrop-blur-md transition-colors duration-300">
+                <motion.div
+                  className="inline-flex items-center gap-2 rounded-full border border-purple-200 dark:border-white/20 bg-purple-50/90 dark:bg-white/10 px-4 py-2 text-sm font-semibold text-purple-700 dark:text-white"
+                  animate={{ y: [0, -4, 0] }}
+                  transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+                >
+                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
+                  <span>Live Tech Mentorship</span>
+                </motion.div>
+                <motion.div
+                  className="mt-5 text-lg font-bold text-gray-900 dark:text-white"
+                  animate={{ y: [0, 4, 0] }}
+                  transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
+                >
+                  ⭐ 4.9/5 Rating <span className="text-sm font-medium text-gray-600 dark:text-gray-200">(12k+ Reviews)</span>
+                </motion.div>
               </div>
 
               {/* Feature Pills Row */}
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 w-full max-w-lg mt-4">
                 {[
-                  { title: "Live Classes", icon: Video, color: "text-purple-400" },
-                  { title: "Hackathons", icon: Trophy, color: "text-blue-400" },
-                  { title: "Real Projects", icon: FolderOpen, color: "text-cyan-400" },
-                  { title: "Certificates", icon: Award, color: "text-emerald-400" },
+                  { title: "Live Classes", icon: Video, color: "text-purple-600 dark:text-purple-400" },
+                  { title: "Hackathons", icon: Trophy, color: "text-blue-600 dark:text-blue-400" },
+                  { title: "Real Projects", icon: FolderOpen, color: "text-cyan-600 dark:text-cyan-400" },
+                  { title: "Certificates", icon: Award, color: "text-emerald-600 dark:text-emerald-400" },
                 ].map((feat, i) => (
                   <motion.div
                     key={feat.title}
                     whileHover={{ scale: 1.04, y: -2 }}
-                    className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border border-gray-200/80 dark:border-gray-700/80 rounded-xl p-2.5 flex items-center gap-2 shadow-sm"
+                    className="bg-white/90 dark:bg-gray-950/50 backdrop-blur-sm border border-gray-200/80 dark:border-white/20 rounded-xl p-2.5 flex items-center gap-2 shadow-sm transition-colors duration-300"
                   >
                     <feat.icon size={16} className={feat.color} />
-                    <span className="text-xs font-semibold text-gray-800 dark:text-gray-200 truncate">{feat.title}</span>
+                    <span className="text-xs font-semibold text-gray-800 dark:text-white truncate">{feat.title}</span>
                   </motion.div>
                 ))}
               </div>
@@ -341,11 +308,13 @@ export default function Home() {
                   {/* Course Card Container */}
                   <div className="relative transform group-hover:scale-105 transition-all duration-500 h-full flex flex-col flex-1">
                     <CourseCard 
-                      id={course._id || course.id} 
+                      id={course.slug || course._id || course.id}
+                      slug={course.slug}
                       course={course.title}
                       courseImage={course.image || course.thumbnail}
                       price={course.price}
                       description={course.description}
+                      rating={course.rating}
                       instructor={course.instructor}
                       category={course.category}
                     />
@@ -361,37 +330,6 @@ export default function Home() {
                 </motion.div>
               ))}
             </div>
-
-            {/* View All Courses CTA */}
-            <motion.div
-              className="text-center mt-12"
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 2 }}
-            >
-              <motion.button
-                className="group relative inline-flex items-center gap-3 bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 dark:from-blue-500 dark:via-purple-500 dark:to-indigo-500 text-white px-8 py-4 rounded-2xl font-semibold text-lg shadow-xl hover:shadow-2xl transition-all duration-300 overflow-hidden"
-                whileHover={{ scale: 1.05, y: -2 }}
-                whileTap={{ scale: 0.98 }}
-                onClick={() => navigate('/courses')}
-              >
-                {/* Button Background Animation */}
-                <div className="absolute inset-0 bg-gradient-to-r from-blue-700 via-purple-700 to-indigo-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                
-                <span className="relative z-10">Explore All Courses</span>
-                <motion.div
-                  className="relative z-10"
-                  animate={{ x: [0, 5, 0] }}
-                  transition={{ duration: 1.5, repeat: Infinity }}
-                >
-                  →
-                </motion.div>
-
-                {/* Sparkle Effect */}
-                <div className="absolute top-1 right-1 w-2 h-2 bg-white rounded-full opacity-0 group-hover:opacity-100 animate-ping"></div>
-                <div className="absolute bottom-1 left-1 w-1.5 h-1.5 bg-white rounded-full opacity-0 group-hover:opacity-100 animate-ping" style={{ animationDelay: '0.3s' }}></div>
-              </motion.button>
-            </motion.div>
           </div>
         </motion.div>
 

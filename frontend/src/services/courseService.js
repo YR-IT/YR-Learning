@@ -45,7 +45,7 @@ export const courseService = {
       try {
         const fallback = await import('../data/frontendcourses.js');
         const courses = fallback.default || [];
-        return courses.find((c) => String(c._id) === String(id) || String(c.id) === String(id)) || null;
+        return courses.find((c) => String(c._id) === String(id) || String(c.id) === String(id) || (c.slug && String(c.slug).toLowerCase() === String(id).toLowerCase())) || null;
       } catch {
         return null;
       }
