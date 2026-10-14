@@ -82,23 +82,14 @@ export default function Home() {
 
   const handleSearch = (value) => {
     setSearchTerm(value);
-    if (value.length > 2) {
-      toast.success(`Found ${filteredCourses.length} courses matching "${value}"`);
-    }
   };
 
   const handleCategoryChange = (category) => {
     setSelectedCategory(category);
-    if (category !== "All") {
-      const categoryCount = courses.filter(course => course.category === category).length;
-      toast.success(`Showing ${categoryCount} ${category} courses`);
-    } else {
-      toast.success("Showing all courses");
-    }
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-gray-950 dark:via-gray-900 dark:to-gray-950 relative overflow-hidden transition-colors duration-300">
+    <div className="min-h-screen bg-gray-950 text-gray-100 relative overflow-hidden transition-colors duration-300">
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-30 dark:opacity-20">
         <div className="absolute top-0 left-0 w-96 h-96 bg-gradient-to-br from-blue-400 to-purple-400 dark:from-blue-600 dark:to-purple-600 rounded-full mix-blend-multiply filter blur-xl animate-pulse"></div>

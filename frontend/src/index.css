@@ -6,8 +6,12 @@
 
 /* Global font assignments */
 @layer base {
+  html {
+    color-scheme: dark;
+    scroll-behavior: smooth;
+  }
   body {
-    @apply font-body antialiased;
+    @apply font-body antialiased bg-gray-950 text-gray-100;
   }
   h1, h2, h3, h4, h5, h6 {
     @apply font-heading;
@@ -22,7 +26,11 @@
   box-sizing: border-box;
 }
 
-html, body {
+html {
+  scroll-behavior: smooth;
+}
+
+body {
   margin: 0;
   padding: 0;
   width: 100%;

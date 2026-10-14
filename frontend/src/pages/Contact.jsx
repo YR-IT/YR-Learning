@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Mail,
@@ -24,6 +24,12 @@ import { useTheme } from '../contexts/ThemeContext';
 
 export default function Contact() {
   const { theme } = useTheme();
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    if (document.documentElement) document.documentElement.scrollTop = 0;
+    if (document.body) document.body.scrollTop = 0;
+  }, []);
   const initialForm = {
     name: '',
     email: '',
@@ -151,16 +157,33 @@ export default function Contact() {
         <div className="absolute top-64 left-1/3 w-80 h-80 bg-indigo-600/10 rounded-full blur-3xl" />
       </div>
 
-      <div className="relative z-10">
-        {/* Header Hero Section */}
+      {/* Header Hero Section */}
+      <div className="relative z-10 max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 pt-3 sm:pt-6">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="relative mb-16 flex min-h-[75vh] w-full flex-col items-center justify-center overflow-hidden bg-cover bg-center px-4 py-20 text-center transition-all duration-500"
-          style={{ backgroundImage: `url('/images/${theme === 'dark' ? 'contactUs.png' : 'contactUs-light.png'}')` }}
+          className="relative mb-8 sm:mb-12 md:mb-16 w-full overflow-hidden rounded-2xl sm:rounded-3xl shadow-2xl border border-slate-200/80 dark:border-slate-800 transition-all duration-500"
         >
-          <div className="absolute inset-0 bg-white/5 dark:bg-gray-950/40 transition-colors duration-500 pointer-events-none" />
+          {/* Mobile View (< md): Custom 4:3 high-res composition with centered characters and contact text */}
+          <div
+            className="block md:hidden w-full aspect-[4/3] bg-cover bg-center transition-all duration-500 relative"
+            style={{
+              backgroundImage: `url('/images/${theme === 'dark' ? 'contactUs-mobile.jpg' : 'contactUs-mobile-light.jpg'}')`,
+            }}
+          >
+            <div className="absolute inset-0 bg-white/5 dark:bg-gray-950/20 transition-colors duration-500 pointer-events-none" />
+          </div>
+
+          {/* Desktop View (>= md): Full panoramic ultra-wide landscape composition */}
+          <div
+            className="hidden md:block w-full min-h-[55vh] lg:min-h-[68vh] bg-cover bg-center transition-all duration-500 relative"
+            style={{
+              backgroundImage: `url('/images/${theme === 'dark' ? 'contactUs.png' : 'contactUs-light.png'}')`,
+            }}
+          >
+            <div className="absolute inset-0 bg-white/5 dark:bg-gray-950/40 transition-colors duration-500 pointer-events-none" />
+          </div>
         </motion.div>
       </div>
 

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Bot, Sparkles, Send, Maximize2 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import chatService from '../services/chatService';
+import FormattedChatMessage from './FormattedChatMessage';
 
 export default function Chatbot() {
   const [isFullScreen, setIsFullScreen] = useState(false);
@@ -139,7 +140,7 @@ export default function Chatbot() {
                           : 'bg-slate-100 border border-slate-200 text-slate-800 rounded-tl-sm dark:bg-gray-800 dark:border-gray-700/60 dark:text-gray-200'
                       }`}
                     >
-                      <p className="whitespace-pre-wrap">{m.text}</p>
+                      <FormattedChatMessage text={m.text} isUser={m.sender === 'user'} />
                       <span className="block text-[10px] text-slate-500 dark:text-gray-400 mt-1.5 text-right">{m.time}</span>
                     </div>
                   </motion.div>

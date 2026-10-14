@@ -129,7 +129,7 @@ export default function AllCourses() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-gray-950 dark:via-gray-900 dark:to-gray-950 relative overflow-hidden transition-colors duration-300">
+    <div className="min-h-screen bg-gray-950 text-gray-100 relative overflow-hidden transition-colors duration-300">
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-20 dark:opacity-10">
         <div className="absolute top-0 left-0 w-96 h-96 bg-gradient-to-br from-blue-400 to-purple-400 dark:from-blue-600 dark:to-purple-600 rounded-full mix-blend-multiply filter blur-xl animate-pulse"></div>
@@ -198,22 +198,17 @@ export default function AllCourses() {
             </div>
           </div>
 
-          {/* Active Filters & Results Count */}
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 sm:gap-4">
+          {/* Active Filters */}
+          {(searchTerm || selectedCategory !== "All") && (
             <div className="flex flex-wrap items-center gap-2">
-              <span className="text-sm text-gray-600 dark:text-gray-400">
-                {filteredCourses.length} course{filteredCourses.length !== 1 ? 's' : ''} found
-              </span>
-              {(searchTerm || selectedCategory !== "All") && (
-                <button
-                  onClick={clearFilters}
-                  className="text-xs sm:text-sm text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 underline transition-colors"
-                >
-                  Clear filters
-                </button>
-              )}
+              <button
+                onClick={clearFilters}
+                className="text-xs sm:text-sm text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 underline transition-colors"
+              >
+                Clear filters
+              </button>
             </div>
-          </div>
+          )}
         </motion.div>
 
         {/* Courses Grid */}

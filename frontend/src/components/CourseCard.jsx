@@ -46,7 +46,6 @@ export default function CourseCard({
     e.preventDefault();
     e.stopPropagation();
     setIsLiked(!isLiked);
-    toast.success(isLiked ? "Removed from favorites" : "Added to favorites!");
   };
 
   const handleShare = (e) => {
@@ -66,15 +65,13 @@ export default function CourseCard({
 
   const handleCourseClick = () => {
     setIsLoading(true);
-    toast.success(`Opening ${course}...`);
-    setTimeout(() => setIsLoading(false), 1000);
+    setTimeout(() => setIsLoading(false), 500);
   };
 
   const handleLearnMore = (e) => {
     e.preventDefault();
     e.stopPropagation();
     setIsExpanded(!isExpanded);
-    toast.success(isExpanded ? "Course details collapsed" : "Showing course details");
   };
 
   return (

@@ -58,7 +58,7 @@ function App() {
   
   return (
     <ThemeProvider>
-      <div className="min-h-screen bg-white dark:bg-gray-950 transition-colors duration-300">
+      <div className="min-h-screen bg-gray-950 text-gray-100 transition-colors duration-300">
         <Router>
           <ScrollToTop />
           <Refreshhandler SetIsAuthenticated={setIsAuthenticated} />

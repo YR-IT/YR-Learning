@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { getCourses } from "../data/courses";
 import courseService from "../services/courseService";
 import InstructorComponent from "../components/InstructorComponent";
@@ -34,9 +34,9 @@ import {
 import toast from "react-hot-toast";
 export default function Course() {
   const { courseId } = useParams();
+  const navigate = useNavigate();
   const [course, setCourse] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [isEnrollModalOpen, setIsEnrollModalOpen] = useState(false);
 
   useEffect(() => {
     const fetchCourse = async () => {
@@ -190,7 +190,7 @@ export default function Course() {
               
               <div className="flex flex-wrap gap-4">
                 <motion.button
-                  onClick={() => setIsEnrollModalOpen(true)}
+                  onClick={() => navigate(`/enroll?course=${encodeURIComponent(course?.title || '')}`)}
                   className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-4 rounded-xl font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-300 flex items-center gap-2 cursor-pointer"
                   whileHover={{ scale: 1.05, y: -2 }}
                   whileTap={{ scale: 0.95 }}
@@ -347,7 +347,7 @@ export default function Course() {
                   </div>
                   
                   <motion.button
-                    onClick={() => setIsEnrollModalOpen(true)}
+                    onClick={() => navigate(`/enroll?course=${encodeURIComponent(course?.title || '')}`)}
                     className="w-full block text-center bg-gradient-to-r from-blue-600 to-purple-600 text-white py-4 px-6 rounded-xl hover:from-blue-700 hover:to-purple-700 transition-all duration-300 font-semibold text-lg shadow-lg hover:shadow-xl mb-4 cursor-pointer"
                     whileHover={{ scale: 1.02, y: -2 }}
                     whileTap={{ scale: 0.98 }}
@@ -419,15 +419,6 @@ export default function Course() {
           </div>
         </div>
       </div>
-
-      {/* Interactive Enrollment Modal */}
-      {course && (
-        <EnrollmentModal
-          isOpen={isEnrollModalOpen}
-          onClose={() => setIsEnrollModalOpen(false)}
-          preselectedCourse={course.title}
-        />
-      )}
     </div>
   );
 }

@@ -11,36 +11,20 @@ export const useTheme = () => {
 };
 
 export const ThemeProvider = ({ children }) => {
-  const [theme, setTheme] = useState(() => {
-    // Check localStorage first, otherwise default to dark
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme) {
-      return savedTheme;
-    }
-    return 'dark';
-  });
+  // Theme is locked to dark mode
+  const [theme] = useState('dark');
 
   useEffect(() => {
     const root = window.document.documentElement;
-    
-    // Remove previous theme class
-    root.classList.remove('light', 'dark');
-    
-    // Add current theme class
-    root.classList.add(theme);
-    
-    // Save to localStorage
-    localStorage.setItem('theme', theme);
-  }, [theme]);
-
-  const toggleTheme = () => {
-    setTheme(prevTheme => prevTheme === 'light' ? 'dark' : 'light');
-  };
+    root.classList.remove('light');
+    root.classList.add('dark');
+    localStorage.setItem('theme', 'dark');
+  }, []);
 
   const value = {
-    theme,
-    toggleTheme,
-    setTheme
+    theme: 'dark',
+    toggleTheme: () => {},
+    setTheme: () => {}
   };
 
   return (
@@ -49,3 +33,5 @@ export const ThemeProvider = ({ children }) => {
     </ThemeContext.Provider>
   );
 };
+
+export default ThemeContext;

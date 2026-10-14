@@ -3,6 +3,7 @@ import { Bot, X, Send, Sparkles, Maximize2, Trash2, ArrowRight } from 'lucide-re
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import chatService from '../services/chatService';
+import FormattedChatMessage from './FormattedChatMessage';
 
 export default function FloatingChatbot() {
   const [isOpen, setIsOpen] = useState(false);
@@ -168,13 +169,13 @@ export default function FloatingChatbot() {
                   className={`flex flex-col ${msg.sender === 'user' ? 'items-end' : 'items-start'}`}
                 >
                   <div
-                    className={`max-w-[85%] rounded-2xl px-3.5 py-2.5 text-xs sm:text-sm leading-relaxed whitespace-pre-wrap ${
+                    className={`max-w-[85%] rounded-2xl px-3.5 py-2.5 text-xs sm:text-sm leading-relaxed ${
                       msg.sender === 'user'
                         ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-br-none shadow-md'
                         : 'bg-slate-100 border border-slate-200 text-slate-800 rounded-bl-none shadow-sm dark:bg-slate-800 dark:border-slate-700 dark:text-slate-200'
                     }`}
                   >
-                    {msg.text}
+                    <FormattedChatMessage text={msg.text} isUser={msg.sender === 'user'} />
                   </div>
                   <span className="text-[10px] text-slate-600 mt-1 px-1 dark:text-slate-500">
                     {msg.time}
