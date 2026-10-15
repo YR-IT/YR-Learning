@@ -178,12 +178,12 @@ export default function About() {
       <motion.div
         ref={heroRef}
         className="relative z-10 mb-0 flex min-h-[92vh] sm:min-h-[96vh] w-full flex-col items-center justify-center overflow-hidden bg-cover bg-center px-4 py-24 sm:py-32 text-center transition-all duration-500"
-        style={{ y, backgroundImage: `url('/images/${theme === 'dark' ? 'webdev-workspace.jpg' : 'webdev-workspace-light.jpg'}')` }}
+        style={{ y, backgroundImage: `url('/images/${theme === 'dark' ? 'about-hero.jpg' : 'about-hero-light.jpg'}')` }}
         initial={{ opacity: 0, y: 50 }}
         animate={heroInView ? { opacity: 1, y: 0 } : {}}
         transition={{ duration: 0.8 }}
       >
-          <div className="absolute inset-0 bg-white/10 dark:bg-gray-950/50 transition-colors duration-500 pointer-events-none" />
+          <div className="absolute inset-0 bg-white/40 dark:bg-gray-950/60 backdrop-blur-[0.5px] transition-colors duration-500 pointer-events-none" />
           <motion.div
             className="absolute top-4 left-4 z-0 h-12 w-12 rounded-full bg-gradient-to-r from-blue-400 to-purple-400 opacity-60 sm:top-10 sm:left-10 sm:h-16 sm:w-16 lg:h-20 lg:w-20"
             animate={{ y: [0, -20, 0], rotate: [0, 180, 360] }}

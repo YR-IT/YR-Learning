@@ -1,13 +1,15 @@
 import { useState, useEffect, useMemo } from "react";
 import { getCourses } from "../data/courses";
 import CourseCard from "../components/CourseCard";
-import { Search, Filter, Grid, List, BookOpen, Users, Clock, Star, TrendingUp } from "lucide-react";
+import { Search, Filter, Grid, List, BookOpen, Users, Clock, Star, TrendingUp, GraduationCap } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useSearchParams } from "react-router-dom";
-import InstructorShowcase from "../components/InstructorShowcase"
+import InstructorShowcase from "../components/InstructorShowcase";
 import { useQuery } from "@tanstack/react-query";
+import { useTheme } from "../contexts/ThemeContext";
 
 export default function AllCourses() {
+  const { theme } = useTheme();
   const [activeCard, setActiveCard] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
@@ -138,30 +140,54 @@ export default function AllCourses() {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 relative z-10">
-        {/* Header */}
-        <motion.div 
-          className="text-center mb-8 sm:mb-12"
-          initial={{ opacity: 0, y: 30 }}
+        {/* Header Hero Banner */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
+          className="relative mb-8 sm:mb-10 w-full overflow-hidden rounded-2xl sm:rounded-3xl shadow-2xl border border-slate-200/80 dark:border-slate-800 transition-all duration-500"
         >
-          <motion.h1 
-            className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4"
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
+          {/* Mobile View (< md) */}
+          <div
+            className="block md:hidden w-full aspect-[16/9] sm:aspect-[2/1] bg-cover bg-center transition-all duration-500 relative"
+            style={{
+              backgroundImage: `url('${theme === 'dark' ? '/images/hero-tech.jpg' : '/images/hero-tech-light.jpg'}')`,
+            }}
           >
-            Discover Your Perfect 
-            <span className="bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400 bg-clip-text text-transparent"> Course</span>
-          </motion.h1>
-          <motion.p 
-            className="text-base sm:text-lg lg:text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto px-2 sm:px-4"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
+            <div className="absolute inset-0 bg-gradient-to-t from-gray-950/95 via-gray-950/60 to-transparent flex flex-col justify-end p-5 pointer-events-none">
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-600/85 text-white text-xs font-semibold backdrop-blur-md w-fit mb-2 shadow-lg">
+                <GraduationCap size={13} />
+                <span>YR-Learning Catalog</span>
+              </div>
+              <h1 className="text-2xl sm:text-3xl font-black text-white tracking-tight drop-shadow-md">
+                Explore All Courses
+              </h1>
+              <p className="text-xs text-slate-200 mt-1 max-w-sm drop-shadow line-clamp-2">
+                Industry-aligned programs with live mentor guidance, hands-on projects & certified credentials.
+              </p>
+            </div>
+          </div>
+
+          {/* Desktop View (>= md) */}
+          <div
+            className="hidden md:flex w-full min-h-[340px] lg:min-h-[380px] bg-cover bg-center transition-all duration-500 relative items-end"
+            style={{
+              backgroundImage: `url('${theme === 'dark' ? '/images/hero-tech.jpg' : '/images/hero-tech-light.jpg'}')`,
+            }}
           >
-            Explore our comprehensive collection of courses designed to accelerate your learning journey
-          </motion.p>
+            <div className="absolute inset-0 bg-gradient-to-t from-gray-950/95 via-gray-950/50 to-transparent flex flex-col justify-end p-8 lg:p-12 pointer-events-none">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white text-xs font-semibold backdrop-blur-md w-fit mb-3 shadow-lg">
+                <GraduationCap size={15} />
+                <span>Industry-Aligned Tech Programs</span>
+              </div>
+              <h1 className="text-4xl lg:text-5xl font-black text-white tracking-tight drop-shadow-lg">
+                Discover Your Perfect Course
+              </h1>
+              <p className="text-sm lg:text-base text-slate-200 mt-2 max-w-2xl drop-shadow leading-relaxed">
+                Master full-stack software development, data structures & algorithms, AI, machine learning, and UI/UX design with comprehensive roadmaps, live mentorship, and verifiable certification.
+              </p>
+            </div>
+          </div>
         </motion.div>
 
         {/* Search and Filter Section */}

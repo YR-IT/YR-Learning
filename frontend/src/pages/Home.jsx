@@ -8,9 +8,9 @@ import { useState, useEffect, useMemo } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import CountUp from "react-countup";
-import { Search, Filter, TrendingUp, Users, Award, Clock, Code, BookOpen, FileText, Zap, Globe, Target, Play, Video, Trophy, Briefcase, Wrench, FolderOpen, Monitor, Book } from "lucide-react";
+import { Search, Filter, TrendingUp, Users, Award, Clock, Code, BookOpen, FileText, Zap, Globe, Target, Play, Video, Trophy, Briefcase, Wrench, FolderOpen, Monitor, Book, ArrowRight, Sparkles } from "lucide-react";
 import toast from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useTheme } from "../contexts/ThemeContext";
 
 export default function Home() {
@@ -279,7 +279,7 @@ export default function Home() {
 
           {/* Enhanced Courses Grid */}
           <div className="relative z-10">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10 items-stretch">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-8 lg:gap-10 items-stretch max-w-sm sm:max-w-none mx-auto">
               {featuredCourses.map((course, index) => (
                 <motion.div
                   key={course._id || course.id || index}
@@ -297,7 +297,7 @@ export default function Home() {
                   <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 via-purple-500/20 to-pink-500/20 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10"></div>
 
                   {/* Course Card Container */}
-                  <div className="relative transform group-hover:scale-105 transition-all duration-500 h-full flex flex-col flex-1">
+                  <div className="relative transform group-hover:scale-105 transition-all duration-500 h-full flex flex-col flex-1 rounded-2xl overflow-hidden">
                     <CourseCard 
                       id={course.slug || course._id || course.id}
                       slug={course.slug}
@@ -321,6 +321,40 @@ export default function Home() {
                 </motion.div>
               ))}
             </div>
+
+            {/* Explore More Courses Button */}
+            <motion.div 
+              className="mt-10 sm:mt-12 lg:mt-14 flex flex-col items-center justify-center relative z-10"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+            >
+              <Link
+                to="/courses"
+                id="explore-more-courses-btn"
+                className="group relative inline-flex items-center gap-3 px-7 py-3.5 sm:px-9 sm:py-4 rounded-full font-semibold text-white shadow-xl shadow-purple-500/20 hover:shadow-2xl hover:shadow-purple-500/35 transition-all duration-300 overflow-hidden"
+              >
+                {/* Background Gradient with smooth transition */}
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 group-hover:from-blue-500 group-hover:via-purple-500 group-hover:to-pink-500 transition-all duration-500" />
+                
+                {/* Subtle sheen highlight */}
+                <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+
+                {/* Shimmer sweep effect on hover */}
+                <div className="absolute -inset-full top-0 bg-gradient-to-r from-transparent via-white/25 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out" />
+
+                <Sparkles className="w-5 h-5 text-yellow-300 animate-pulse relative z-10" />
+
+                <span className="relative z-10 text-base sm:text-lg tracking-wide font-medium">
+                  Explore More Courses
+                </span>
+
+                <span className="relative z-10 flex items-center justify-center w-7 h-7 rounded-full bg-white/20 backdrop-blur-sm group-hover:bg-white/30 transition-colors duration-300">
+                  <ArrowRight className="w-4 h-4 text-white group-hover:translate-x-0.5 transition-transform duration-300" />
+                </span>
+              </Link>
+            </motion.div>
           </div>
         </motion.div>
 

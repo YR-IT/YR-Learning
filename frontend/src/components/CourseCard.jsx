@@ -84,14 +84,14 @@ export default function CourseCard({
       whileHover={{ y: -8 }}
     >
       <motion.div 
-        className={`bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-xl dark:hover:shadow-gray-900/50 overflow-hidden border border-gray-200 dark:border-gray-700 transition-all duration-300 relative w-full h-full flex flex-1 ${
+        className={`bg-white dark:bg-gray-800 rounded-2xl shadow-md hover:shadow-xl dark:hover:shadow-gray-900/50 overflow-hidden border border-gray-200/90 dark:border-gray-700/80 transition-all duration-300 relative w-full h-full flex flex-1 ${
           viewMode === "list" ? "flex-col sm:flex-row" : "flex-col"
         }`}
         whileHover={{ scale: 1.02 }}
         transition={{ duration: 0.3 }}
       >
         <Link to={`/course/${coursePathId}`} onClick={handleCourseClick} className={`w-full flex-1 flex ${viewMode === "list" ? "flex-col sm:flex-row" : "flex-col"}`}>
-          <div className={`relative overflow-hidden w-full ${viewMode === "list" ? "sm:w-64 sm:flex-shrink-0" : "h-44 sm:h-48 flex-shrink-0"}`}>
+          <div className={`relative overflow-hidden w-full ${viewMode === "list" ? "sm:w-64 sm:flex-shrink-0" : "h-36 sm:h-44 md:h-48 flex-shrink-0"}`}>
             <motion.img
               src={imageSrc}
               alt={course}
@@ -142,58 +142,65 @@ export default function CourseCard({
             )}
           </div>
           
-          <div className="p-4 flex-1 flex flex-col justify-between">
+          <div className="p-3 sm:p-4 flex-1 flex flex-col justify-between">
             <div>
               {rating != null && (
-                <div className="mb-2 flex items-center gap-2 text-sm" aria-label={`Rated ${Number(rating).toFixed(1)} out of 5`}>
+                <div className="mb-1 sm:mb-1.5 flex items-center gap-1.5 text-xs sm:text-sm" aria-label={`Rated ${Number(rating).toFixed(1)} out of 5`}>
                   <span className="flex items-center gap-0.5 text-amber-500" aria-hidden="true">
                     {Array.from({ length: 5 }, (_, index) => (
                       <span key={index}>{index < Math.round(Number(rating)) ? "★" : "☆"}</span>
                     ))}
                   </span>
-                  <span className="font-medium text-gray-800 dark:text-gray-100">{Number(rating).toFixed(2)}</span>
+                  <span className="font-semibold text-gray-800 dark:text-gray-100">{Number(rating).toFixed(2)}</span>
                 </div>
               )}
+
+              {/* Course Title */}
               <motion.h3 
-                className={`font-semibold mb-2 text-gray-900 dark:text-gray-100 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors line-clamp-2 ${
-                  viewMode === "list" ? "text-lg sm:text-xl" : "text-base sm:text-lg min-h-12"
+                className={`font-semibold mb-1 text-gray-900 dark:text-gray-100 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors line-clamp-2 ${
+                  viewMode === "list" ? "text-base sm:text-lg md:text-xl" : "text-sm sm:text-base md:text-lg"
                 }`}
-                whileHover={{ x: 5 }}
+                whileHover={{ x: 3 }}
                 transition={{ duration: 0.2 }}
               >
                 {course}
               </motion.h3>
-              
-              <div className="mb-2 flex items-center gap-2 text-xs sm:text-sm text-gray-600 dark:text-gray-400">
-                {instructorAvatar ? (
-                  <img src={instructorAvatar} alt="" className="h-8 w-8 shrink-0 rounded-full object-cover" />
-                ) : (
-                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gray-200 font-semibold text-gray-600 dark:bg-gray-700 dark:text-gray-300">
-                    {instructorName.charAt(0).toUpperCase()}
-                  </span>
-                )}
-                <span className="line-clamp-2">
-                  By <span className="font-medium text-gray-800 dark:text-gray-200">{instructorName}</span>
-                  {category && <> in {category}</>}
-                </span>
-              </div>
 
+              {/* Course Description directly under Title with tight spacing */}
               {description && (
-                <p className="text-gray-600 dark:text-gray-400 text-[11px] sm:text-xs leading-4 mb-2 line-clamp-2">
+                <p className="text-gray-600 dark:text-gray-400 text-[11px] sm:text-xs leading-relaxed mb-2 line-clamp-2">
                   {description}
                 </p>
               )}
+              
+              {/* Instructor Information */}
+              <div className="mb-1.5 flex items-center gap-1.5 text-[11px] sm:text-xs text-gray-600 dark:text-gray-400">
+                {instructorAvatar ? (
+                  <img src={instructorAvatar} alt="" className="h-6 w-6 sm:h-7 sm:w-7 shrink-0 rounded-full object-cover border border-gray-200 dark:border-gray-700" />
+                ) : (
+                  <span className="flex h-6 w-6 sm:h-7 sm:w-7 shrink-0 items-center justify-center rounded-full bg-blue-100 text-blue-700 dark:bg-gray-700 dark:text-blue-300 font-bold text-[10px] sm:text-xs">
+                    {instructorName.charAt(0).toUpperCase()}
+                  </span>
+                )}
+                <span className="truncate">
+                  By <span className="font-medium text-gray-800 dark:text-gray-200">{instructorName}</span>
+                  {category && <span className="text-gray-400 dark:text-gray-500"> • {category}</span>}
+                </span>
+              </div>
 
             </div>
             
             <motion.div
-              className="mt-2 border-t border-gray-100 pt-3 dark:border-gray-700/60"
+              className="mt-2 border-t border-gray-100 pt-2.5 sm:pt-3 dark:border-gray-700/60"
             >
-              <span className="mb-2 block text-right text-xs font-semibold text-gray-700 dark:text-gray-300">Rs. {price}</span>
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-[11px] sm:text-xs text-gray-500 dark:text-gray-400 font-medium">Price</span>
+                <span className="text-xs sm:text-sm font-bold text-gray-900 dark:text-gray-100">Rs. {price}</span>
+              </div>
               <motion.div
-                className="w-full rounded-md border border-blue-200 py-2 text-center text-sm font-medium text-blue-700 transition-colors group-hover:border-blue-600 group-hover:bg-blue-600 group-hover:text-white dark:border-blue-500/50 dark:text-blue-300"
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
+                className="w-full rounded-xl border border-blue-600/30 bg-blue-50/60 py-1.5 sm:py-2 text-center text-xs sm:text-sm font-semibold text-blue-700 transition-all group-hover:border-blue-600 group-hover:bg-blue-600 group-hover:text-white dark:border-blue-500/40 dark:bg-blue-950/40 dark:text-blue-300 dark:group-hover:bg-blue-600 dark:group-hover:text-white shadow-sm"
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
               >
                 Enroll Course
               </motion.div>

@@ -41,11 +41,15 @@ export const courseService = {
       const response = await api.get(`/courses/${id}`);
       return response.data;
     } catch (error) {
-      console.warn(`Error fetching course ${id} from backend:`, error.message);
       try {
         const fallback = await import('../data/frontendcourses.js');
         const courses = fallback.default || [];
-        return courses.find((c) => String(c._id) === String(id) || String(c.id) === String(id) || (c.slug && String(c.slug).toLowerCase() === String(id).toLowerCase())) || null;
+        return courses.find((c) => 
+          String(c._id) === String(id) || 
+          String(c.id) === String(id) || 
+          (c.slug && String(c.slug).toLowerCase() === String(id).toLowerCase()) ||
+          (String(id).toLowerCase() === 'seo-and-marketing' && c.slug === 'digital-marketing')
+        ) || null;
       } catch {
         return null;
       }

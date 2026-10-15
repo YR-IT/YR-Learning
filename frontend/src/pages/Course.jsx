@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import { getCourses } from "../data/courses";
 import courseService from "../services/courseService";
 import InstructorComponent from "../components/InstructorComponent";
@@ -142,22 +142,17 @@ export default function Course() {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8 }}
             >
-              <div className="flex items-center gap-2 mb-4 flex-wrap">
-                <span className="bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-3 py-1 rounded-full text-sm font-semibold">
-                  ⭐ {course.badge || "Bestseller"}
-                </span>
-                <span className="bg-emerald-600/90 text-white px-3 py-1 rounded-full text-sm font-semibold flex items-center gap-1 shadow-sm">
-                  🌐 Online
-                </span>
-                <span className="bg-sky-600/90 text-white px-3 py-1 rounded-full text-sm font-semibold flex items-center gap-1 shadow-sm">
-                  🏫 Offline
-                </span>
-                <span className="bg-indigo-600/90 text-white px-3 py-1 rounded-full text-sm font-semibold flex items-center gap-1 shadow-sm">
-                  🗣️ Hindi + English
-                </span>
-                <span className="bg-white/20 backdrop-blur-sm text-white px-3 py-1 rounded-full text-sm">
-                  {course.category}
-                </span>
+              {/* Course Navigation Header */}
+              <div className="mb-5">
+                <Link
+                  to="/courses"
+                  className="inline-flex items-center gap-2 text-xs sm:text-sm font-semibold text-blue-300 hover:text-white transition-colors bg-white/10 hover:bg-white/20 px-3.5 py-1.5 rounded-full backdrop-blur-md border border-white/15 shadow-sm"
+                >
+                  <ArrowRight className="rotate-180" size={14} />
+                  <span>All Courses</span>
+                  <span className="text-gray-400">/</span>
+                  <span className="text-gray-200">{course.category || "Course Overview"}</span>
+                </Link>
               </div>
               
               <h1 className="text-4xl lg:text-6xl font-bold text-white mb-6 leading-tight">
