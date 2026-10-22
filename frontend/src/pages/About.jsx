@@ -135,7 +135,7 @@ export default function About() {
       role: "Founder & Lead Developer",
       avatar: "/images/logo.png",
       bio: "Passionate about creating innovative learning experiences through technology.",
-      social: { github: "#", linkedin: "#", email: "contact@yr-it.com" }
+      social: { github: "#", linkedin: "#", email: "yrelearning@gmail.com" }
     }
   ];
 
@@ -177,7 +177,7 @@ export default function About() {
       {/* Hero Section */}
       <motion.div
         ref={heroRef}
-        className="relative z-10 mb-0 flex min-h-[92vh] sm:min-h-[96vh] w-full flex-col items-center justify-center overflow-hidden bg-cover bg-center px-4 py-24 sm:py-32 text-center transition-all duration-500"
+        className="relative z-10 mb-0 flex min-h-[68vh] sm:min-h-[72vh] lg:min-h-[78vh] w-full flex-col items-center justify-center overflow-hidden bg-cover bg-center px-4 py-16 sm:py-20 lg:py-24 text-center transition-all duration-500"
         style={{ y, backgroundImage: `url('/images/${theme === 'dark' ? 'about-hero.jpg' : 'about-hero-light.jpg'}')` }}
         initial={{ opacity: 0, y: 50 }}
         animate={heroInView ? { opacity: 1, y: 0 } : {}}

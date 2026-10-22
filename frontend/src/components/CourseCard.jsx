@@ -176,7 +176,14 @@ export default function CourseCard({
               {/* Instructor Information */}
               <div className="mb-1.5 flex items-center gap-1.5 text-[11px] sm:text-xs text-gray-600 dark:text-gray-400">
                 {instructorAvatar ? (
-                  <img src={instructorAvatar} alt="" className="h-6 w-6 sm:h-7 sm:w-7 shrink-0 rounded-full object-cover border border-gray-200 dark:border-gray-700" />
+                  <img
+                    src={instructorAvatar}
+                    alt=""
+                    className="h-6 w-6 sm:h-7 sm:w-7 shrink-0 rounded-full object-cover border border-gray-200 dark:border-gray-700"
+                    style={{
+                      objectPosition: instructorAvatar?.includes('frontend_trainer') ? 'top center' : 'center',
+                    }}
+                  />
                 ) : (
                   <span className="flex h-6 w-6 sm:h-7 sm:w-7 shrink-0 items-center justify-center rounded-full bg-blue-100 text-blue-700 dark:bg-gray-700 dark:text-blue-300 font-bold text-[10px] sm:text-xs">
                     {instructorName.charAt(0).toUpperCase()}

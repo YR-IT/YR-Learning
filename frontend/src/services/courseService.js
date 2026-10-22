@@ -35,24 +35,62 @@ export const courseService = {
     }
   },
 
-  // Get single course by ID
+  // Get single course by ID or slug
   async getCourseById(id) {
     try {
-      const response = await api.get(`/courses/${id}`);
-      return response.data;
+      const response = await api.get(`/courses/${encodeURIComponent(id)}`);
+      if (response?.data) return response.data;
     } catch (error) {
-      try {
-        const fallback = await import('../data/frontendcourses.js');
-        const courses = fallback.default || [];
-        return courses.find((c) => 
-          String(c._id) === String(id) || 
-          String(c.id) === String(id) || 
-          (c.slug && String(c.slug).toLowerCase() === String(id).toLowerCase()) ||
-          (String(id).toLowerCase() === 'seo-and-marketing' && c.slug === 'digital-marketing')
-        ) || null;
-      } catch {
-        return null;
+      console.warn(`Direct fetch for course "${id}" failed, trying live catalog:`, error.message);
+    }
+
+    // Try fetching live courses from backend
+    try {
+      const allLiveCourses = await this.getAllCourses();
+      if (Array.isArray(allLiveCourses) && allLiveCourses.length > 0) {
+        const cleanId = String(id).toLowerCase().replace(/[^a-z0-9]/g, '');
+        const match = allLiveCourses.find((c) => {
+          const cId = String(c._id || c.id || '').toLowerCase();
+          const cSlug = String(c.slug || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+          const cTitle = String(c.title || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+          return (
+            cId === String(id).toLowerCase() ||
+            cSlug === cleanId ||
+            cTitle === cleanId ||
+            (cleanId.includes('uiux') && (cSlug.includes('uiux') || cTitle.includes('uiux'))) ||
+            (cleanId.startsWith('ui') && cleanId.includes('ux') && (cSlug.includes('uiux') || cTitle.includes('uiux'))) ||
+            (cleanId.includes('seo') && (cSlug.includes('marketing') || cTitle.includes('marketing'))) ||
+            (cleanId.includes('marketing') && (cSlug.includes('marketing') || cTitle.includes('marketing'))) ||
+            (cleanId.includes('web') && (cSlug.includes('web') || cTitle.includes('web'))) ||
+            (cleanId.includes('machine') && (cSlug.includes('machine') || cTitle.includes('machine'))) ||
+            (cleanId.includes('data') && cleanId.includes('science') && (cSlug.includes('science') || cTitle.includes('science'))) ||
+            ((cleanId.includes('java') || cleanId.includes('dsa') || cleanId.includes('structure')) && (cSlug.includes('java') || cTitle.includes('java')))
+          );
+        });
+        if (match) return match;
       }
+    } catch (allErr) {
+      console.warn('All-courses lookup failed:', allErr.message);
+    }
+
+    // Offline fallback only when backend is unreachable
+    try {
+      const fallback = await import('../data/frontendcourses.js');
+      const courses = fallback.default || [];
+      const cleanId = String(id).toLowerCase().replace(/[^a-z0-9]/g, '');
+      return courses.find((c) => {
+        const cId = String(c._id || c.id || '').toLowerCase();
+        const cSlug = String(c.slug || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+        return (
+          cId === String(id).toLowerCase() ||
+          cSlug === cleanId ||
+          (cleanId.includes('uiux') && (cSlug.includes('uiux') || cSlug.includes('ui'))) ||
+          (cleanId.startsWith('ui') && cleanId.includes('ux') && cSlug.includes('ui')) ||
+          (cleanId.includes('seo') && cSlug.includes('digital-marketing'))
+        );
+      }) || null;
+    } catch {
+      return null;
     }
   },
 

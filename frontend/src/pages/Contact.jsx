@@ -20,11 +20,8 @@ import {
 import { Link } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { sendContactEmail } from '../services/emailService';
-import { useTheme } from '../contexts/ThemeContext';
 
 export default function Contact() {
-  const { theme } = useTheme();
-
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
     if (document.documentElement) document.documentElement.scrollTop = 0;
@@ -66,9 +63,9 @@ export default function Contact() {
     {
       icon: Mail,
       title: 'Official Email',
-      value: 'yr.itsolutions.pvtltd@gmail.com',
+      value: 'yrelearning@gmail.com',
       subtext: 'We respond within 24 business hours',
-      actionUrl: 'mailto:yr.itsolutions.pvtltd@gmail.com',
+      actionUrl: 'mailto:yrelearning@gmail.com',
       actionLabel: 'Send Email',
       gradient: 'from-indigo-600 to-purple-600',
     },
@@ -158,28 +155,28 @@ export default function Contact() {
       </div>
 
       {/* Header Hero Section */}
-      <div className="relative z-10 max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 pt-3 sm:pt-6">
+      <div className="relative z-10 w-full">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="relative mb-8 sm:mb-12 md:mb-16 w-full overflow-hidden rounded-2xl sm:rounded-3xl shadow-2xl border border-slate-200/80 dark:border-slate-800 transition-all duration-500"
+          className="relative mb-8 sm:mb-12 md:mb-16 w-full overflow-hidden bg-slate-950 transition-all duration-500"
         >
-          {/* Mobile View (< md): Custom 4:3 high-res composition with centered characters and contact text */}
+          {/* Mobile artwork includes its own heading, so retain its original composition. */}
           <div
             className="block md:hidden w-full aspect-[4/3] bg-cover bg-center transition-all duration-500 relative"
             style={{
-              backgroundImage: `url('/images/${theme === 'dark' ? 'contactUs-mobile.jpg' : 'contactUs-mobile-light.jpg'}')`,
+              backgroundImage: "url('/images/contactUs-mobile.jpg')",
             }}
           >
             <div className="absolute inset-0 bg-white/5 dark:bg-gray-950/20 transition-colors duration-500 pointer-events-none" />
           </div>
 
-          {/* Desktop View (>= md): Full panoramic ultra-wide landscape composition */}
+          {/* Keep the desktop artwork at its original 5:2 ratio to avoid cropping its heading. */}
           <div
-            className="hidden md:block w-full min-h-[55vh] lg:min-h-[68vh] bg-cover bg-center transition-all duration-500 relative"
+            className="hidden md:block w-full aspect-[5/2] bg-cover bg-center transition-all duration-500 relative"
             style={{
-              backgroundImage: `url('/images/${theme === 'dark' ? 'contactUs.png' : 'contactUs-light.png'}')`,
+              backgroundImage: "url('/images/contactUs.png')",
             }}
           >
             <div className="absolute inset-0 bg-white/5 dark:bg-gray-950/40 transition-colors duration-500 pointer-events-none" />

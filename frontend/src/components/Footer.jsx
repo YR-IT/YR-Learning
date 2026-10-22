@@ -43,7 +43,7 @@ export default function Footer() {
         <div className="absolute top-1/2 left-1/4 w-16 h-16 bg-white dark:bg-gray-400 rounded-full"></div>
       </div>
 
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 sm:pt-12 pb-6">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           
           {/* Company Info */}
@@ -65,7 +65,15 @@ export default function Footer() {
                 <span className="text-xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 dark:from-blue-300 dark:to-purple-300 bg-clip-text text-transparent block">
                   YR Learning
                 </span>
-                <span className="text-xs text-gray-400 font-medium">Tech Academy</span>
+                <span className="text-xs text-gray-400 font-medium block">Tech Academy</span>
+                <a
+                  href="https://www.yritsolutions.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-xs text-blue-400 hover:text-blue-300 font-semibold transition-colors inline-block mt-0.5"
+                >
+                  A Product by YR IT Solutions ↗
+                </a>
               </div>
             </div>
             <p className="text-gray-300 dark:text-gray-400 mb-6 leading-relaxed">
@@ -76,8 +84,13 @@ export default function Footer() {
             {/* Contact Info */}
             <div className="space-y-3">
               <div className="flex items-center space-x-3 text-gray-300 dark:text-gray-400">
-                <Mail size={16} className="text-blue-400 dark:text-blue-300" />
-                <span>yr.itsolutions.pvtltd@gmail.com</span>
+                <Mail size={16} className="text-blue-400 dark:text-blue-300 shrink-0" />
+                <a 
+                  href="mailto:yrelearning@gmail.com" 
+                  className="hover:text-blue-400 dark:hover:text-blue-300 transition-colors"
+                >
+                  yrelearning@gmail.com
+                </a>
               </div>
               <div className="flex items-center space-x-3 text-gray-300 dark:text-gray-400">
                 <Phone size={16} className="text-blue-400 dark:text-blue-300" />
@@ -101,10 +114,10 @@ export default function Footer() {
               {[
                 { name: "Home", path: "/" },
                 { name: "Courses", path: "/courses" },
+                { name: "Articles", path: "/articles" },
                 { name: "About Us", path: "/about" },
                 { name: "Contact Us", path: "/contact" },
                 { name: "Enroll Now", path: "/enroll" },
-                { name: "Admin Login", path: "/login" },
               ].map((link) => (
                 <motion.div
                   key={link.name}
@@ -205,7 +218,7 @@ export default function Footer() {
               <div className="flex space-x-4">
                 {[
                   { icon: Facebook, color: "hover:text-blue-400 dark:hover:text-blue-300", link: "https://www.facebook.com/profile.php?id=61577752955890&rdid=ILY8kzZlwX92GdoH&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F162i8uqYzy%2F#" },
-                  { icon: Instagram, color: "hover:text-pink-400 dark:hover:text-pink-300", link: "https://www.instagram.com/yritsolutions2025?utm_source=ig_contact_invite" },
+                  { icon: Instagram, color: "hover:text-pink-400 dark:hover:text-pink-300", link: "https://www.instagram.com/yrelearning?srtk=MW9zOTF5Y2UweWR0OQ%3D%3D" },
                   { icon: Linkedin, color: "hover:text-blue-400 dark:hover:text-blue-300", link: "https://www.linkedin.com/in/yashika-sharma1775/?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" },
                   { icon: Youtube, color: "hover:text-red-400 dark:hover:text-red-300", link: "https://www.youtube.com/@yritsolutions" },
                 ].map((social, index) => (
@@ -228,34 +241,23 @@ export default function Footer() {
 
         {/* Bottom Bar */}
         <motion.div 
-          className="mt-8 pt-6 border-t border-white/20 dark:border-gray-700/50 flex flex-col md:flex-row items-center justify-between"
+          className="mt-8 pt-6 border-t border-white/20 dark:border-gray-700/50 flex flex-col items-center justify-center text-center"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.5 }}
         >
-          <div className="text-gray-300 dark:text-gray-400 text-sm mb-4 md:mb-0">
-            &copy; {currentYear} Yr-learning. All rights reserved.
+          <div className="text-gray-300 dark:text-gray-400 text-sm">
+            &copy; {currentYear} YR-Learning. A Product by{" "}
+            <a
+              href="https://www.yritsolutions.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-400 hover:text-blue-300 font-semibold underline underline-offset-2 transition-colors"
+            >
+              YR IT Solutions
+            </a>
+            . All rights reserved.
           </div>
-          <div className="flex space-x-6 text-sm">
-            <Link to="/privacy" className="text-gray-300 dark:text-gray-400 hover:text-blue-400 dark:hover:text-blue-300 transition-colors">
-              Privacy Policy
-            </Link>
-            <Link to="/terms" className="text-gray-300 dark:text-gray-400 hover:text-blue-400 dark:hover:text-blue-300 transition-colors">
-              Terms of Service
-            </Link>
-            <Link to="/cookies" className="text-gray-300 dark:text-gray-400 hover:text-blue-400 dark:hover:text-blue-300 transition-colors">
-              Cookie Policy
-            </Link>
-          </div>
-        </motion.div>
-
-        {/* Development Credit */}
-        <motion.div 
-          className="mt-4 pt-4 border-t border-white/10 dark:border-gray-800/50 text-center"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          transition={{ duration: 0.6, delay: 0.6 }}
-        >
         </motion.div>
       </div>
     </footer>

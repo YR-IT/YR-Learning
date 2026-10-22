@@ -53,7 +53,7 @@ ${syllabusModules ? `- Syllabus & Modules:\n${syllabusModules}` : ''}`;
 - Category: Computer Science
 - Fee: Rs. 3500
 - Duration: 45 Days | Mode: 100% Online | Rating: 4.9★ (Bestseller)
-- Instructor: Gauri Singhal (DSA & Java Instructor, Intern at YR IT Solution, Celebal Technologies | DSE @ Infosys)
+- Instructor: Gauri Singhal (DSA & Java Instructor, Software Developer at YR IT Solutions, Celebal Technologies | DSE @ Infosys)
 - Overview: Master Data Structures and Algorithms in Java with a comprehensive 45-day structured plan. From time complexity and recursion to binary trees, graphs, and dynamic programming, crack top product-based company coding interviews.
 - Syllabus & Modules:
   * Module 1 (Day 1-7): Java Essentials, OOP & Complexity Analysis (Syntax, JVM Architecture, Classes, Inheritance, Interfaces, Big-O Notation, Recursion & Call Stack)
@@ -69,7 +69,7 @@ ${syllabusModules ? `- Syllabus & Modules:\n${syllabusModules}` : ''}`;
 - Category: Development
 - Fee: Rs. 3499
 - Duration: 56 Days (8 Weeks) | Mode: 100% Online | Rating: 4.9★ (Bestseller)
-- Instructor: Sumit Kumar (Web Development Instructor, Former Full Stack Developer at DRDO & PwC)
+- Instructor: Aaditya Naulakha (Frontend Lead) & Harshvardhan Gupta (Backend Lead)
 - Overview: Complete journey from beginner to professional full-stack web developer with an 8-week structured roadmap. Master HTML5, CSS3, JavaScript, React.js, Tailwind CSS, REST APIs, Git, and cloud deployment.
 - Syllabus & Modules:
   * Phase 1 (Week 1-2): HTML & CSS Foundations (Semantic HTML5, Box Model, Flexbox, CSS Grid, Responsive Mobile-First Design, Git & GitHub)
@@ -121,13 +121,13 @@ ${syllabusModules ? `- Syllabus & Modules:\n${syllabusModules}` : ''}`;
   * Module 5 (Week 5): Applied Machine Learning for Business Insights (Predictive Modeling, Churn Prediction, Time Series Sales Forecasting, SHAP Feature Importance)
   * Module 6 (Week 6): End-to-End Capstone Project & Career Roadmap (Production Data Pipeline, Portfolio Project, GitHub Presentation, Technical Interview Prep)
 
-### 6. SEO and Marketing
-- Course URL: /course/seo-and-marketing
-- Category: Marketing
+### 6. Digital Marketing
+- Course URL: /course/digital-marketing
+- Category: Digital Marketing
 - Fee: Rs. 2499
 - Duration: 30 Days (6 Weeks) | Mode: 100% Online | Rating: 4.8★ (Bestseller)
-- Instructor: DivyaRaj Kush (SEO & Digital Marketing Lead, Growth Marketing Strategist)
-- Overview: Comprehensive Digital Marketing and SEO Bootcamp. Learn On-Page and Off-Page SEO, Keyword Research, Technical SEO, Google Ads, Meta Ads, Content Marketing, and Analytics to scale brands organically and with paid ads.
+- Instructor: DivyaRaj Kush (Digital Marketing Lead, Growth Marketing Strategist)
+- Overview: Comprehensive Digital Marketing Bootcamp. Learn On-Page and Off-Page SEO, Keyword Research, Technical SEO, Google Ads, Meta Ads, Content Marketing, and Analytics to scale brands organically and with paid ads.
 - Syllabus & Modules:
   * Module 1 (Week 1): Digital Marketing & Brand Strategy (Ecosystem, Consumer Funnel, Buyer Personas, Competitive Benchmarking, Inbound Marketing)
   * Module 2 (Week 2): SEO Mastery (Search Engines Crawling & Indexing, Keyword Research, On-Page SEO, Technical SEO, Core Web Vitals, Backlinks)
@@ -207,7 +207,7 @@ ${coursesContext}
 
 ADDITIONAL PLATFORM DETAILS:
 - How to Enroll: Students can visit [Enrollment Page](/enroll) or click "Enroll Now" on any course page.
-- Contact & Support: Email yr.itsolutions.pvtltd@gmail.com, WhatsApp +91 7404890806, or visit [Contact Page](/contact).
+- Contact & Support: Email yrelearning@gmail.com, WhatsApp +91 7404890806, or visit [Contact Page](/contact).
 - Certification: Every course includes an industry-recognized completion certificate with verifiable credential ID.
 - Mode: 100% online with live mentor support, capstone portfolio projects, and FAANG/product company mock interviews.
 

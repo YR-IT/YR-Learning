@@ -1,8 +1,9 @@
 import { useState, useEffect, useMemo } from "react";
 import { getCourses } from "../data/courses";
 import CourseCard from "../components/CourseCard";
-import { Search, Filter, Grid, List, BookOpen, Users, Clock, Star, TrendingUp, GraduationCap } from "lucide-react";
+import { Search, Filter, Grid, List, BookOpen, Users, Clock, Star, TrendingUp, GraduationCap, ArrowRight, Video, Trophy, FolderOpen, Briefcase } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useInView } from "react-intersection-observer";
 import { useSearchParams } from "react-router-dom";
 import InstructorShowcase from "../components/InstructorShowcase";
 import { useQuery } from "@tanstack/react-query";
@@ -10,6 +11,10 @@ import { useTheme } from "../contexts/ThemeContext";
 
 export default function AllCourses() {
   const { theme } = useTheme();
+  const [heroRef, heroInView] = useInView({
+    threshold: 0.1,
+    triggerOnce: true,
+  });
   const [activeCard, setActiveCard] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
@@ -133,63 +138,169 @@ export default function AllCourses() {
   return (
     <div className="min-h-screen bg-gray-950 text-gray-100 relative overflow-hidden transition-colors duration-300">
       {/* Background Pattern */}
-      <div className="absolute inset-0 opacity-20 dark:opacity-10">
+      <div className="absolute inset-0 opacity-30 dark:opacity-20 pointer-events-none">
         <div className="absolute top-0 left-0 w-96 h-96 bg-gradient-to-br from-blue-400 to-purple-400 dark:from-blue-600 dark:to-purple-600 rounded-full mix-blend-multiply filter blur-xl animate-pulse"></div>
         <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-br from-purple-400 to-pink-400 dark:from-purple-600 dark:to-pink-600 rounded-full mix-blend-multiply filter blur-xl animate-pulse" style={{ animationDelay: '2s' }}></div>
         <div className="absolute bottom-0 left-1/2 w-96 h-96 bg-gradient-to-br from-indigo-400 to-blue-400 dark:from-indigo-600 dark:to-blue-600 rounded-full mix-blend-multiply filter blur-xl animate-pulse" style={{ animationDelay: '4s' }}></div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 relative z-10">
-        {/* Header Hero Banner */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="relative mb-8 sm:mb-10 w-full overflow-hidden rounded-2xl sm:rounded-3xl shadow-2xl border border-slate-200/80 dark:border-slate-800 transition-all duration-500"
-        >
-          {/* Mobile View (< md) */}
-          <div
-            className="block md:hidden w-full aspect-[16/9] sm:aspect-[2/1] bg-cover bg-center transition-all duration-500 relative"
-            style={{
-              backgroundImage: `url('${theme === 'dark' ? '/images/hero-tech.jpg' : '/images/hero-tech-light.jpg'}')`,
-            }}
-          >
-            <div className="absolute inset-0 bg-gradient-to-t from-gray-950/95 via-gray-950/60 to-transparent flex flex-col justify-end p-5 pointer-events-none">
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-600/85 text-white text-xs font-semibold backdrop-blur-md w-fit mb-2 shadow-lg">
-                <GraduationCap size={13} />
-                <span>YR-Learning Catalog</span>
-              </div>
-              <h1 className="text-2xl sm:text-3xl font-black text-white tracking-tight drop-shadow-md">
-                Explore All Courses
-              </h1>
-              <p className="text-xs text-slate-200 mt-1 max-w-sm drop-shadow line-clamp-2">
-                Industry-aligned programs with live mentor guidance, hands-on projects & certified credentials.
-              </p>
-            </div>
-          </div>
+      {/* Geometric Pattern */}
+      <div className="absolute inset-0 opacity-10 dark:opacity-5 pointer-events-none">
+        <div className="absolute top-20 left-10 w-32 h-32 border-2 border-blue-300 dark:border-blue-600 rounded-full"></div>
+        <div className="absolute top-40 right-20 w-24 h-24 border-2 border-purple-300 dark:border-purple-600 rounded-full"></div>
+        <div className="absolute bottom-40 left-20 w-20 h-20 border-2 border-indigo-300 dark:border-indigo-600 rounded-full"></div>
+        <div className="absolute bottom-20 right-10 w-16 h-16 border-2 border-pink-300 dark:border-pink-600 rounded-full"></div>
+      </div>
 
-          {/* Desktop View (>= md) */}
-          <div
-            className="hidden md:flex w-full min-h-[340px] lg:min-h-[380px] bg-cover bg-center transition-all duration-500 relative items-end"
-            style={{
-              backgroundImage: `url('${theme === 'dark' ? '/images/hero-tech.jpg' : '/images/hero-tech-light.jpg'}')`,
-            }}
-          >
-            <div className="absolute inset-0 bg-gradient-to-t from-gray-950/95 via-gray-950/50 to-transparent flex flex-col justify-end p-8 lg:p-12 pointer-events-none">
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white text-xs font-semibold backdrop-blur-md w-fit mb-3 shadow-lg">
+      {/* Hero Section */}
+      <motion.div 
+        ref={heroRef}
+        className="relative min-h-[50vh] sm:min-h-[55vh] lg:min-h-[60vh] flex items-center bg-cover bg-center transition-all duration-500"
+        style={{ backgroundImage: `url('/images/${theme === 'dark' ? 'hero-tech.jpg' : 'hero-tech.jpg'}')` }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: heroInView ? 1 : 0 }}
+        transition={{ duration: 0.8 }}
+      >
+        <div className="absolute inset-0 bg-gradient-to-r from-white/30 via-white/10 to-transparent dark:from-gray-950/80 dark:via-gray-950/60 dark:to-gray-950/40 transition-colors duration-500 pointer-events-none" />
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full py-8 sm:py-10 lg:py-12">
+          <div className="grid lg:grid-cols-2 gap-6 lg:gap-10 items-center">
+            
+            {/* Left Content */}
+            <motion.div
+              className="space-y-3.5 sm:space-y-5 text-center lg:text-left"
+              initial={{ x: -50, opacity: 0 }}
+              animate={heroInView ? { x: 0, opacity: 1 } : {}}
+              transition={{ duration: 0.8, delay: 0.2 }}
+            >
+              {/* Badge */}
+              <div className="inline-flex items-center gap-2 rounded-full border border-purple-200 dark:border-white/20 bg-purple-50/90 dark:bg-white/10 px-3.5 py-1.5 text-xs sm:text-sm font-semibold text-purple-700 dark:text-white">
                 <GraduationCap size={15} />
                 <span>Industry-Aligned Tech Programs</span>
               </div>
-              <h1 className="text-4xl lg:text-5xl font-black text-white tracking-tight drop-shadow-lg">
-                Discover Your Perfect Course
-              </h1>
-              <p className="text-sm lg:text-base text-slate-200 mt-2 max-w-2xl drop-shadow leading-relaxed">
-                Master full-stack software development, data structures & algorithms, AI, machine learning, and UI/UX design with comprehensive roadmaps, live mentorship, and verifiable certification.
-              </p>
-            </div>
-          </div>
-        </motion.div>
 
+              {/* Main Heading */}
+              <motion.div
+                className="space-y-2 sm:space-y-3"
+                initial={{ y: 30, opacity: 0 }}
+                animate={heroInView ? { y: 0, opacity: 1 } : {}}
+                transition={{ duration: 0.8, delay: 0.4 }}
+              >
+                <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold leading-tight">
+                  <span className="text-gray-900 dark:text-white drop-shadow-sm">Discover Your Perfect</span>
+                  <br />
+                  <span className="text-gray-900 dark:text-white drop-shadow-sm">Path In </span>
+                  <span className="bg-gradient-to-r from-purple-600 to-blue-600 dark:from-purple-400 dark:to-blue-400 bg-clip-text text-transparent">
+                    Tech Career
+                  </span>
+                </h1>
+                
+                <p className="text-sm sm:text-base lg:text-lg text-gray-800 dark:text-gray-100 leading-relaxed max-w-lg mx-auto lg:mx-0 font-medium drop-shadow-sm">
+                  Master full-stack software development, DSA, AI, machine learning, and cloud architecture with comprehensive roadmaps, live mentorship, and verifiable certification.
+                </p>
+              </motion.div>
+
+              <motion.div
+                className="flex justify-center lg:justify-start"
+                initial={{ y: 30, opacity: 0 }}
+                animate={heroInView ? { y: 0, opacity: 1 } : {}}
+                transition={{ duration: 0.8, delay: 0.6 }}
+              >
+                <a
+                  href="#courses-catalog"
+                  className="group inline-flex items-center gap-3 rounded-full bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 px-7 py-3.5 font-semibold text-white shadow-xl shadow-purple-500/25 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-2xl hover:shadow-purple-500/40"
+                >
+                  <span>Explore Courses</span>
+                  <ArrowRight className="h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
+                </a>
+              </motion.div>
+
+              {/* Student Avatars */}
+              <motion.div
+                className="flex items-center gap-3 justify-center lg:justify-start"
+                initial={{ y: 30, opacity: 0 }}
+                animate={heroInView ? { y: 0, opacity: 1 } : {}}
+                transition={{ duration: 0.8, delay: 0.8 }}
+              >
+                <div className="flex -space-x-2">
+                  {[1, 2, 3, 4, 5, 6].map((i) => (
+                    <motion.div
+                      key={i}
+                      className="w-8 h-8 sm:w-10 sm:h-10 rounded-full border-2 border-white/70 overflow-hidden"
+                      initial={{ scale: 0, opacity: 0 }}
+                      animate={{ scale: 1, opacity: 1 }}
+                      transition={{ delay: 0.9 + i * 0.1 }}
+                    >
+                      <div className={`w-full h-full bg-gradient-to-br ${
+                        i % 6 === 0 ? 'from-purple-400 to-pink-400' :
+                        i % 6 === 1 ? 'from-blue-400 to-cyan-400' :
+                        i % 6 === 2 ? 'from-green-400 to-emerald-400' :
+                        i % 6 === 3 ? 'from-yellow-400 to-orange-400' :
+                        i % 6 === 4 ? 'from-red-400 to-pink-400' :
+                        'from-indigo-400 to-purple-400'
+                      } flex items-center justify-center text-white font-bold text-sm`}>
+                        {String.fromCharCode(65 + i - 1)}
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+                <div className="text-gray-700 dark:text-gray-100 text-center lg:text-left">
+                  <span className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white">5,000+</span>
+                  <span className="ml-2 text-xs sm:text-sm">Students Enrolled</span>
+                </div>
+              </motion.div>
+            </motion.div>
+
+            {/* Right Hero Visual Showcase */}
+            <motion.div
+              className="relative mt-8 lg:mt-0 flex flex-col items-center"
+              initial={{ x: 50, opacity: 0 }}
+              animate={heroInView ? { x: 0, opacity: 1 } : {}}
+              transition={{ duration: 0.8, delay: 0.4 }}
+            >
+              <div className="w-full max-w-lg rounded-2xl sm:rounded-3xl border border-gray-200/80 dark:border-white/20 bg-white/85 dark:bg-gray-950/40 p-4 sm:p-5 shadow-2xl backdrop-blur-md transition-colors duration-300">
+                <motion.div
+                  className="inline-flex items-center gap-2 rounded-full border border-purple-200 dark:border-white/20 bg-purple-50/90 dark:bg-white/10 px-3.5 py-1.5 text-xs sm:text-sm font-semibold text-purple-700 dark:text-white"
+                  animate={{ y: [0, -4, 0] }}
+                  transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+                >
+                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
+                  <span>Live Tech Mentorship</span>
+                </motion.div>
+                <motion.div
+                  className="mt-3.5 sm:mt-4 text-base sm:text-lg font-bold text-gray-900 dark:text-white"
+                  animate={{ y: [0, 4, 0] }}
+                  transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
+                >
+                  ⭐ 4.9/5 Rating <span className="text-xs sm:text-sm font-medium text-gray-600 dark:text-gray-200">(12k+ Reviews)</span>
+                </motion.div>
+              </div>
+
+              {/* Feature Pills Row */}
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-2.5 w-full max-w-lg mt-3">
+                {[
+                  { title: "Live Classes", icon: Video, color: "text-purple-600 dark:text-purple-400" },
+                  { title: "Hackathons", icon: Trophy, color: "text-blue-600 dark:text-blue-400" },
+                  { title: "Real Projects", icon: FolderOpen, color: "text-cyan-600 dark:text-cyan-400" },
+                  { title: "Internships", icon: Briefcase, color: "text-emerald-600 dark:text-emerald-400" },
+                ].map((item, index) => (
+                  <motion.div
+                    key={index}
+                    className="flex flex-col items-center justify-center p-3 rounded-2xl border border-gray-200/80 dark:border-white/10 bg-white/85 dark:bg-gray-900/50 shadow-md backdrop-blur-sm"
+                    initial={{ y: 20, opacity: 0 }}
+                    animate={heroInView ? { y: 0, opacity: 1 } : {}}
+                    transition={{ delay: 0.8 + index * 0.1 }}
+                  >
+                    <item.icon className={`w-5 h-5 ${item.color} mb-1`} />
+                    <span className="text-xs font-semibold text-gray-800 dark:text-gray-200 text-center">{item.title}</span>
+                  </motion.div>
+                ))}
+              </div>
+            </motion.div>
+          </div>
+        </div>
+      </motion.div>
+
+      <div id="courses-catalog" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 sm:pt-12 pb-8 relative z-10">
         {/* Search and Filter Section */}
         <motion.div 
           className="mb-8 sm:mb-12"

@@ -14,7 +14,7 @@ export default function InstructorShowcase() {
 			role: "DSA & Java Lead Instructor",
 			avatar: "/images/dsa_instructor.png",
 			bio:
-				"Intern at YR IT Solution, Celebal Technologies | DSE @ Infosys. Expert in Java, Data Structures, Algorithms, and cracking product coding interviews.",
+				"Software Developer at YR IT Solutions, Celebal Technologies | DSE @ Infosys. Expert in Java, Data Structures, Algorithms, and cracking product coding interviews.",
 			tags: ["Data Structures", "Java", "Algorithms", "Interview Prep"],
 			accent: "from-amber-500 via-orange-500 to-red-500",
 			linkedin: "https://www.linkedin.com/in/gaurisinghal28",
@@ -30,21 +30,32 @@ export default function InstructorShowcase() {
 		},
 		{
 			name: "DivyaRaj Kush",
-			role: "SEO & Digital Marketing Lead",
+			role: "Digital Marketing Lead",
 			avatar: "/seo_and_marketing_trainer.jpeg",
 			bio:
-				"SEO and Growth Marketing Strategist specializing in search engine optimization, content scaling, and performance marketing.",
-			tags: ["SEO", "Digital Marketing", "Google Ads", "Content"],
+				"Digital Marketing and Growth Strategist specializing in search engine optimization, content scaling, and performance marketing.",
+			tags: ["Digital Marketing", "SEO", "Google Ads", "Content"],
 			accent: "from-amber-500 via-orange-500 to-yellow-500",
 		},
 		{
-			name: "Sumit Kumar",
-			role: "Web Development Instructor",
-			avatar: "/images/trainer3.jpg",
+			name: "Aaditya Naulakha",
+			role: "Frontend Web Development Lead",
+			avatar: "/frontend_trainer.jpeg",
 			bio:
-				"Former Full Stack Developer at DRDO & PwC. Expert in React.js, Node.js, database design, and scalable web architecture.",
-			tags: ["Web", "Cloud", "Career", "Code Reviews"],
+				"Software developer passionate about AI, full-stack development, and SaaS products. Leadership experience as President of DROID Club and upcoming AI-Native Software Engineer at EPAM Systems.",
+			tags: ["Frontend", "React.js", "AI Solutions", "SaaS Architecture"],
 			accent: "from-emerald-500 via-teal-500 to-sky-500",
+			linkedin: "https://www.linkedin.com/in/aditya-naulakha",
+		},
+		{
+			name: "Harshvardhan Gupta",
+			role: "Backend Web Development Lead",
+			avatar: "/backend_trainer.jpeg",
+			bio:
+				"Software developer passionate about backend development, cloud computing, and AI. Leadership experience as Vice President of DROID Club and upcoming Programmer Analyst Trainee at Cognizant.",
+			tags: ["Backend", "Cloud Computing", "AI", "Node.js", "Scalable Systems"],
+			accent: "from-blue-600 via-indigo-600 to-purple-600",
+			linkedin: "https://www.linkedin.com/in/harshvardhan-gupta",
 		},
 		{
 			name: "Isha",
@@ -55,15 +66,6 @@ export default function InstructorShowcase() {
 			tags: ["UI/UX", "Design Systems", "Wireframing", "User Research"],
 			accent: "from-pink-500 via-rose-500 to-red-500",
 			linkedin: "https://LinkedIn.com/in/isha-uiux",
-		},
-		{
-			name: "Ridham",
-			role: "Data Science Trainer",
-			avatar: "/images/Trainer5.jpeg",
-			bio:
-				"Ex-Data Science Trainee at Creator's Bite US. Learn from industry expert and gain hands-on experience in Data Science, Machine Learning, and Analytics.",
-			tags: ["Data Science", "Machine Learning", "Analytics", "Python"],
-			accent: "from-orange-500 via-amber-500 to-yellow-500",
 		},
 		{
 			name: "Gautam",
@@ -82,15 +84,6 @@ export default function InstructorShowcase() {
 				"Ex-data analyst at Novateur Electrical and Digital System Pvt Ltd. Learn from industry expert and gain hands-on experience in Machine Learning and AI.",
 			tags: ["Machine Learning", "AI", "Data Analysis", "Deep Learning"],
 			accent: "from-violet-500 via-purple-500 to-fuchsia-500",
-		},
-		{
-			name: "Aryan Kumar",
-			role: "Web Development Trainer",
-			avatar: "/images/Trainer7.jpeg",
-			bio:
-				"Official member of Superteam India and Ex-TA at Coding Ninjas. Learn from industry expert and gain hands-on experience in Web Development.",
-			tags: ["Web Development", "React", "Node.js", "Mentorship"],
-			accent: "from-green-500 via-emerald-500 to-teal-500",
 		},
 	];
 
@@ -216,6 +209,9 @@ export default function InstructorShowcase() {
 													src={instructor.avatar}
 													alt={instructor.name}
 													className="w-full h-full rounded-xl object-cover border-2 border-white dark:border-gray-200 shadow-lg transition-colors duration-300"
+													style={{
+														objectPosition: instructor.avatar?.includes('frontend_trainer') || instructor.name?.includes('Aaditya') ? 'top center' : 'center',
+													}}
 												/>
 											</div>
 											{/* Online status */}

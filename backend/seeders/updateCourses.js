@@ -22,7 +22,7 @@ const targetCourses = [
     instructor: {
       name: "Gauri Singhal",
       role: "DSA & Java Instructor",
-      bio: "Intern at YR IT Solution, Celebal Technologies | DSE @ Infosys. Passionate about algorithms, interview problem solving, and mentoring students.",
+      bio: "Software Developer at YR IT Solutions, Celebal Technologies | DSE @ Infosys. Passionate about algorithms, interview problem solving, and mentoring students.",
       avatar: "/images/dsa_instructor.png",
       linkedin: "https://www.linkedin.com/in/gaurisinghal28"
     },
@@ -127,11 +127,11 @@ const targetCourses = [
     ]
   },
   {
-    title: "Digital Marketing and SEO",
+    title: "Digital Marketing",
     description: "Comprehensive masterclass on Search Engine Optimization (SEO), organic growth strategies, keyword research, technical SEO audits, Google Ads, and high-converting performance marketing.",
     image: "/images/Digital-Marketing.jpg",
     price: 3500,
-    category: "Business",
+    category: "Digital Marketing",
     duration: 30,
     students: 5000,
     rating: 4.8,
@@ -139,10 +139,10 @@ const targetCourses = [
     language: "Hindi + English",
     mode: "100% Online",
     instructor: {
-      name: "Jane Smith",
-      role: "Digital Marketing & SEO Lead",
-      bio: "Digital Marketing & SEO strategist with over 8 years of experience scaling organic traffic and marketing funnels.",
-      avatar: "/images/trainer1.jpg"
+      name: "DivyaRaj Kush",
+      role: "Digital Marketing Lead",
+      bio: "Digital Marketing strategist with over 8 years of experience scaling organic traffic and marketing funnels.",
+      avatar: "/seo_and_marketing_trainer.jpeg"
     },
     chapters: [
       { id: 1, title: "Fundamentals of Digital Marketing & Brand Positioning" },
@@ -181,7 +181,7 @@ const targetCourses = [
   {
     title: "AI and Machine Learning",
     description: "Master artificial intelligence and machine learning from the ground up: Python, mathematics, regression, neural networks, computer vision, NLP, and modern Generative AI & LLM workflows.",
-    image: "/images/ai.jpg",
+    image: "/images/machine-learning.jpg",
     price: 3500,
     category: "Data Science",
     duration: 40,
@@ -243,10 +243,10 @@ const targetCourses = [
     language: "Hindi + English",
     mode: "100% Online",
     instructor: {
-      name: "Sumit Kumar",
-      role: "Web Development Instructor",
-      bio: "Former Full Stack Developer at DRDO & PwC. Expert in React.js, Node.js, database design, and scalable web architecture.",
-      avatar: "/images/trainer3.jpg"
+      name: "Aaditya Naulakha & Harshvardhan Gupta",
+      role: "Frontend & Backend Development Leads",
+      bio: "Aaditya Naulakha (Frontend Lead): Software developer passionate about AI, full-stack development, and SaaS products. Harshvardhan Gupta (Backend Lead): Backend Architect specializing in scalable server development, database architecture, Express/Node.js, and scalable APIs.",
+      avatar: "/frontend_trainer.jpeg"
     },
     chapters: [
       { id: 1, title: "Modern HTML5, Responsive CSS3 & Tailwind CSS" },

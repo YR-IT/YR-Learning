@@ -45,6 +45,9 @@ export default function InstructorCard({ instructor }) {
             src={instructor.avatar}
             alt={instructor.name}
             className="w-24 h-24 rounded-full object-cover border-4 border-white shadow-lg group-hover:border-blue-200 transition-all duration-300"
+            style={{
+              objectPosition: instructor.avatar?.includes('frontend_trainer') || instructor.name?.includes('Aaditya') ? 'top center' : 'center',
+            }}
             whileHover={{ scale: 1.1, rotate: 5 }}
             transition={{ duration: 0.3 }}
           />

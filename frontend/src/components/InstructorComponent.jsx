@@ -7,7 +7,7 @@ const INSTRUCTORS = {
     name: "Gauri Singhal",
     role: "DSA & Java Instructor",
     avatar: "/images/dsa_instructor.png",
-    bio: "Intern at YR IT Solution, Celebal Technologies | DSE @ Infosys. Passionate about algorithms, interview problem solving, and mentoring students.",
+    bio: "Software Developer at YR IT Solutions, Celebal Technologies | DSE @ Infosys. Passionate about algorithms, interview problem solving, and mentoring students.",
     rating: 4.9,
     students: "6,500+",
     courses: 5,
@@ -21,13 +21,13 @@ const INSTRUCTORS = {
   },
   'digital marketing': {
     name: "DivyaRaj Kush",
-    role: "SEO & Digital Marketing Lead",
+    role: "Digital Marketing Lead",
     avatar: "/seo_and_marketing_trainer.jpeg",
-    bio: "SEO and Growth Marketing Strategist specializing in search engine optimization, content scaling, and performance marketing.",
+    bio: "Digital Marketing and Growth Strategist specializing in search engine optimization, content scaling, and performance marketing.",
     rating: 4.8,
     students: "8,900+",
     courses: 11,
-    expertise: ["SEO", "Content Marketing", "Google Ads", "Social Media", "Analytics"],
+    expertise: ["Digital Marketing", "SEO", "Content Marketing", "Google Ads", "Social Media", "Analytics"],
     social: {
       twitter: "#",
       linkedin: "#",
@@ -68,20 +68,38 @@ const INSTRUCTORS = {
     email: "vijay@example.com"
   },
   'web development': {
-    name: "Sumit Kumar",
-    role: "Web Development Instructor",
-    avatar: "/images/trainer3.jpg",
-    bio: "Former Full Stack Developer at DRDO & PwC. Expert in React.js, Node.js, and scalable web architecture.",
-    rating: 4.7,
+    name: "Aaditya Naulakha & Harshvardhan Gupta",
+    role: "Frontend & Backend Development Leads",
+    avatar: "/frontend_trainer.jpeg",
+    bio: "Aaditya Naulakha (Frontend Lead): Software developer passionate about AI, full-stack development, and SaaS products. Leadership experience as President of DROID Club and upcoming AI-Native Software Engineer at EPAM Systems. Harshvardhan Gupta (Backend Lead): Software developer passionate about backend development, cloud computing, and AI. Leadership experience as Vice President of DROID Club and upcoming Programmer Analyst Trainee at Cognizant.",
+    rating: 4.9,
     students: "12,000+",
     courses: 18,
-    expertise: ["Web Development", "Full Stack", "React.js", "Node.js", "JavaScript"],
+    expertise: ["Frontend (React.js)", "Backend (Node.js)", "Cloud Computing", "AI Solutions", "Express", "MongoDB", "SaaS Architecture"],
+    instructors: [
+      {
+        name: "Aaditya Naulakha",
+        role: "Frontend Web Development Lead",
+        avatar: "/frontend_trainer.jpeg",
+        bio: "Software developer passionate about AI, full-stack development, and SaaS products. Leadership experience as President of DROID Club and upcoming AI-Native Software Engineer at EPAM Systems.",
+        expertise: ["Frontend", "React.js", "AI-Driven Solutions", "SaaS"],
+        linkedin: "https://www.linkedin.com/in/aditya-naulakha"
+      },
+      {
+        name: "Harshvardhan Gupta",
+        role: "Backend Web Development Lead",
+        avatar: "/backend_trainer.jpeg",
+        bio: "Software developer passionate about backend development, cloud computing, and AI. Leadership experience as Vice President of DROID Club and upcoming Programmer Analyst Trainee at Cognizant.",
+        expertise: ["Backend", "Cloud Computing", "AI", "Node.js", "Express", "System Design", "MongoDB"],
+        linkedin: "https://www.linkedin.com/in/harshvardhan-gupta"
+      }
+    ],
     social: {
       twitter: "#",
-      linkedin: "https://www.linkedin.com/in/er-sumit-kr?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app",
+      linkedin: "#",
       github: "#"
     },
-    email: "sumit@example.com"
+    email: "yrelearning@gmail.com"
   },
   'cyber security': {
     name: "Gautam",
@@ -135,7 +153,7 @@ const INSTRUCTORS = {
     name: "Gauri Singhal",
     role: "DSA & Java Instructor",
     avatar: "/images/dsa_instructor.png",
-    bio: "Intern at YR IT Solution, Celebal Technologies | DSE @ Infosys. Expert in Java, algorithms, and interview preparation.",
+    bio: "Software Developer at YR IT Solutions, Celebal Technologies | DSE @ Infosys. Expert in Java, algorithms, and interview preparation.",
     rating: 4.9,
     students: "8,500+",
     courses: 12,
@@ -193,6 +211,134 @@ export default function InstructorCard({ courseTitle = '', instructor: propInstr
 
   const instructor = getInstructor();
 
+  // If the course has multiple instructors (e.g. Web Development with Frontend & Backend leads)
+  if (instructor.instructors && instructor.instructors.length > 0) {
+    return (
+      <div className="relative max-w-6xl mx-auto space-y-6">
+        {/* Decorative elements */}
+        <div className="absolute -top-10 -left-10 w-40 h-40 bg-blue-100 dark:bg-blue-900/30 rounded-full filter blur-3xl opacity-70 pointer-events-none" />
+        <div className="absolute -bottom-10 -right-10 w-60 h-60 bg-purple-100 dark:bg-purple-900/20 rounded-full filter blur-3xl opacity-50 pointer-events-none" />
+
+        <div className="text-center sm:text-left mb-2">
+          <p className="text-xs uppercase tracking-wider text-blue-600 dark:text-blue-400 font-semibold mb-1">
+            Dedicated Mentors
+          </p>
+          <h3 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">
+            Learn from Frontend &amp; Backend Specialists
+          </h3>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {instructor.instructors.map((inst, index) => (
+            <motion.div
+              key={index}
+              className="relative bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-2xl shadow-xl overflow-hidden border border-white/50 dark:border-gray-700/50 group flex flex-col justify-between"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              whileHover={{
+                y: -4,
+                boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
+              }}
+              transition={{ duration: 0.4, delay: index * 0.1 }}
+            >
+              {/* Gradient accent line */}
+              <div
+                className={`h-1.5 bg-gradient-to-r ${
+                  index === 0
+                    ? 'from-emerald-500 via-teal-500 to-sky-500'
+                    : 'from-blue-600 via-indigo-600 to-purple-600'
+                } transition-all duration-300 group-hover:h-2`}
+              />
+
+              <div className="p-6 sm:p-7 flex-1 flex flex-col">
+                <div className="flex flex-col sm:flex-row gap-5 items-center sm:items-start text-center sm:text-left">
+                  {/* Profile Image */}
+                  <div className="relative shrink-0">
+                    <div
+                      className={`absolute -inset-1 bg-gradient-to-r ${
+                        index === 0 ? 'from-teal-500 to-emerald-600' : 'from-blue-600 to-indigo-600'
+                      } rounded-2xl opacity-70 group-hover:opacity-100 blur-md transition-all duration-300`}
+                    />
+                    <div className="relative z-10 w-28 h-28 sm:w-32 sm:h-32 rounded-2xl overflow-hidden border-4 border-white dark:border-gray-800 shadow-md">
+                      <img
+                        src={inst.avatar}
+                        alt={inst.name}
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                        style={{
+                          objectPosition:
+                            inst.avatar?.includes('frontend_trainer') || inst.name?.includes('Aaditya')
+                              ? 'top center'
+                              : 'center',
+                        }}
+                        onError={(e) => {
+                          e.target.onerror = null;
+                          e.target.src = '/images/trainer3.jpg';
+                        }}
+                      />
+                    </div>
+                    <div className="absolute -bottom-2 -right-2 z-20 bg-gradient-to-br from-blue-600 to-indigo-600 text-white p-1.5 rounded-full shadow-md">
+                      <Award size={16} className="text-yellow-300" />
+                    </div>
+                  </div>
+
+                  {/* Info */}
+                  <div className="flex-1 min-w-0">
+                    <h4 className="text-xl font-bold text-gray-900 dark:text-white mb-1">
+                      {inst.name}
+                    </h4>
+                    <div className="flex flex-wrap items-center gap-2 mb-3">
+                      <span
+                        className={`inline-block px-3 py-1 rounded-full text-xs font-semibold ${
+                          index === 0
+                            ? 'bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800/40'
+                            : 'bg-blue-50 dark:bg-blue-950/40 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-800/40'
+                        }`}
+                      >
+                        {inst.role}
+                      </span>
+                      {inst.linkedin && (
+                        <a
+                          href={inst.linkedin}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          onClick={(e) => e.stopPropagation()}
+                          className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-blue-50 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 hover:bg-blue-600 hover:text-white text-xs font-semibold transition-all shadow-sm border border-blue-200 dark:border-blue-800/50"
+                        >
+                          <Linkedin size={12} />
+                          <span>LinkedIn</span>
+                        </a>
+                      )}
+                    </div>
+                    <p className="text-gray-600 dark:text-gray-300 text-xs sm:text-sm leading-relaxed mb-4">
+                      {inst.bio}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Expertise Tags */}
+                {inst.expertise && (
+                  <div className="mt-auto pt-3 border-t border-gray-100 dark:border-gray-700/60">
+                    <div className="flex flex-wrap justify-center sm:justify-start gap-1.5">
+                      {inst.expertise.map((skill, sIdx) => (
+                        <span
+                          key={sIdx}
+                          className="inline-flex items-center gap-1 bg-gray-50 dark:bg-gray-800 text-gray-700 dark:text-gray-300 text-[11px] font-medium px-2.5 py-1 rounded-full border border-gray-200 dark:border-gray-700"
+                        >
+                          <Check size={11} className="text-blue-500 shrink-0" />
+                          {skill}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="relative max-w-6xl mx-auto">
       {/* Decorative elements */}
@@ -231,6 +377,9 @@ export default function InstructorCard({ courseTitle = '', instructor: propInstr
                   src={instructor.avatar}
                   alt={instructor.name}
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  style={{
+                    objectPosition: instructor.avatar?.includes('frontend_trainer') || instructor.name?.includes('Aaditya') ? 'top center' : 'center',
+                  }}
                   onError={(e) => {
                     e.target.onerror = null;
                     e.target.src = '/images/trainer3.jpg';

@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import { Edit, Trash2, Plus, Save, X, Eye, Video } from 'lucide-react';
 import { API_BASE_URL } from '../services/api';
 import toast from 'react-hot-toast';
 import './EditCourse.css';
 
 const EditCourse = () => {
+  const { courseId } = useParams();
   const [courses, setCourses] = useState([]);
   const [selectedCourse, setSelectedCourse] = useState(null);
   const [lessons, setLessons] = useState([]);
@@ -46,6 +48,14 @@ const EditCourse = () => {
       const response = await fetch(`${API_BASE}/course/allcourses`);
       const data = await response.json();
       setCourses(data || []);
+      if (courseId && Array.isArray(data)) {
+        const found = data.find(c => 
+          String(c._id) === String(courseId) || 
+          String(c.id) === String(courseId) || 
+          (c.slug && String(c.slug).toLowerCase() === String(courseId).toLowerCase())
+        );
+        if (found) selectCourse(found);
+      }
     } catch (error) {
       console.error('Error fetching courses:', error);
     }
@@ -125,7 +135,11 @@ const EditCourse = () => {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${token}`
         },
-        body: JSON.stringify({ ...courseForm, curriculum: { sections } })
+        body: JSON.stringify({ 
+          ...courseForm, 
+          price: Number(courseForm.price || 0),
+          curriculum: { sections } 
+        })
       });
       const data = await response.json();
       if (!response.ok) throw new Error(data.message || 'Failed to update course.');

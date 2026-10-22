@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Menu,
@@ -7,23 +7,15 @@ import {
   BookOpen,
   Home,
   Info,
-  LogIn,
-  ChevronDown,
   FileText,
-  ShieldCheck,
-  LogOut,
   Bot,
   Mail,
 } from "lucide-react";
-import toast from "react-hot-toast";
-import authService from "../services/authService";
 
-export default function Navbar({ SetisAuthenticated }) {
+export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const location = useLocation();
-  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -41,25 +33,6 @@ export default function Navbar({ SetisAuthenticated }) {
     { path: "/contact", label: "Contact", icon: Mail },
     { path: "/chatbot", label: "AI Chatbot", icon: Bot },
   ];
-
-  // Ensure page content isn't hidden behind the bottom mobile nav
-  useEffect(() => {
-    const applyPadding = () => {
-      const isMobile = window.innerWidth < 768; // md breakpoint
-      if (isMobile) {
-        document.body.style.paddingBottom = "64px"; // height of bottom nav
-      } else {
-        document.body.style.paddingBottom = "0px";
-      }
-    };
-    applyPadding();
-    window.addEventListener("resize", applyPadding);
-    return () => {
-      window.removeEventListener("resize", applyPadding);
-      // cleanup on unmount
-      document.body.style.paddingBottom = "0px";
-    };
-  }, []);
 
   return (
     <>
@@ -130,71 +103,6 @@ export default function Navbar({ SetisAuthenticated }) {
               })}
             </div>
 
-            {/* Right Side Actions */}
-            <div className="hidden md:flex items-center space-x-3">
-              {/* User / Admin Menu */}
-              <div className="relative">
-                <motion.button
-                  onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
-                  className="flex items-center space-x-2 p-2 rounded-lg text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-gray-800 transition-all"
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  <div className="w-8 h-8 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-full flex items-center justify-center font-bold text-white text-xs shadow">
-                    {authService.isAuthenticated() ? "AD" : "YR"}
-                  </div>
-                  <ChevronDown size={16} className={`transition-transform ${isUserMenuOpen ? "rotate-180" : ""}`} />
-                </motion.button>
-
-                <AnimatePresence>
-                  {isUserMenuOpen && (
-                    <motion.div
-                      initial={{ opacity: 0, y: 10, scale: 0.95 }}
-                      animate={{ opacity: 1, y: 0, scale: 1 }}
-                      exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                      transition={{ duration: 0.2 }}
-                      className="absolute right-0 mt-2 w-52 bg-white dark:bg-gray-900 rounded-xl shadow-lg border border-gray-100 dark:border-gray-700 py-2 z-50"
-                    >
-                      {authService.isAuthenticated() ? (
-                        <>
-                          <Link
-                            to="/panel"
-                            className="flex items-center space-x-2 px-4 py-2.5 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-gray-800 rounded-lg transition-all"
-                            onClick={() => setIsUserMenuOpen(false)}
-                          >
-                            <ShieldCheck size={16} className="text-blue-600 dark:text-blue-400" />
-                            <span>Admin Panel</span>
-                          </Link>
-                          <button
-                            onClick={() => {
-                              authService.logout();
-                              if (SetisAuthenticated) SetisAuthenticated(false);
-                              setIsUserMenuOpen(false);
-                              toast.success("Logged out successfully");
-                              navigate("/login");
-                            }}
-                            className="w-full flex items-center space-x-2 px-4 py-2.5 text-sm font-medium text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-all"
-                          >
-                            <LogOut size={16} />
-                            <span>Logout</span>
-                          </button>
-                        </>
-                      ) : (
-                        <Link
-                          to="/login"
-                          className="flex items-center space-x-2 px-4 py-2.5 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-gray-800 rounded-lg transition-all"
-                          onClick={() => setIsUserMenuOpen(false)}
-                        >
-                          <LogIn size={16} className="text-blue-600 dark:text-blue-400" />
-                          <span>Admin Login</span>
-                        </Link>
-                      )}
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
-            </div>
-
             {/* Mobile Top Actions */}
             <div className="md:hidden flex items-center gap-2">
               <button
@@ -255,42 +163,6 @@ export default function Navbar({ SetisAuthenticated }) {
                       </Link>
                     );
                   })}
-                  <div className="border-t border-gray-200 dark:border-gray-700 pt-2 mt-2">
-                    {authService.isAuthenticated() ? (
-                      <>
-                        <Link
-                          to="/panel"
-                          onClick={() => setIsMobileMenuOpen(false)}
-                          className="flex items-center space-x-2 px-3.5 py-2.5 text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-gray-800 rounded-lg transition-all"
-                        >
-                          <ShieldCheck size={18} className="text-blue-600 dark:text-blue-400" />
-                          <span>Admin Panel</span>
-                        </Link>
-                        <button
-                          onClick={() => {
-                            authService.logout();
-                            if (SetisAuthenticated) SetisAuthenticated(false);
-                            setIsMobileMenuOpen(false);
-                            toast.success("Logged out successfully");
-                            navigate("/login");
-                          }}
-                          className="w-full flex items-center space-x-2 px-3.5 py-2.5 text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-all"
-                        >
-                          <LogOut size={18} />
-                          <span>Logout</span>
-                        </button>
-                      </>
-                    ) : (
-                      <Link
-                        to="/login"
-                        onClick={() => setIsMobileMenuOpen(false)}
-                        className="flex items-center space-x-2 px-3.5 py-2.5 text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-gray-800 rounded-lg transition-all"
-                      >
-                        <LogIn size={18} className="text-blue-600 dark:text-blue-400" />
-                        <span>Admin Login</span>
-                      </Link>
-                    )}
-                  </div>
                 </div>
               </div>
             </motion.div>

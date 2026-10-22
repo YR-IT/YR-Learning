@@ -57,7 +57,7 @@ export default function EnrollmentPage() {
       if (lower.includes('data structure') || lower.includes('dsa') || lower.includes('java')) {
         setFormData(prev => ({ ...prev, courseEnrolledFor: 'Data Structures and Algorithms in Java' }));
       } else if (lower.includes('digital') || lower.includes('marketing') || lower.includes('seo')) {
-        setFormData(prev => ({ ...prev, courseEnrolledFor: 'Digital Marketing and SEO' }));
+        setFormData(prev => ({ ...prev, courseEnrolledFor: 'Digital Marketing' }));
       } else if (lower.includes('ai') || lower.includes('machine learning')) {
         setFormData(prev => ({ ...prev, courseEnrolledFor: 'AI and Machine Learning' }));
       } else if (lower.includes('web') || lower.includes('react') || lower.includes('full-stack') || lower.includes('javascript')) {
@@ -155,7 +155,7 @@ export default function EnrollmentPage() {
 
   const coursesList = [
     'Data Structures and Algorithms in Java',
-    'Digital Marketing and SEO',
+    'Digital Marketing',
     'AI and Machine Learning',
     'Web Development',
     'Graphic Designing and Video Editing',

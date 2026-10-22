@@ -65,6 +65,28 @@ const getCourseById = async (req, res) => {
       });
     }
 
+    // Flexible fuzzy matching for slugs with slashes/hyphens (e.g. ui-ux-design, ui-ux vs uiux-design)
+    if (!course) {
+      const cleanParam = param.toLowerCase().replace(/[^a-z0-9]/g, '');
+      const allCourses = await Course.find({});
+      course = allCourses.find((c) => {
+        const cSlug = (c.slug || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+        const cTitle = (c.title || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+        return (
+          cSlug === cleanParam ||
+          cTitle === cleanParam ||
+          (cleanParam.includes('uiux') && (cSlug.includes('uiux') || cTitle.includes('uiux'))) ||
+          (cleanParam.startsWith('ui') && cleanParam.includes('ux') && (cSlug.includes('uiux') || cTitle.includes('uiux'))) ||
+          (cleanParam.includes('seo') && (cSlug.includes('marketing') || cTitle.includes('marketing'))) ||
+          (cleanParam.includes('marketing') && (cSlug.includes('marketing') || cTitle.includes('marketing'))) ||
+          (cleanParam.includes('web') && (cSlug.includes('web') || cTitle.includes('web'))) ||
+          (cleanParam.includes('machine') && (cSlug.includes('machine') || cTitle.includes('machine'))) ||
+          (cleanParam.includes('data') && cleanParam.includes('science') && (cSlug.includes('science') || cTitle.includes('science'))) ||
+          ((cleanParam.includes('java') || cleanParam.includes('dsa') || cleanParam.includes('structure')) && (cSlug.includes('java') || cTitle.includes('java')))
+        );
+      });
+    }
+
     if (!course) {
       return res.status(404).json({ message: 'Course not found' });
     }
@@ -132,6 +154,9 @@ const updateCourse = async (req, res) => {
     const updateData = { ...req.body };
     if (updateData.title && !updateData.slug) {
       updateData.slug = slugify(updateData.title);
+    }
+    if (updateData.price !== undefined) {
+      updateData.price = Number(updateData.price);
     }
     const updated = await Course.findByIdAndUpdate(courseId, updateData, {
       new: true,

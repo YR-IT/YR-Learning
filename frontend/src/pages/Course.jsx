@@ -176,8 +176,8 @@ export default function Course() {
               </div>
               
               <div className="flex items-center gap-4 mb-8">
-                <span className="text-3xl font-bold text-white">Rs. {course.price}</span>
-                <span className="text-lg text-gray-300 line-through">Rs. {Math.round(course.price * 1.5)}</span>
+                <span className="text-3xl font-bold text-white">Rs. {Number(course.price || 0).toLocaleString('en-IN')}</span>
+                <span className="text-lg text-gray-300 line-through">Rs. {Math.round(Number(course.price || 0) * 1.5).toLocaleString('en-IN')}</span>
                 <span className="bg-red-500 text-white px-2 py-1 rounded text-sm font-semibold">
                   33% OFF
                 </span>
@@ -337,7 +337,7 @@ export default function Course() {
               >
                 <div className="p-6">
                   <div className="text-center mb-6">
-                    <span className="text-4xl font-bold text-gray-900 dark:text-white">Rs. {course.price}</span>
+                    <span className="text-4xl font-bold text-gray-900 dark:text-white">Rs. {Number(course.price || 0).toLocaleString('en-IN')}</span>
                     <p className="text-gray-600 dark:text-gray-400 mt-2">One-time payment</p>
                   </div>
                   

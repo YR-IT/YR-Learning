@@ -109,18 +109,18 @@ export default function Home() {
       <motion.div 
         ref={heroRef}
         className="relative min-h-screen flex items-center bg-cover bg-center transition-all duration-500"
-        style={{ backgroundImage: `url('/images/${theme === 'dark' ? 'hero-tech.jpg' : 'hero-tech-light.jpg'}')` }}
+        style={{ backgroundImage: "url('/images/hero-tech.jpg')" }}
         initial={{ opacity: 0 }}
         animate={{ opacity: heroInView ? 1 : 0 }}
         transition={{ duration: 0.8 }}
       >
         <div className="absolute inset-0 bg-gradient-to-r from-white/30 via-white/10 to-transparent dark:from-gray-950/80 dark:via-gray-950/60 dark:to-gray-950/40 transition-colors duration-500 pointer-events-none" />
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full pt-12 pb-8 sm:pt-14 lg:pt-0 lg:pb-0">
           <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
             
             {/* Left Content */}
             <motion.div
-              className="space-y-4 sm:space-y-6 text-center lg:text-left"
+              className="space-y-4 sm:space-y-6 text-center lg:text-left pt-2 sm:pt-4 lg:pt-0"
               initial={{ x: -50, opacity: 0 }}
               animate={heroInView ? { x: 0, opacity: 1 } : {}}
               transition={{ duration: 0.8, delay: 0.2 }}
@@ -144,6 +144,21 @@ export default function Home() {
                 <p className="text-base sm:text-lg lg:text-xl text-gray-800 dark:text-gray-100 leading-relaxed max-w-lg mx-auto lg:mx-0 font-medium drop-shadow-sm">
                   Transform your career with expert-led courses, hands-on projects, and industry-recognized certifications from top professionals.
                 </p>
+              </motion.div>
+
+              <motion.div
+                className="flex justify-center lg:justify-start"
+                initial={{ y: 30, opacity: 0 }}
+                animate={heroInView ? { y: 0, opacity: 1 } : {}}
+                transition={{ duration: 0.8, delay: 0.6 }}
+              >
+                <Link
+                  to="/enroll"
+                  className="group inline-flex items-center gap-3 rounded-full bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 px-7 py-3.5 font-semibold text-white shadow-xl shadow-purple-500/25 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-2xl hover:shadow-purple-500/40"
+                >
+                  <span>Enroll Now</span>
+                  <ArrowRight className="h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
+                </Link>
               </motion.div>
 
               {/* Student Avatars */}

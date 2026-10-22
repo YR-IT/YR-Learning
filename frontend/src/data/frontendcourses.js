@@ -6,7 +6,7 @@ const courses = [
     title: "Data Structures and Algorithms in Java",
     description: "Master Data Structures and Algorithms in Java with a comprehensive 45-day structured plan. From time complexity and recursion to binary trees, graphs, and dynamic programming, crack top product-based company coding interviews.",
     image: "/images/ai-learning.jpg",
-    price: 3500,
+    price: 2999,
     category: "Computer Science",
     duration: 45,
     students: 5200,
@@ -17,7 +17,7 @@ const courses = [
     instructor: {
       name: "Gauri Singhal",
       role: "DSA & Java Instructor",
-      bio: "Intern at YR IT Solution, Celebal Technologies | DSE @ Infosys. Passionate about algorithms, interview problem solving, and mentoring students.",
+      bio: "Software Developer at YR IT Solutions, Celebal Technologies | DSE @ Infosys. Passionate about algorithms, interview problem solving, and mentoring students.",
       avatar: "/images/dsa_instructor.png",
       linkedin: "https://www.linkedin.com/in/gaurisinghal28",
       social: {
@@ -102,8 +102,8 @@ const courses = [
     slug: "ui-ux",
     title: "UI/UX Design",
     description: "Master modern UI/UX design from scratch using Figma. Learn design thinking, user research, wireframing, component systems, auto-layout, interactive prototyping, and build production-ready digital interfaces.",
-    image: "/images/Digital-Marketing.jpg",
-    price: 2999,
+    image: "/images/ui-ux-design.jpg",
+    price: 2499,
     category: "Design",
     duration: 30,
     students: 3800,
@@ -186,8 +186,8 @@ const courses = [
     slug: "machine-learning",
     title: "Machine Learning",
     description: "A hands-on journey into Artificial Intelligence and Machine Learning. Master Python data science libraries, regression, classification, clustering, random forests, neural networks, and model deployment.",
-    image: "/images/ai.jpg",
-    price: 3800,
+    image: "/images/machine-learning.jpg",
+    price: 2499,
     category: "Artificial Intelligence",
     duration: 40,
     students: 4200,
@@ -277,8 +277,8 @@ const courses = [
     slug: "data-science",
     title: "Data Science",
     description: "Become a proficient Data Scientist with industry-standard statistical analysis, SQL querying, data wrangling with Pandas, predictive modeling, business intelligence dashboards, and machine learning insights.",
-    image: "/images/Artificial-Intelligence-for-Materials-Discovery-and-Design.png",
-    price: 3500,
+    image: "/images/data-science.jpg",
+    price: 3499,
     category: "Data Science",
     duration: 45,
     students: 4600,
@@ -463,7 +463,7 @@ const courses = [
     title: "Web Development",
     description: "Your complete journey from beginner to professional full-stack web developer with an 8-week structured roadmap. Master HTML5, CSS3, JavaScript, React.js, modern UI frameworks, responsive design, Git, and deployment.",
     image: "/images/webdev-workspace.jpg",
-    price: 3499,
+    price: 2499,
     category: "Development",
     duration: 56,
     students: 7200,
@@ -472,21 +472,42 @@ const courses = [
     language: "Hindi + English",
     mode: "100% Online",
     instructor: {
-      name: "Sumit Kumar",
-      role: "Web Development Instructor",
-      bio: "Former Full Stack Developer at DRDO & PwC. Expert in React.js, Node.js, database design, and scalable web architecture.",
-      avatar: "/images/trainer3.jpg",
-      linkedin: "https://www.linkedin.com/in/er-sumit-kr",
+      name: "Aaditya Naulakha & Harshvardhan Gupta",
+      role: "Frontend & Backend Development Leads",
+      bio: "Aaditya Naulakha (Frontend Lead): Software developer passionate about AI, full-stack development, and SaaS products. Leadership experience as President of DROID Club and upcoming AI-Native Software Engineer at EPAM Systems. Harshvardhan Gupta (Backend Lead): Software developer passionate about backend development, cloud computing, and AI. Leadership experience as Vice President of DROID Club and upcoming Programmer Analyst Trainee at Cognizant.",
+      avatar: "/frontend_trainer.jpeg",
+      coAvatar: "/backend_trainer.jpeg",
+      linkedin: "https://www.linkedin.com/in/aditya-naulakha",
       social: {
-        linkedin: "https://www.linkedin.com/in/er-sumit-kr",
+        linkedin: "https://www.linkedin.com/in/aditya-naulakha",
       },
+      instructors: [
+        {
+          name: "Aaditya Naulakha",
+          role: "Frontend Web Development Lead",
+          avatar: "/frontend_trainer.jpeg",
+          bio: "Software developer passionate about AI, full-stack development, and SaaS products. Leadership experience as President of DROID Club and upcoming AI-Native Software Engineer at EPAM Systems.",
+          expertise: ["Frontend", "React.js", "AI-Driven Solutions", "SaaS Architecture"],
+          linkedin: "https://www.linkedin.com/in/aditya-naulakha"
+        },
+        {
+          name: "Harshvardhan Gupta",
+          role: "Backend Web Development Lead",
+          avatar: "/backend_trainer.jpeg",
+          bio: "Software developer passionate about backend development, cloud computing, and AI. Leadership experience as Vice President of DROID Club and upcoming Programmer Analyst Trainee at Cognizant.",
+          expertise: ["Backend", "Cloud Computing", "AI", "Node.js", "Express", "System Design", "MongoDB"],
+          linkedin: "https://www.linkedin.com/in/harshvardhan-gupta"
+        }
+      ]
     },
     chapters: [
       { id: 1, title: "Phase 1: HTML & CSS Foundations (Week 1–2)" },
       { id: 2, title: "Phase 2: Advanced CSS & Animations (Week 3)" },
       { id: 3, title: "Phase 3: JavaScript Fundamentals (Week 4)" },
-      { id: 4, title: "Phase 4: Frontend Framework (React) (Week 5)" },
-      { id: 5, title: "Phase 5: Final Projects & Deployment (Week 6-8)" }
+      { id: 4, title: "Phase 4: Frontend Framework (React) (Week 5) — Lead: Aaditya Naulakha" },
+      { id: 5, title: "Phase 5: Backend Architecture (Node.js & Express) (Week 6) — Lead: Harshvardhan Gupta" },
+      { id: 6, title: "Phase 6: Database Architecture (MongoDB & Mongoose) (Week 7) — Lead: Harshvardhan Gupta" },
+      { id: 7, title: "Phase 7: Full-Stack Integration, Capstone Projects & Deployment (Week 8)" }
     ],
     curriculum: {
       sections: [
@@ -523,7 +544,7 @@ const courses = [
           ]
         },
         {
-          title: "Phase 4: Frontend Framework (React) (Week 5)",
+          title: "Phase 4: Frontend Framework (React) (Week 5) — Lead: Aaditya Naulakha",
           lessons: [
             { id: "w4-1", title: "React Components & JSX Syntax", duration: "50:00" },
             { id: "w4-2", title: "State Management with useState & useReducer", duration: "50:00" },
@@ -534,13 +555,33 @@ const courses = [
           ]
         },
         {
-          title: "Phase 5: Final Projects & Deployment (Week 6-8)",
+          title: "Phase 5: Backend Architecture (Node.js & Express) (Week 6) — Lead: Harshvardhan Gupta",
           lessons: [
-            { id: "w5-1", title: "Portfolio Website Design & Structure", duration: "60:00" },
-            { id: "w5-2", title: "Complete Full-Feature React Capstone Project", duration: "75:00" },
-            { id: "w5-3", title: "GitHub Pages, Netlify & Vercel Deployment", duration: "40:00" },
-            { id: "w5-4", title: "Performance Optimization, Lighthouse Audits & SEO", duration: "45:00" },
-            { id: "w5-5", title: "Career Preparation, Resume Review & Mock Interviews", duration: "50:00" }
+            { id: "w5-1", title: "Node.js Runtime Architecture, Event Loop & Global Objects", duration: "45:00" },
+            { id: "w5-2", title: "Express.js Architecture, Routing & Middleware Pipeline", duration: "55:00" },
+            { id: "w5-3", title: "RESTful API Design & HTTP Status Codes Best Practices", duration: "50:00" },
+            { id: "w5-4", title: "Request Validation & Centralized Error Handling", duration: "45:00" },
+            { id: "w5-5", title: "JWT Authentication, bcrypt Password Hashing & Protected Routes", duration: "60:00" }
+          ]
+        },
+        {
+          title: "Phase 6: Database Architecture (MongoDB & Mongoose) (Week 7) — Lead: Harshvardhan Gupta",
+          lessons: [
+            { id: "w6-1", title: "NoSQL Database Concepts & MongoDB Atlas Cluster Setup", duration: "45:00" },
+            { id: "w6-2", title: "Mongoose Schema Design, Data Types & Validations", duration: "50:00" },
+            { id: "w6-3", title: "CRUD Operations, Filtering, Sorting & Pagination", duration: "55:00" },
+            { id: "w6-4", title: "Relational Modeling with Population & Aggregation Pipelines", duration: "60:00" },
+            { id: "w6-5", title: "Database Indexing & Performance Optimization", duration: "40:00" }
+          ]
+        },
+        {
+          title: "Phase 7: Full-Stack Integration, Capstone Projects & Deployment (Week 8)",
+          lessons: [
+            { id: "w7-1", title: "Connecting React Frontend with Node/Express REST APIs", duration: "65:00" },
+            { id: "w7-2", title: "CORS Configuration, Secure Cookies & LocalStorage Auth", duration: "45:00" },
+            { id: "w7-3", title: "Building a Full-Stack Production Capstone Project", duration: "90:00" },
+            { id: "w7-4", title: "Production Deployment (Render, Vercel & Atlas)", duration: "50:00" },
+            { id: "w7-5", title: "Performance Audits, CI/CD Workflows & Full-Stack Interview Prep", duration: "55:00" }
           ]
         }
       ]
