@@ -139,7 +139,7 @@ const targetCourses = [
     language: "Hindi + English",
     mode: "100% Online",
     instructor: {
-      name: "DivyaRaj Kush",
+      name: "Divyaraj Kush",
       role: "Digital Marketing Lead",
       bio: "Digital Marketing strategist with over 8 years of experience scaling organic traffic and marketing funnels.",
       avatar: "/seo_and_marketing_trainer.jpeg"
@@ -191,10 +191,10 @@ const targetCourses = [
     language: "Hindi + English",
     mode: "100% Online",
     instructor: {
-      name: "Vishal",
-      role: "Machine Learning Trainer",
-      bio: "Specializes in Machine Learning and AI applications with deep expertise in PyTorch, computer vision, and neural network architectures.",
-      avatar: "/images/Trainer6.jpeg"
+      name: "Gauri Sharma",
+      role: "AIML Engineer",
+      bio: "Currently working at Opalina. Ex-CA with 1.5 years of corporate experience and 3+ years of mentoring and training more than 1,000 students across the globe.",
+      avatar: "/images/ml_instructor.jpeg"
     },
     chapters: [
       { id: 1, title: "Python for Data Science, NumPy & Pandas" },
@@ -243,9 +243,9 @@ const targetCourses = [
     language: "Hindi + English",
     mode: "100% Online",
     instructor: {
-      name: "Aaditya Naulakha & Harshvardhan Gupta",
+      name: "Aditya Naulakha & Harshvardhan Gupta",
       role: "Frontend & Backend Development Leads",
-      bio: "Aaditya Naulakha (Frontend Lead): Software developer passionate about AI, full-stack development, and SaaS products. Harshvardhan Gupta (Backend Lead): Backend Architect specializing in scalable server development, database architecture, Express/Node.js, and scalable APIs.",
+      bio: "Aditya Naulakha (Frontend Lead): Software developer passionate about AI, full-stack development, and SaaS products. Harshvardhan Gupta (Backend Lead): Backend Architect specializing in scalable server development, database architecture, Express/Node.js, and scalable APIs.",
       avatar: "/frontend_trainer.jpeg"
     },
     chapters: [

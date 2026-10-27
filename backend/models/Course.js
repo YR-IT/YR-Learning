@@ -10,6 +10,7 @@ const lessonSchema = new mongoose.Schema({
 
 const sectionSchema = new mongoose.Schema({
   title: { type: String, required: true },
+  goal: { type: String, default: '' },
   lessons: [lessonSchema]
 });
 

@@ -29,7 +29,14 @@ export default function CourseCard({
       ? courseImage
       : `data:image/jpeg;base64,${courseImage}`)
     : "/images/Digital-Marketing.jpg";
-  const instructorName = typeof instructor === "string" ? instructor : (instructor?.name || "YR Instructor");
+  const rawInstructorName = typeof instructor === "string" ? instructor : (instructor?.name || "YR Instructor");
+  const instructorName = rawInstructorName
+    .replace(/vijay\s+sheoran/gi, "Vinay Sheoran")
+    .replace(/vijay/gi, "Vinay")
+    .replace(/divyaRaj/g, "Divyaraj")
+    .replace(/divyaraj/gi, "Divyaraj")
+    .replace(/aaditya\s+naulakha/gi, "Aditya Naulakha")
+    .replace(/aaditya/gi, "Aditya");
   const instructorAvatar = typeof instructor === "object"
     ? instructor?.avatar || instructor?.image || instructor?.profileImage
     : null;

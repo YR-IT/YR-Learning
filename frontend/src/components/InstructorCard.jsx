@@ -1,7 +1,24 @@
 import { motion } from "framer-motion";
 import { Star, Users, BookOpen, ExternalLink } from "lucide-react";
 
-export default function InstructorCard({ instructor }) {
+export default function InstructorCard({ instructor: rawInstructor }) {
+  const sanitize = (text) => {
+    if (!text || typeof text !== 'string') return text;
+    return text
+      .replace(/vijay\s+sheoran/gi, 'Vinay Sheoran')
+      .replace(/vijay/gi, 'Vinay')
+      .replace(/divyaRaj/g, 'Divyaraj')
+      .replace(/divyaraj/gi, 'Divyaraj')
+      .replace(/aaditya\s+naulakha/gi, 'Aditya Naulakha')
+      .replace(/aaditya/gi, 'Aditya');
+  };
+
+  const instructor = {
+    ...rawInstructor,
+    name: sanitize(rawInstructor?.name || 'YR Instructor'),
+    bio: sanitize(rawInstructor?.bio || ''),
+  };
+
   return (
     <motion.div 
       className="group bg-white rounded-2xl shadow-lg hover:shadow-2xl p-6 flex flex-col items-center text-center relative overflow-hidden transition-all duration-300"
@@ -46,7 +63,7 @@ export default function InstructorCard({ instructor }) {
             alt={instructor.name}
             className="w-24 h-24 rounded-full object-cover border-4 border-white shadow-lg group-hover:border-blue-200 transition-all duration-300"
             style={{
-              objectPosition: instructor.avatar?.includes('frontend_trainer') || instructor.name?.includes('Aaditya') ? 'top center' : 'center',
+              objectPosition: instructor.avatar?.includes('frontend_trainer') || instructor.name?.includes('Aditya') ? 'top center' : 'center',
             }}
             whileHover={{ scale: 1.1, rotate: 5 }}
             transition={{ duration: 0.3 }}

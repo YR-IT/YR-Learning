@@ -14,6 +14,23 @@ const slugify = (text) =>
         .replace(/-+$/, '')
     : '';
 
+const sanitizeCourse = (courseDoc) => {
+  if (!courseDoc) return courseDoc;
+  try {
+    const obj = courseDoc.toObject ? courseDoc.toObject() : courseDoc;
+    const str = JSON.stringify(obj)
+      .replace(/vijay\s+sheoran/gi, 'Vinay Sheoran')
+      .replace(/vijay/gi, 'Vinay')
+      .replace(/divyaRaj/g, 'Divyaraj')
+      .replace(/divyaraj/gi, 'Divyaraj')
+      .replace(/aaditya\s+naulakha/gi, 'Aditya Naulakha')
+      .replace(/aaditya/gi, 'Aditya');
+    return JSON.parse(str);
+  } catch {
+    return courseDoc;
+  }
+};
+
 // @desc    Get all courses
 // @route   GET /api/courses or /api/course/allcourses
 // @access  Public
@@ -35,7 +52,7 @@ const getAllCourses = async (req, res) => {
     }
 
     const courses = await Course.find(query).sort({ createdAt: -1 });
-    return res.status(200).json(courses);
+    return res.status(200).json(courses.map(sanitizeCourse));
   } catch (error) {
     console.error('Error fetching courses:', error);
     return res.status(500).json({ message: 'Failed to fetch courses', error: error.message });
@@ -90,7 +107,7 @@ const getCourseById = async (req, res) => {
     if (!course) {
       return res.status(404).json({ message: 'Course not found' });
     }
-    return res.status(200).json(course);
+    return res.status(200).json(sanitizeCourse(course));
   } catch (error) {
     return res.status(500).json({ message: 'Error retrieving course', error: error.message });
   }

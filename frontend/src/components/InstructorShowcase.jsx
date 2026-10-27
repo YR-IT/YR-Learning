@@ -20,16 +20,17 @@ export default function InstructorShowcase() {
 			linkedin: "https://www.linkedin.com/in/gaurisinghal28",
 		},
 		{
-			name: "Vijay Sheoran",
+			name: "Vinay Sheoran",
 			role: "Senior Data Science Trainer",
 			avatar: "/images/trainer1.jpg",
 			bio:
 				"Ex-Data Scientist at Flipkart & Publicis Re:Sources, with 8+ years of expertise in Machine Learning, Artificial Intelligence, and Big Data Analytics.",
-			tags: ["Data Science", "Python", "Machine Learning", "Analytics"],
+			tags: ["Python", "SQL", "PowerBI", "Statistical Analysis"],
 			accent: "from-blue-500 via-indigo-500 to-purple-500",
+			linkedin: "https://www.linkedin.com/in/vinay-sheoran-262a79295/",
 		},
 		{
-			name: "DivyaRaj Kush",
+			name: "Divyaraj Kush",
 			role: "Digital Marketing Lead",
 			avatar: "/seo_and_marketing_trainer.jpeg",
 			bio:
@@ -38,7 +39,7 @@ export default function InstructorShowcase() {
 			accent: "from-amber-500 via-orange-500 to-yellow-500",
 		},
 		{
-			name: "Aaditya Naulakha",
+			name: "Aditya Naulakha",
 			role: "Frontend Web Development Lead",
 			avatar: "/frontend_trainer.jpeg",
 			bio:
@@ -55,7 +56,7 @@ export default function InstructorShowcase() {
 				"Software developer passionate about backend development, cloud computing, and AI. Leadership experience as Vice President of DROID Club and upcoming Programmer Analyst Trainee at Cognizant.",
 			tags: ["Backend", "Cloud Computing", "AI", "Node.js", "Scalable Systems"],
 			accent: "from-blue-600 via-indigo-600 to-purple-600",
-			linkedin: "https://www.linkedin.com/in/harshvardhan-gupta",
+			linkedin: "https://www.linkedin.com/in/harshvardhan-gupta-19298b28b/",
 		},
 		{
 			name: "Isha",
@@ -77,13 +78,14 @@ export default function InstructorShowcase() {
 			accent: "from-cyan-500 via-blue-500 to-indigo-500",
 		},
 		{
-			name: "Vishal",
-			role: "Machine Learning Trainer",
-			avatar: "/images/Trainer6.jpeg",
+			name: "Gauri Sharma",
+			role: "AIML Engineer",
+			avatar: "/images/ml_instructor.jpeg",
 			bio:
-				"Ex-data analyst at Novateur Electrical and Digital System Pvt Ltd. Learn from industry expert and gain hands-on experience in Machine Learning and AI.",
-			tags: ["Machine Learning", "AI", "Data Analysis", "Deep Learning"],
+				"Currently working at Opalina. Ex-CA with 1.5 years of corporate experience and 3+ years of mentoring and training more than 1,000 students across the globe.",
+			tags: ["AI & Machine Learning", "Python", "Deep Learning", "Model Deployment"],
 			accent: "from-violet-500 via-purple-500 to-fuchsia-500",
+			linkedin: "https://www.linkedin.com/in/gauri-sharma-gs06102003/",
 		},
 	];
 
@@ -210,7 +212,7 @@ export default function InstructorShowcase() {
 													alt={instructor.name}
 													className="w-full h-full rounded-xl object-cover border-2 border-white dark:border-gray-200 shadow-lg transition-colors duration-300"
 													style={{
-														objectPosition: instructor.avatar?.includes('frontend_trainer') || instructor.name?.includes('Aaditya') ? 'top center' : 'center',
+														objectPosition: instructor.avatar?.includes('frontend_trainer') || instructor.name?.includes('Aditya') ? 'top center' : 'center',
 													}}
 												/>
 											</div>

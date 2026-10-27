@@ -120,6 +120,7 @@ const fullCourses = [
       social: {
         linkedin: "https://LinkedIn.com/in/isha-uiux",
       },
+      expertise: ["UI/UX", "Design Systems", "Wireframing", "User Research"],
     },
     chapters: [
       { id: 1, title: 'Module 1: "Design Begins with Why" (Week 1)' },
@@ -194,14 +195,15 @@ const fullCourses = [
     language: "Hindi + English",
     mode: "100% Online",
     instructor: {
-      name: "Vishal",
-      role: "Machine Learning Trainer",
-      bio: "Ex-data analyst at Novateur Electrical and Digital System Pvt Ltd. Specializes in Machine Learning and AI applications with deep expertise in PyTorch, scikit-learn, and neural networks.",
-      avatar: "/images/Trainer6.jpeg",
-      linkedin: "#",
+      name: "Gauri Sharma",
+      role: "AIML Engineer",
+      bio: "Currently working at Opalina. Ex-CA with 1.5 years of corporate experience and 3+ years of mentoring and training more than 1,000 students across the globe.",
+      avatar: "/images/ml_instructor.jpeg",
+      linkedin: "https://www.linkedin.com/in/gauri-sharma-gs06102003/",
       social: {
-        linkedin: "#",
+        linkedin: "https://www.linkedin.com/in/gauri-sharma-gs06102003/",
       },
+      expertise: ["AI & Machine Learning", "Python", "Deep Learning", "Model Deployment"],
     },
     chapters: [
       { id: 1, title: "Module 1: Python for Machine Learning & Numerical Computing (Week 1)" },
@@ -283,14 +285,15 @@ const fullCourses = [
     language: "Hindi + English",
     mode: "100% Online",
     instructor: {
-      name: "Vijay Sheoran",
+      name: "Vinay Sheoran",
       role: "Senior Data Science Trainer",
       bio: "Ex-Data Scientist at Flipkart & Publicis Re:Sources, with 8+ years of expertise in Machine Learning, Artificial Intelligence, and Big Data Analytics.",
       avatar: "/images/trainer1.jpg",
-      linkedin: "#",
+      linkedin: "https://www.linkedin.com/in/vinay-sheoran-262a79295/",
       social: {
-        linkedin: "#",
+        linkedin: "https://www.linkedin.com/in/vinay-sheoran-262a79295/",
       },
+      expertise: ["Python", "SQL", "PowerBI", "Statistical Analysis"],
     },
     chapters: [
       { id: 1, title: "Module 1: Python Essentials & Data Wrangling (Week 1)" },
@@ -373,7 +376,7 @@ const fullCourses = [
     language: "Hindi + English",
     mode: "100% Online",
     instructor: {
-      name: "DivyaRaj Kush",
+      name: "Divyaraj Kush",
       role: "Digital Marketing Lead",
       bio: "Digital Marketing and Growth Strategist specializing in search engine optimization, content scaling, Google Ads, and performance marketing.",
       avatar: "/seo_and_marketing_trainer.jpeg",
@@ -383,68 +386,74 @@ const fullCourses = [
       },
     },
     chapters: [
-      { id: 1, title: "Module 1: Fundamentals of Digital Marketing & Brand Strategy (Week 1)" },
-      { id: 2, title: "Module 2: Search Engine Optimization (SEO) Mastery (Week 2)" },
-      { id: 3, title: "Module 3: High-Converting Content Marketing & Copywriting (Week 3)" },
-      { id: 4, title: "Module 4: Social Media Marketing & Organic Growth (Week 4)" },
-      { id: 5, title: "Module 5: Paid Advertising - Google Ads & Meta Ads (Week 5)" },
-      { id: 6, title: "Module 6: Analytics, Marketing Automation & Freelancing (Week 6)" }
+      { id: 1, title: "MODULE 1: Digital Marketing & Website Foundations" },
+      { id: 2, title: "MODULE 2: Keyword Research Mastery (Semrush + Ahrefs + Google Keyword Planner Mix)" },
+      { id: 3, title: "MODULE 3: Practical SEO — On-Page, Authority, Backlinks & Google Maps (Local SEO)" },
+      { id: 4, title: "MODULE 4: Meta Ads Mastery (Facebook & Instagram Ads + Lead Funnel)" },
+      { id: 5, title: "MODULE 5: Google Ads Mastery (Search, Display & YouTube Ads)" },
+      { id: 6, title: "MODULE 6: AI Marketing & Freelancing Bonus (Earning Blueprint)" }
     ],
     curriculum: {
       sections: [
         {
-          title: "Module 1: Fundamentals of Digital Marketing & Brand Strategy (Week 1)",
+          title: "MODULE 1: Digital Marketing & Website Foundations",
+          goal: "Understand how digital marketing drives business revenue, how websites work behind the scenes, and how to manage WordPress websites without writing a single line of code.",
           lessons: [
-            { title: "Digital Marketing Ecosystem & Consumer Buying Journey", duration: "35:00" },
-            { title: "Defining Target Audience, Buyer Personas & Market Research", duration: "40:00" },
-            { title: "Competitive Benchmarking & Value Proposition Design", duration: "35:00" },
-            { title: "Overview of Inbound vs Outbound Marketing Channels", duration: "40:00" }
+            { id: "dm-1-1", title: "Lesson 1.1: Foundations of Digital Marketing — Traditional vs Digital Marketing, Organic (Free Long-Term) vs Paid (Fast Results) channels, and the Customer Journey.", duration: "45:00" },
+            { id: "dm-1-2", title: "Lesson 1.2: Domain Names Demystified — What is a domain name, how to choose a high-converting brand name, TLDs (.com vs .in), and live domain registration search on [GoDaddy](https://www.godaddy.com/domains) & [Hostinger](https://www.hostinger.com/domain-name-search).", duration: "40:00" },
+            { id: "dm-1-3", title: "Lesson 1.3: Web Hosting & Infrastructure — How web hosting works, connecting domains to servers via Nameservers/DNS, and SSL certificates.", duration: "35:00" },
+            { id: "dm-1-4", title: "Lesson 1.4: WordPress & Landing Page Overview — Live walkthrough of [WordPress Dashboard](https://wordpress.org/documentation/overview/) ([Hostinger WordPress](https://www.hostinger.com/in/wordpress-hosting)), understanding Posts vs Pages, Themes, Plugins, and creating high-converting Landing Pages for ad campaigns.", duration: "50:00" }
           ]
         },
         {
-          title: "Module 2: Search Engine Optimization (SEO) Mastery (Week 2)",
+          title: "MODULE 2: Keyword Research Mastery (Semrush + Ahrefs + Google Keyword Planner Mix)",
+          goal: "Learn how to find exactly what potential customers are searching for on Google, filter out low-competition \"easy-to-rank\" keywords, and spy on competitors' top traffic sources.",
           lessons: [
-            { title: "How Search Engines Work: Crawling, Indexing & Ranking", duration: "40:00" },
-            { title: "Comprehensive Keyword Research with Free & Paid Tools", duration: "50:00" },
-            { title: "On-Page SEO: Title Tags, Meta Descriptions, URL Structure & Internal Linking", duration: "45:00" },
-            { title: "Technical SEO: XML Sitemaps, Robots.txt, Core Web Vitals & Mobile Indexing", duration: "50:00" },
-            { title: "Off-Page SEO: Backlink Building Strategies, Outreach & Domain Authority", duration: "45:00" }
+            { id: "dm-2-1", title: "Lesson 2.1: Understanding Keywords & Search Intent — Short-Tail vs Long-Tail keywords, and mastering the 4 types of User Intent: Informational (I), Navigational (N), Commercial (C), and Transactional (T).", duration: "40:00" },
+            { id: "dm-2-2", title: "Lesson 2.2: Semrush Live Mastery — Navigating the [Semrush Keyword Magic Tool](https://www.semrush.com/analytics/keywordmagic/) ([Manual](https://www.semrush.com/kb/617-keyword-magic-tool-manual)), analyzing Search Volume, CPC, and applying the Golden KD% Filter (< 29% Easy) to discover hidden ranking opportunities.", duration: "50:00" },
+            { id: "dm-2-3", title: "Lesson 2.3: Ahrefs & Google Ads Keyword Planner Combo — Analyzing Keyword Difficulty & Traffic Potential in [Ahrefs](https://ahrefs.com/keywords-explorer) ([Guide](https://ahrefs.com/seo/keyword-research)), and using the 100% Free [Google Ads Keyword Planner](https://business.google.com/in/ad-tools/keyword-planner/) to extract localized city-wise search volumes and commercial bid estimates.", duration: "45:00" },
+            { id: "dm-2-4", title: "Lesson 2.4: Competitor Keyword Spying — Using [Semrush Domain Overview](https://www.semrush.com/analytics/keywordoverview/) to uncover any competitor's top ranking pages and replicate their winning keywords.", duration: "40:00" }
           ]
         },
         {
-          title: "Module 3: High-Converting Content Marketing & Copywriting (Week 3)",
+          title: "MODULE 3: Practical SEO — On-Page, Authority, Backlinks & Google Maps (Local SEO)",
+          goal: "Learn how to place keywords on pages to rank on Google Page 1, understand website authority, build safe backlinks, and rank local businesses on Google Maps.",
           lessons: [
-            { title: "Creating SEO-Optimized Articles, Blogs & Landing Pages", duration: "45:00" },
-            { title: "Copywriting Frameworks: AIDA, PAS & StoryBrand Method", duration: "40:00" },
-            { title: "Keyword Density, Search Intent Matching & Content Optimization", duration: "40:00" },
-            { title: "Designing Visual Content Assets & Infographics", duration: "35:00" }
+            { id: "dm-3-1", title: "Lesson 3.1: Zero-Coding On-Page SEO — Optimizing the 6 critical on-page ranking factors: URL Slug, Title Tag, Meta Description, H1/H2 Headings, First 100 Words, and Image Alt Text following the [Google Search Central SEO Guide](https://developers.google.com/search/docs).", duration: "45:00" },
+            { id: "dm-3-2", title: "Lesson 3.2: Domain Authority & Page Authority — Understanding Domain Age, [Moz Domain Authority (DA)](https://moz.com/learn/seo/domain-authority), [Moz Page Authority (PA)](https://moz.com/learn/seo/page-authority), and Spam Score using the [Moz Domain Analysis Checker](https://moz.com/domain-analysis).", duration: "40:00" },
+            { id: "dm-3-3", title: "Lesson 3.3: Backlinks Mastery (Off-Page SEO) — Dofollow vs Nofollow links, Link Juice, Anchor Text, and inspecting backlink profiles on [Moz Link Explorer](https://moz.com/link-explorer). 5 safe beginner link-building strategies (Profile Creation, Citations, Web 2.0, Q&A, and Guest Posts).", duration: "50:00" },
+            { id: "dm-3-4", title: "Lesson 3.4: Google Business Profile (Local SEO Mastery) — How to set up and optimize a [Google Business Profile](https://business.google.com/us/business-profile/) to rank local shops, doctors, coaching centers, and salons in the Google Maps \"Top 3 Local Pack\".", duration: "45:00" },
+            { id: "dm-3-5", title: "Lesson 3.5: Google Search Console & Google Analytics (GA4) Tour — Tracking Organic Clicks, Impressions, CTR, and Keyword Positions in [Google Search Console](https://search.google.com/search-console/about), requesting instant URL indexing, and viewing live visitors on [Google Analytics](https://marketingplatform.google.com/about/analytics/).", duration: "45:00" }
           ]
         },
         {
-          title: "Module 4: Social Media Marketing & Organic Growth (Week 4)",
+          title: "MODULE 4: Meta Ads Mastery (Facebook & Instagram Ads + Lead Funnel)",
+          goal: "Stop wasting money on \"Boost Post\" and run profitable lead generation campaigns across Instagram & Facebook using Meta Ads Manager.",
           lessons: [
-            { title: "Organic Social Strategy for Instagram, LinkedIn, YouTube & X", duration: "45:00" },
-            { title: "Social Media Algorithm Hacks: Consistency, Engagement & Short-form Video", duration: "40:00" },
-            { title: "Community Management, Brand Voice & Online Reputation", duration: "35:00" },
-            { title: "Influencer Collaboration & Affiliate Partnerships", duration: "35:00" }
+            { id: "dm-4-1", title: "Lesson 4.1: Meta Ads Manager Architecture — Difference between mobile Boost Post and professional [Meta Ads Manager](https://fbp.exceedlms.com/student/path/219703-ads-manager-basics); mastering the 3-Tier Hierarchy: Campaign Objective (Leads/Traffic) → Ad Set (Audience/Budget) → Ad Creative.", duration: "45:00" },
+            { id: "dm-4-2", title: "Lesson 4.2: High-Precision Audience Targeting — Targeting customers by Location (Pin code / Kilometer Radius), Age, Gender, Interests, Behaviors, and selecting profitable ad placements (Instagram Reels & Stories).", duration: "50:00" },
+            { id: "dm-4-3", title: "Lesson 4.3: AI-Powered Ad Creatives & Copywriting — Generating high-converting Hook-Problem-Solution ad copies with [ChatGPT](https://developers.openai.com/chatgpt) and designing thumb-stopping 1080x1080 ad graphics in 10 minutes using [Canva](https://www.canva.com/canva-ai/).", duration: "45:00" },
+            { id: "dm-4-4", title: "Lesson 4.4: In-App Instant Lead Forms & WhatsApp Funnels — Setting up zero-friction [Meta Lead Ads](https://www.facebook.com/business/help/308211472265735) with pre-filled forms, qualifying questions, Click-to-WhatsApp ads, and the 5-Minute Lead Follow-Up System to convert inquiries into sales.", duration: "50:00" }
           ]
         },
         {
-          title: "Module 5: Paid Advertising - Google Ads & Meta Ads (Week 5)",
+          title: "MODULE 5: Google Ads Mastery (Search, Display & YouTube Ads)",
+          goal: "Capture high-intent customers who are actively searching to buy services on Google, master keyword bidding, and avoid budget waste with negative keywords.",
           lessons: [
-            { title: "Google Search Campaigns: Keyword Match Types & Quality Score", duration: "50:00" },
-            { title: "Meta Ads Manager Setup: Pixel Tracking & Custom Audiences", duration: "50:00" },
-            { title: "Ad Creatives, Ad Copy & Landing Page Conversion Optimization", duration: "45:00" },
-            { title: "Budget Optimization (ROAS, CPA, CPC & CTR Analysis)", duration: "45:00" }
+            { id: "dm-5-1", title: "Lesson 5.1: High-Intent Marketing & Account Setup — Push Marketing (Meta) vs Pull Marketing (Google), exploring [Google Ads Campaign Types](https://support.google.com/google-ads/answer/2567043?hl=en), and unlocking Expert Mode.", duration: "40:00" },
+            { id: "dm-5-2", title: "Lesson 5.2: Google Search Ads Live Setup — Building a [Google Search Campaign](https://support.google.com/google-ads/answer/9510373?hl=en), setting up Responsive Search Ads (RSAs), Maximize Clicks bidding, and setting Max CPC bid limits to protect your budget.", duration: "50:00" },
+            { id: "dm-5-3", title: "Lesson 5.3: Keyword Match Types & Negative Keywords — Mastering Broad Match, Phrase Match (\"keyword\"), and Exact Match ([keyword]). Blocking money-wasting searches (e.g., free, jobs, pdf) with Negative Keyword Lists.", duration: "45:00" },
+            { id: "dm-5-4", title: "Lesson 5.4: Google Display & YouTube Video Ads — Creating visual banner ads on [Google Display Network](https://support.google.com/google-ads/answer/10759203?hl=en), and setting up Skippable In-Stream YouTube Video Ads at ultra-low costs (₹0.20 to ₹0.50 per view).", duration: "45:00" }
           ]
         },
         {
-          title: "Module 6: Analytics, Marketing Automation & Freelancing (Week 6)",
+          title: "MODULE 6: AI Marketing & Freelancing Bonus (Earning Blueprint)",
+          goal: "Leverage AI tools to speed up your marketing workflow, build a portfolio, and land your first paying freelance client locally or online.",
           lessons: [
-            { title: "Google Analytics 4 (GA4) & Google Search Console Setup", duration: "45:00" },
-            { title: "Tracking Conversions, Goals & User Funnels", duration: "40:00" },
-            { title: "Email Marketing Automation with Mailchimp / Brevo", duration: "40:00" },
-            { title: "Client Acquisition, Freelance Proposals & Agency Workflow", duration: "50:00" }
+            { id: "dm-6-1", title: "Lesson 6.1: Writing SEO Blogs in 10 Minutes with ChatGPT — The 3-step prompt framework to generate outline, structured human-sounding content, FAQ schema, and meta tags using [ChatGPT](https://developers.openai.com/chatgpt).", duration: "40:00" },
+            { id: "dm-6-2", title: "Lesson 6.2: Real-World Case Studies & Campaign Walkthroughs — Practical breakdown of live client websites, organic traffic growth journeys, and real performance ad dashboards.", duration: "45:00" },
+            { id: "dm-6-3", title: "Lesson 6.3: Landing Your First Local Client — Finding local businesses on Google Maps that lack good websites or ads, checking competitor ads on [Meta Ad Library](https://adlibrary.com/guides/meta-campaign-setup-tutorial), and pitching ₹3,000–₹10,000/month service packages.", duration: "45:00" },
+            { id: "dm-6-4", title: "Lesson 6.4: Freelancing on Fiverr & Upwork — Crafting targeted micro-niche Gigs (e.g., Semrush Keyword Research, Google Business Profile Setup, Meta Ads Lead Gen) and setting up high-converting Gig graphics.", duration: "50:00" }
           ]
         }
       ]
@@ -464,9 +473,9 @@ const fullCourses = [
     language: "Hindi + English",
     mode: "100% Online",
     instructor: {
-      name: "Aaditya Naulakha & Harshvardhan Gupta",
+      name: "Aditya Naulakha & Harshvardhan Gupta",
       role: "Frontend & Backend Development Leads",
-      bio: "Aaditya Naulakha (Frontend Lead): Software developer passionate about AI, full-stack development, and SaaS products. Leadership experience as President of DROID Club and upcoming AI-Native Software Engineer at EPAM Systems. Harshvardhan Gupta (Backend Lead): Software developer passionate about backend development, cloud computing, and AI. Leadership experience as Vice President of DROID Club and upcoming Programmer Analyst Trainee at Cognizant.",
+      bio: "Aditya Naulakha (Frontend Lead): Software developer passionate about AI, full-stack development, and SaaS products. Leadership experience as President of DROID Club and upcoming AI-Native Software Engineer at EPAM Systems. Harshvardhan Gupta (Backend Lead): Software developer passionate about backend development, cloud computing, and AI. Leadership experience as Vice President of DROID Club and upcoming Programmer Analyst Trainee at Cognizant.",
       avatar: "/frontend_trainer.jpeg",
       coAvatar: "/backend_trainer.jpeg",
       linkedin: "https://www.linkedin.com/in/aditya-naulakha",
@@ -475,7 +484,7 @@ const fullCourses = [
       },
       instructors: [
         {
-          name: "Aaditya Naulakha",
+          name: "Aditya Naulakha",
           role: "Frontend Web Development Lead",
           avatar: "/frontend_trainer.jpeg",
           bio: "Software developer passionate about AI, full-stack development, and SaaS products. Leadership experience as President of DROID Club and upcoming AI-Native Software Engineer at EPAM Systems.",
@@ -488,7 +497,7 @@ const fullCourses = [
           avatar: "/backend_trainer.jpeg",
           bio: "Software developer passionate about backend development, cloud computing, and AI. Leadership experience as Vice President of DROID Club and upcoming Programmer Analyst Trainee at Cognizant.",
           expertise: ["Backend", "Cloud Computing", "AI", "Node.js", "Express", "System Design", "MongoDB"],
-          linkedin: "https://www.linkedin.com/in/harshvardhan-gupta"
+          linkedin: "https://www.linkedin.com/in/harshvardhan-gupta-19298b28b/"
         }
       ]
     },
@@ -496,7 +505,7 @@ const fullCourses = [
       { id: 1, title: "Phase 1: HTML & CSS Foundations (Week 1–2)" },
       { id: 2, title: "Phase 2: Advanced CSS & Animations (Week 3)" },
       { id: 3, title: "Phase 3: JavaScript Fundamentals (Week 4)" },
-      { id: 4, title: "Phase 4: Frontend Framework (React) (Week 5) — Lead: Aaditya Naulakha" },
+      { id: 4, title: "Phase 4: Frontend Framework (React) (Week 5) — Lead: Aditya Naulakha" },
       { id: 5, title: "Phase 5: Backend Architecture (Node.js & Express) (Week 6) — Lead: Harshvardhan Gupta" },
       { id: 6, title: "Phase 6: Database Architecture (MongoDB & Mongoose) (Week 7) — Lead: Harshvardhan Gupta" },
       { id: 7, title: "Phase 7: Full-Stack Integration, Capstone Projects & Deployment (Week 8)" }
@@ -536,7 +545,7 @@ const fullCourses = [
           ]
         },
         {
-          title: "Phase 4: Frontend Framework (React) (Week 5) — Lead: Aaditya Naulakha",
+          title: "Phase 4: Frontend Framework (React) (Week 5) — Lead: Aditya Naulakha",
           lessons: [
             { title: "React Components & JSX Syntax", duration: "50:00" },
             { title: "State Management with useState & useReducer", duration: "50:00" },

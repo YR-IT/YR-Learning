@@ -32,6 +32,173 @@ import {
   Monitor
 } from "lucide-react";
 import toast from "react-hot-toast";
+
+const renderLessonText = (text) => {
+  if (typeof text !== "string") return text;
+  const regex = /\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g;
+  if (!regex.test(text)) return text;
+
+  const parts = [];
+  let lastIndex = 0;
+  regex.lastIndex = 0;
+  let match;
+  while ((match = regex.exec(text)) !== null) {
+    if (match.index > lastIndex) {
+      parts.push(text.substring(lastIndex, match.index));
+    }
+    parts.push(
+      <a
+        key={match.index}
+        href={match[2]}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-blue-600 dark:text-blue-400 underline hover:text-blue-800 dark:hover:text-blue-300 font-medium transition-colors"
+        onClick={(e) => e.stopPropagation()}
+      >
+        {match[1]}
+      </a>
+    );
+    lastIndex = regex.lastIndex;
+  }
+  if (lastIndex < text.length) {
+    parts.push(text.substring(lastIndex));
+  }
+  return parts;
+};
+
+const machineLearningInstructor = {
+  name: "Gauri Sharma",
+  role: "AIML Engineer",
+  bio: "Currently working at Opalina. Ex-CA with 1.5 years of corporate experience and 3+ years of mentoring and training more than 1,000 students across the globe.",
+  avatar: "/images/ml_instructor.jpeg",
+  linkedin: "https://www.linkedin.com/in/gauri-sharma-gs06102003/",
+  social: { linkedin: "https://www.linkedin.com/in/gauri-sharma-gs06102003/" },
+  expertise: ["AI & Machine Learning", "Python", "Deep Learning", "Model Deployment"],
+};
+
+const dataScienceInstructor = {
+  name: "Vinay Sheoran",
+  role: "Senior Data Science Trainer",
+  bio: "Ex-Data Scientist at Flipkart & Publicis Re:Sources, with 8+ years of expertise in Machine Learning, Artificial Intelligence, and Big Data Analytics.",
+  avatar: "/images/trainer1.jpg",
+  linkedin: "https://www.linkedin.com/in/vinay-sheoran-262a79295/",
+  social: { linkedin: "https://www.linkedin.com/in/vinay-sheoran-262a79295/" },
+  expertise: ["Python", "SQL", "PowerBI", "Statistical Analysis"],
+};
+
+const uiUxInstructor = {
+  name: "Isha",
+  role: "UI/UX Design Specialist",
+  bio: "Professional Designer at MAAC with 6+ years of experience in creating user-centric interfaces, visual design systems, and responsive mobile/web UI.",
+  avatar: "/images/trainer2.jpg",
+  linkedin: "https://LinkedIn.com/in/isha-uiux",
+  social: { linkedin: "https://LinkedIn.com/in/isha-uiux" },
+  expertise: ["UI/UX", "Design Systems", "Wireframing", "User Research"],
+};
+
+const digitalMarketingInstructor = {
+  name: "Divyaraj Kush",
+  role: "Digital Marketing & Growth Lead",
+  bio: "Digital Marketing and Performance Growth Strategist specializing in search engine optimization, content scaling, Google Ads, and Meta ad campaigns.",
+  avatar: "/seo_and_marketing_trainer.jpeg",
+  linkedin: "#",
+  social: { linkedin: "#" },
+};
+
+const webDevelopmentInstructor = {
+  name: "Aditya Naulakha & Harshvardhan Gupta",
+  role: "Frontend & Backend Development Leads",
+  bio: "Aditya Naulakha (Frontend Lead): Software developer passionate about AI, full-stack development, and SaaS products. Leadership experience as President of DROID Club and upcoming AI-Native Software Engineer at EPAM Systems. Harshvardhan Gupta (Backend Lead): Software developer passionate about backend development, cloud computing, and AI. Leadership experience as Vice President of DROID Club and upcoming Programmer Analyst Trainee at Cognizant.",
+  avatar: "/frontend_trainer.jpeg",
+  coAvatar: "/backend_trainer.jpeg",
+  linkedin: "https://www.linkedin.com/in/aditya-naulakha",
+  social: { linkedin: "https://www.linkedin.com/in/aditya-naulakha" },
+  instructors: [
+    {
+      name: "Aditya Naulakha",
+      role: "Frontend Web Development Lead",
+      avatar: "/frontend_trainer.jpeg",
+      bio: "Software developer passionate about AI, full-stack development, and SaaS products. Leadership experience as President of DROID Club and upcoming AI-Native Software Engineer at EPAM Systems.",
+      expertise: ["Frontend", "React.js", "AI-Driven Solutions", "SaaS Architecture"],
+      linkedin: "https://www.linkedin.com/in/aditya-naulakha"
+    },
+    {
+      name: "Harshvardhan Gupta",
+      role: "Backend Web Development Lead",
+      avatar: "/backend_trainer.jpeg",
+      bio: "Software developer passionate about backend development, cloud computing, and AI. Leadership experience as Vice President of DROID Club and upcoming Programmer Analyst Trainee at Cognizant.",
+      expertise: ["Backend", "Cloud Computing", "AI", "Node.js", "Express", "System Design", "MongoDB"],
+      linkedin: "https://www.linkedin.com/in/harshvardhan-gupta-19298b28b/"
+    }
+  ]
+};
+
+const normalizeCourse = (rawCourse) => {
+  if (!rawCourse) return rawCourse;
+
+  let course = { ...rawCourse };
+  const identifier = `${course?.slug || ""} ${course?.id || ""} ${course?._id || ""} ${course?.title || ""}`.toLowerCase();
+
+  if (identifier.includes("machine-learning") || identifier.includes("machine learning")) {
+    course.instructor = {
+      ...machineLearningInstructor,
+      ...(course.instructor || {}),
+      name: "Gauri Sharma",
+      linkedin: machineLearningInstructor.linkedin,
+      social: machineLearningInstructor.social,
+      expertise: machineLearningInstructor.expertise,
+    };
+  } else if (identifier.includes("data-science") || identifier.includes("data science")) {
+    course.instructor = {
+      ...dataScienceInstructor,
+      ...(course.instructor || {}),
+      name: (course.instructor?.name || "Vinay Sheoran").replace(/vijay/gi, "Vinay"),
+      linkedin: dataScienceInstructor.linkedin,
+      social: dataScienceInstructor.social,
+      expertise: dataScienceInstructor.expertise,
+    };
+  } else if (identifier.includes("ui-ux") || identifier.includes("ui/ux") || identifier.includes("design")) {
+    course.instructor = {
+      ...uiUxInstructor,
+      ...(course.instructor || {}),
+      name: "Isha",
+      role: uiUxInstructor.role,
+      bio: uiUxInstructor.bio,
+      avatar: uiUxInstructor.avatar,
+      linkedin: uiUxInstructor.linkedin,
+      social: uiUxInstructor.social,
+      expertise: uiUxInstructor.expertise,
+    };
+  } else if (identifier.includes("digital-marketing") || identifier.includes("digital marketing") || identifier.includes("seo")) {
+    course.instructor = {
+      ...digitalMarketingInstructor,
+      ...(course.instructor || {}),
+      name: (course.instructor?.name || "Divyaraj Kush").replace(/divyaRaj/g, "Divyaraj").replace(/divyaraj/gi, "Divyaraj"),
+    };
+  } else if (identifier.includes("web-development") || identifier.includes("web development") || identifier.includes("frontend")) {
+    course.instructor = {
+      ...webDevelopmentInstructor,
+      ...(course.instructor || {}),
+      name: (course.instructor?.name || "Aditya Naulakha & Harshvardhan Gupta").replace(/aaditya/gi, "Aditya"),
+      instructors: webDevelopmentInstructor.instructors,
+    };
+  }
+
+  // Deep sanitize string replacements for old names
+  try {
+    const serialized = JSON.stringify(course)
+      .replace(/vijay\s+sheoran/gi, "Vinay Sheoran")
+      .replace(/vijay/gi, "Vinay")
+      .replace(/divyaRaj/g, "Divyaraj")
+      .replace(/divyaraj/gi, "Divyaraj")
+      .replace(/aaditya\s+naulakha/gi, "Aditya Naulakha")
+      .replace(/aaditya/gi, "Aditya");
+    return JSON.parse(serialized);
+  } catch {
+    return course;
+  }
+};
+
 export default function Course() {
   const { courseId } = useParams();
   const navigate = useNavigate();
@@ -53,7 +220,7 @@ export default function Course() {
         }
 
         if (foundCourse) {
-          setCourse(foundCourse);
+          setCourse(normalizeCourse(foundCourse));
         }
       } catch (err) {
         console.error("Error loading course details:", err);
@@ -295,10 +462,18 @@ export default function Course() {
                           <h3 className="font-semibold text-gray-900 dark:text-white">{sectionIndex + 1}. {section.title}</h3>
                           <span className="text-sm text-gray-500 dark:text-gray-400">{section.lessons?.length || 0} topics</span>
                         </div>
+                        {section.goal && (
+                          <p className="mt-2 text-xs sm:text-sm text-blue-700 dark:text-blue-300 bg-blue-50/70 dark:bg-blue-950/40 p-3 rounded-lg border border-blue-100 dark:border-blue-900/50 leading-relaxed">
+                            <span className="font-bold uppercase tracking-wider text-[11px] block text-blue-600 dark:text-blue-400 mb-0.5">Module Goal:</span>
+                            {section.goal}
+                          </p>
+                        )}
                         {section.lessons?.length > 0 && (
                           <ol className="mt-3 ml-5 list-decimal space-y-2 text-gray-700 dark:text-gray-300">
                             {section.lessons.map((lesson, lessonIndex) => (
-                              <li key={lesson._id || lessonIndex}>{typeof lesson === 'string' ? lesson : lesson.title}</li>
+                              <li key={lesson._id || lessonIndex} className="leading-relaxed">
+                                {renderLessonText(typeof lesson === 'string' ? lesson : lesson.title)}
+                              </li>
                             ))}
                           </ol>
                         )}

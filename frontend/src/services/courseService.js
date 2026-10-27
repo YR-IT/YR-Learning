@@ -1,14 +1,31 @@
 import api from './api';
 
+const sanitizeCourseData = (course) => {
+  if (!course) return course;
+  try {
+    const raw = JSON.stringify(course);
+    const sanitized = raw
+      .replace(/vijay\s+sheoran/gi, 'Vinay Sheoran')
+      .replace(/vijay/gi, 'Vinay')
+      .replace(/divyaRaj/g, 'Divyaraj')
+      .replace(/divyaraj/gi, 'Divyaraj')
+      .replace(/aaditya\s+naulakha/gi, 'Aditya Naulakha')
+      .replace(/aaditya/gi, 'Aditya');
+    return JSON.parse(sanitized);
+  } catch {
+    return course;
+  }
+};
+
 export const courseService = {
   // Get all courses with optional filters
   async getAllCourses(params = {}) {
     try {
       const response = await api.get('/courses', { params });
       if (Array.isArray(response.data) && response.data.length > 0) {
-        return response.data;
+        return response.data.map(sanitizeCourseData);
       }
-      return response.data || [];
+      return (response.data || []).map(sanitizeCourseData);
     } catch (error) {
       console.warn('Backend unavailable on primary URL, trying alternative:', error.message);
       try {
@@ -19,7 +36,7 @@ export const courseService = {
         if (altResponse.ok) {
           const data = await altResponse.json();
           if (Array.isArray(data) && data.length > 0) {
-            return data;
+            return data.map(sanitizeCourseData);
           }
         }
       } catch (altErr) {
@@ -28,7 +45,7 @@ export const courseService = {
       // Fallback to local import if all backends are offline
       try {
         const fallback = await import('../data/frontendcourses.js');
-        return fallback.default || [];
+        return (fallback.default || []).map(sanitizeCourseData);
       } catch {
         return [];
       }
@@ -39,7 +56,7 @@ export const courseService = {
   async getCourseById(id) {
     try {
       const response = await api.get(`/courses/${encodeURIComponent(id)}`);
-      if (response?.data) return response.data;
+      if (response?.data) return sanitizeCourseData(response.data);
     } catch (error) {
       console.warn(`Direct fetch for course "${id}" failed, trying live catalog:`, error.message);
     }
@@ -78,7 +95,7 @@ export const courseService = {
       const fallback = await import('../data/frontendcourses.js');
       const courses = fallback.default || [];
       const cleanId = String(id).toLowerCase().replace(/[^a-z0-9]/g, '');
-      return courses.find((c) => {
+      const found = courses.find((c) => {
         const cId = String(c._id || c.id || '').toLowerCase();
         const cSlug = String(c.slug || '').toLowerCase().replace(/[^a-z0-9]/g, '');
         return (
@@ -88,7 +105,8 @@ export const courseService = {
           (cleanId.startsWith('ui') && cleanId.includes('ux') && cSlug.includes('ui')) ||
           (cleanId.includes('seo') && cSlug.includes('digital-marketing'))
         );
-      }) || null;
+      });
+      return found ? sanitizeCourseData(found) : null;
     } catch {
       return null;
     }

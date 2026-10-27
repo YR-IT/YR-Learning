@@ -69,7 +69,7 @@ ${syllabusModules ? `- Syllabus & Modules:\n${syllabusModules}` : ''}`;
 - Category: Development
 - Fee: Rs. 3499
 - Duration: 56 Days (8 Weeks) | Mode: 100% Online | Rating: 4.9★ (Bestseller)
-- Instructor: Aaditya Naulakha (Frontend Lead) & Harshvardhan Gupta (Backend Lead)
+- Instructor: Aditya Naulakha (Frontend Lead) & Harshvardhan Gupta (Backend Lead)
 - Overview: Complete journey from beginner to professional full-stack web developer with an 8-week structured roadmap. Master HTML5, CSS3, JavaScript, React.js, Tailwind CSS, REST APIs, Git, and cloud deployment.
 - Syllabus & Modules:
   * Phase 1 (Week 1-2): HTML & CSS Foundations (Semantic HTML5, Box Model, Flexbox, CSS Grid, Responsive Mobile-First Design, Git & GitHub)
@@ -96,7 +96,7 @@ ${syllabusModules ? `- Syllabus & Modules:\n${syllabusModules}` : ''}`;
 - Category: Artificial Intelligence
 - Fee: Rs. 3800
 - Duration: 40 Days (6 Weeks) | Mode: 100% Online | Rating: 4.8★ (Popular)
-- Instructor: Vishal (Machine Learning Trainer, Ex-data analyst at Novateur Electrical and Digital System)
+- Instructor: Gauri Sharma (AIML Engineer, currently working at Opalina; Ex-CA with 1.5 years of corporate experience and 3+ years of mentoring and training 1,000+ students globally)
 - Overview: Hands-on journey into Artificial Intelligence and Machine Learning. Master Python data science libraries, regression, classification, clustering, random forests, neural networks, and model deployment.
 - Syllabus & Modules:
   * Module 1 (Week 1): Python for ML & Numerical Computing (NumPy Matrix Operations, Pandas Data Manipulation, Matplotlib & Seaborn Data Visualization)
@@ -111,7 +111,7 @@ ${syllabusModules ? `- Syllabus & Modules:\n${syllabusModules}` : ''}`;
 - Category: Data Science
 - Fee: Rs. 3999
 - Duration: 45 Days (6 Weeks) | Mode: 100% Online | Rating: 4.9★ (Bestseller)
-- Instructor: Vijay Sheoran (Senior Data Science Trainer, Ex-Data Scientist at Flipkart & Publicis Re:Sources with 8+ years experience)
+- Instructor: Vinay Sheoran (Senior Data Science Trainer, Ex-Data Scientist at Flipkart & Publicis Re:Sources with 8+ years experience)
 - Overview: Become a proficient Data Scientist with industry-standard statistical analysis, SQL querying, data wrangling with Pandas, predictive modeling, business intelligence dashboards, and machine learning insights.
 - Syllabus & Modules:
   * Module 1 (Week 1): Python Essentials & Data Wrangling (Data Structures, CSV/Excel/JSON Ingestion, Web Scraping, Pandas GroupBy, Aggregations & Pivot Tables)
@@ -126,7 +126,7 @@ ${syllabusModules ? `- Syllabus & Modules:\n${syllabusModules}` : ''}`;
 - Category: Digital Marketing
 - Fee: Rs. 2499
 - Duration: 30 Days (6 Weeks) | Mode: 100% Online | Rating: 4.8★ (Bestseller)
-- Instructor: DivyaRaj Kush (Digital Marketing Lead, Growth Marketing Strategist)
+- Instructor: Divyaraj Kush (Digital Marketing Lead, Growth Marketing Strategist)
 - Overview: Comprehensive Digital Marketing Bootcamp. Learn On-Page and Off-Page SEO, Keyword Research, Technical SEO, Google Ads, Meta Ads, Content Marketing, and Analytics to scale brands organically and with paid ads.
 - Syllabus & Modules:
   * Module 1 (Week 1): Digital Marketing & Brand Strategy (Ecosystem, Consumer Funnel, Buyer Personas, Competitive Benchmarking, Inbound Marketing)

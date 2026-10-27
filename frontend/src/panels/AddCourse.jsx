@@ -27,10 +27,14 @@ const AddCourse = () => {
     const handleFileChange = (e) => {
         const file = e.target.files[0];
         if (file) {
+            if (file.size > 10 * 1024 * 1024) {
+                toast.error('Thumbnail must be smaller than 10 MB.');
+                e.target.value = '';
+                return;
+            }
             setCourseData({
                 ...courseData,
                 thumbnail: file,
-                // image:file type aa gya h
             });
             const reader = new FileReader();
             reader.onloadend = () => {
@@ -56,6 +60,27 @@ const AddCourse = () => {
 
         try {
             const token = localStorage.getItem('token') || localStorage.getItem('adminToken');
+            let imageUrl = '/images/Digital-Marketing.jpg';
+
+            if (courseData.thumbnail) {
+                const uploadData = new FormData();
+                uploadData.append('image', courseData.thumbnail);
+
+                const uploadResponse = await fetch(`${API_BASE_URL}/upload`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                    },
+                    body: uploadData,
+                });
+
+                const uploadResult = await uploadResponse.json().catch(() => ({}));
+                if (!uploadResponse.ok || !uploadResult.url) {
+                    throw new Error(uploadResult.message || 'Thumbnail upload failed');
+                }
+                imageUrl = uploadResult.url;
+            }
+
             const response = await fetch(`${API_BASE_URL}/courses`, {
                 method: 'POST',
                 headers: {
@@ -68,7 +93,7 @@ const AddCourse = () => {
                     price: Number(courseData.price) || 0,
                     category: courseData.category || 'Development',
                     instructor: courseData.instructor || 'YR Instructor',
-                    image: thumbnailPreview || '/images/Digital-Marketing.jpg',
+                    image: imageUrl,
                     curriculum: { sections },
                 }),
             });

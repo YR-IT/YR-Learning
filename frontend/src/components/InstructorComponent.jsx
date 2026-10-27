@@ -20,7 +20,7 @@ const INSTRUCTORS = {
     email: "gauri@example.com"
   },
   'digital marketing': {
-    name: "DivyaRaj Kush",
+    name: "Divyaraj Kush",
     role: "Digital Marketing Lead",
     avatar: "/seo_and_marketing_trainer.jpeg",
     bio: "Digital Marketing and Growth Strategist specializing in search engine optimization, content scaling, and performance marketing.",
@@ -39,11 +39,11 @@ const INSTRUCTORS = {
     name: "Isha",
     role: "UI/UX Design Specialist",
     avatar: "/images/trainer2.jpg",
-    bio: "Professional Designer at MAAC with 6+ years creating user-centric interfaces, design systems, and responsive UI.",
+    bio: "Professional Designer at MAAC with 6+ years of experience in creating user-centric interfaces, visual design systems, and responsive mobile/web UI.",
     rating: 4.9,
     students: "7,800+",
     courses: 9,
-    expertise: ["UI/UX", "Figma", "Design Systems", "Wireframing"],
+    expertise: ["UI/UX", "Design Systems", "Wireframing", "User Research"],
     social: {
       twitter: "#",
       linkedin: "https://LinkedIn.com/in/isha-uiux",
@@ -52,33 +52,33 @@ const INSTRUCTORS = {
     email: "isha@example.com"
   },
   'data science': {
-    name: "Vijay Sheoran",
+    name: "Vinay Sheoran",
     role: "Senior Data Science Trainer",
     avatar: "/images/trainer1.jpg",
     bio: "Ex-Data Scientist at Flipkart & Publicis Re:Sources, with 8+ years of expertise in Machine Learning, Artificial Intelligence, and Big Data Analytics.",
     rating: 4.9,
     students: "10,000+",
     courses: 15,
-    expertise: ["Machine Learning", "AI", "Big Data", "Python", "Data Analysis"],
+    expertise: ["Python", "SQL", "PowerBI", "Statistical Analysis"],
     social: {
       twitter: "#",
-      linkedin: "#",
+      linkedin: "https://www.linkedin.com/in/vinay-sheoran-262a79295/",
       github: "#"
     },
-    email: "vijay@example.com"
+    email: "vinay@example.com"
   },
   'web development': {
-    name: "Aaditya Naulakha & Harshvardhan Gupta",
+    name: "Aditya Naulakha & Harshvardhan Gupta",
     role: "Frontend & Backend Development Leads",
     avatar: "/frontend_trainer.jpeg",
-    bio: "Aaditya Naulakha (Frontend Lead): Software developer passionate about AI, full-stack development, and SaaS products. Leadership experience as President of DROID Club and upcoming AI-Native Software Engineer at EPAM Systems. Harshvardhan Gupta (Backend Lead): Software developer passionate about backend development, cloud computing, and AI. Leadership experience as Vice President of DROID Club and upcoming Programmer Analyst Trainee at Cognizant.",
+    bio: "Aditya Naulakha (Frontend Lead): Software developer passionate about AI, full-stack development, and SaaS products. Leadership experience as President of DROID Club and upcoming AI-Native Software Engineer at EPAM Systems. Harshvardhan Gupta (Backend Lead): Software developer passionate about backend development, cloud computing, and AI. Leadership experience as Vice President of DROID Club and upcoming Programmer Analyst Trainee at Cognizant.",
     rating: 4.9,
     students: "12,000+",
     courses: 18,
     expertise: ["Frontend (React.js)", "Backend (Node.js)", "Cloud Computing", "AI Solutions", "Express", "MongoDB", "SaaS Architecture"],
     instructors: [
       {
-        name: "Aaditya Naulakha",
+        name: "Aditya Naulakha",
         role: "Frontend Web Development Lead",
         avatar: "/frontend_trainer.jpeg",
         bio: "Software developer passionate about AI, full-stack development, and SaaS products. Leadership experience as President of DROID Club and upcoming AI-Native Software Engineer at EPAM Systems.",
@@ -91,7 +91,7 @@ const INSTRUCTORS = {
         avatar: "/backend_trainer.jpeg",
         bio: "Software developer passionate about backend development, cloud computing, and AI. Leadership experience as Vice President of DROID Club and upcoming Programmer Analyst Trainee at Cognizant.",
         expertise: ["Backend", "Cloud Computing", "AI", "Node.js", "Express", "System Design", "MongoDB"],
-        linkedin: "https://www.linkedin.com/in/harshvardhan-gupta"
+        linkedin: "https://www.linkedin.com/in/harshvardhan-gupta-19298b28b/"
       }
     ],
     social: {
@@ -118,30 +118,30 @@ const INSTRUCTORS = {
     email: "gautam@example.com"
   },
   'machine learning': {
-    name: "Vishal",
-    role: "Machine Learning Trainer",
-    avatar: "/images/Trainer6.jpeg",
-    bio: "Ex-data analyst at Novateur Electrical and Digital System Pvt Ltd. Specializes in Machine Learning and AI applications.",
+    name: "Gauri Sharma",
+    role: "AIML Engineer",
+    avatar: "/images/ml_instructor.jpeg",
+    bio: "Currently working at Opalina. Ex-CA with 1.5 years of corporate experience and 3+ years of mentoring and training more than 1,000 students across the globe.",
     rating: 4.8,
-    students: "9,100+",
+    students: "1,000+",
     courses: 14,
-    expertise: ["Machine Learning", "AI", "Deep Learning", "Python", "TensorFlow"],
+    expertise: ["AI & Machine Learning", "Python", "Deep Learning", "Model Deployment"],
     social: {
       twitter: "#",
-      linkedin: "#",
+      linkedin: "https://www.linkedin.com/in/gauri-sharma-gs06102003/",
       github: "#"
     },
-    email: "vishal@example.com"
+    email: "gauri.sharma@example.com"
   },
   'ui/ux design': {
     name: "Isha",
     role: "UI/UX Design Specialist",
     avatar: "/images/trainer2.jpg",
-    bio: "Professional Designer at MAAC with 6+ years of experience in creating user-centric interfaces and design systems.",
+    bio: "Professional Designer at MAAC with 6+ years of experience in creating user-centric interfaces, visual design systems, and responsive mobile/web UI.",
     rating: 4.9,
     students: "6,700+",
     courses: 9,
-    expertise: ["UI/UX Design", "User Experience", "User Interface", "Design Systems", "Figma"],
+    expertise: ["UI/UX", "Design Systems", "Wireframing", "User Research"],
     social: {
       twitter: "#",
       linkedin: "https://LinkedIn.com/in/isha-uiux",
@@ -168,45 +168,73 @@ const INSTRUCTORS = {
 };
 
 export default function InstructorCard({ courseTitle = '', instructor: propInstructor }) {
+  const sanitize = (text) => {
+    if (!text || typeof text !== 'string') return text;
+    return text
+      .replace(/vijay\s+sheoran/gi, 'Vinay Sheoran')
+      .replace(/vijay/gi, 'Vinay')
+      .replace(/divyaRaj/g, 'Divyaraj')
+      .replace(/divyaraj/gi, 'Divyaraj')
+      .replace(/aaditya\s+naulakha/gi, 'Aditya Naulakha')
+      .replace(/aaditya/gi, 'Aditya');
+  };
+
   // Get instructor based on course title or use the provided instructor prop
   const getInstructor = () => {
+    const lowerTitle = courseTitle.toLowerCase();
+    let defaultByTitle = INSTRUCTORS['default'];
+
+    if (lowerTitle.includes('data structure') || lowerTitle.includes('dsa') || lowerTitle.includes('java')) {
+      defaultByTitle = INSTRUCTORS['data structures'];
+    } else if (lowerTitle.includes('web') || lowerTitle.includes('frontend') || lowerTitle.includes('full stack')) {
+      defaultByTitle = INSTRUCTORS['web development'];
+    } else if (lowerTitle.includes('digital') || lowerTitle.includes('seo') || lowerTitle.includes('marketing')) {
+      defaultByTitle = INSTRUCTORS['digital marketing'];
+    } else if (lowerTitle.includes('graphic') || lowerTitle.includes('video') || lowerTitle.includes('editing')) {
+      defaultByTitle = INSTRUCTORS['graphic designing'];
+    } else if (lowerTitle.includes('machine learning') || lowerTitle.includes('ai') || lowerTitle.includes('artificial intelligence')) {
+      defaultByTitle = INSTRUCTORS['machine learning'];
+    } else if (lowerTitle.includes('data') || lowerTitle.includes('analytics')) {
+      defaultByTitle = INSTRUCTORS['data science'];
+    } else if (lowerTitle.includes('cyber') || lowerTitle.includes('security')) {
+      defaultByTitle = INSTRUCTORS['cyber security'];
+    } else if (lowerTitle.includes('ui') || lowerTitle.includes('ux') || lowerTitle.includes('design')) {
+      defaultByTitle = INSTRUCTORS['ui/ux design'];
+    }
+
+    let resolved = defaultByTitle;
+
     if (propInstructor) {
       if (typeof propInstructor === 'object' && propInstructor.name) {
-        return {
-          ...INSTRUCTORS['default'],
+        resolved = {
+          ...defaultByTitle,
           ...propInstructor,
-          role: propInstructor.role || 'Course Instructor',
-          avatar: propInstructor.avatar || '/images/dsa_instructor.png',
-          bio: propInstructor.bio || INSTRUCTORS['default'].bio,
+          role: propInstructor.role || defaultByTitle.role || 'Course Instructor',
+          avatar: propInstructor.avatar || defaultByTitle.avatar || '/images/dsa_instructor.png',
+          bio: propInstructor.bio || defaultByTitle.bio,
         };
-      }
-      if (typeof propInstructor === 'string') {
+      } else if (typeof propInstructor === 'string') {
         const found = Object.values(INSTRUCTORS).find(i => i.name.toLowerCase() === propInstructor.toLowerCase());
-        if (found) return found;
+        if (found) resolved = found;
       }
     }
-    
-    const lowerTitle = courseTitle.toLowerCase();
-    
-    if (lowerTitle.includes('data structure') || lowerTitle.includes('dsa') || lowerTitle.includes('java')) {
-      return INSTRUCTORS['data structures'];
-    } else if (lowerTitle.includes('web') || lowerTitle.includes('frontend') || lowerTitle.includes('full stack')) {
-      return INSTRUCTORS['web development'];
-    } else if (lowerTitle.includes('digital') || lowerTitle.includes('seo') || lowerTitle.includes('marketing')) {
-      return INSTRUCTORS['digital marketing'];
-    } else if (lowerTitle.includes('graphic') || lowerTitle.includes('video') || lowerTitle.includes('editing')) {
-      return INSTRUCTORS['graphic designing'];
-    } else if (lowerTitle.includes('machine learning') || lowerTitle.includes('ai') || lowerTitle.includes('artificial intelligence')) {
-      return INSTRUCTORS['machine learning'];
-    } else if (lowerTitle.includes('data') || lowerTitle.includes('analytics')) {
-      return INSTRUCTORS['data science'];
-    } else if (lowerTitle.includes('cyber') || lowerTitle.includes('security')) {
-      return INSTRUCTORS['cyber security'];
-    } else if (lowerTitle.includes('ui') || lowerTitle.includes('ux') || lowerTitle.includes('design')) {
-      return INSTRUCTORS['ui/ux design'];
-    }
-    
-    return INSTRUCTORS['default'];
+
+    return {
+      ...resolved,
+      name: sanitize(resolved.name),
+      role: sanitize(resolved.role),
+      bio: sanitize(resolved.bio),
+      email: resolved.email ? sanitize(resolved.email.toLowerCase()) : resolved.email,
+      instructors: Array.isArray(resolved.instructors)
+        ? resolved.instructors.map((inst) => ({
+            ...inst,
+            name: sanitize(inst.name),
+            role: sanitize(inst.role),
+            bio: sanitize(inst.bio),
+            linkedin: inst.linkedin ? sanitize(inst.linkedin) : inst.linkedin,
+          }))
+        : resolved.instructors,
+    };
   };
 
   const instructor = getInstructor();
@@ -266,7 +294,7 @@ export default function InstructorCard({ courseTitle = '', instructor: propInstr
                         className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                         style={{
                           objectPosition:
-                            inst.avatar?.includes('frontend_trainer') || inst.name?.includes('Aaditya')
+                            inst.avatar?.includes('frontend_trainer') || inst.name?.includes('Aditya')
                               ? 'top center'
                               : 'center',
                         }}
@@ -378,7 +406,7 @@ export default function InstructorCard({ courseTitle = '', instructor: propInstr
                   alt={instructor.name}
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                   style={{
-                    objectPosition: instructor.avatar?.includes('frontend_trainer') || instructor.name?.includes('Aaditya') ? 'top center' : 'center',
+                    objectPosition: instructor.avatar?.includes('frontend_trainer') || instructor.name?.includes('Aditya') ? 'top center' : 'center',
                   }}
                   onError={(e) => {
                     e.target.onerror = null;
