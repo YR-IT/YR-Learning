@@ -73,9 +73,10 @@ export default function InstructorShowcase() {
 			role: "Cyber Security Trainer",
 			avatar: "/images/Trainer4.jpeg",
 			bio:
-				"Penetration tester at YR IT SOLUTION and Cyber Security Practitioner at TCS. Learn from industry expert and gain hands-on experience in Cybersecurity.",
-			tags: ["Penetration Testing", "Cyber Security", "Ethical Hacking", "Network Security"],
+				"Cyber Security Engineer at YR IT SOLUTIONS and Cyber Security practitioner at TCS. Learn from industry expert and gain hands-on experience in Network Offensive Security, Penetration Testing, and Red Teaming.",
+			tags: ["Network Security", "Penetration Testing", "Ethical Hacking", "Red Teaming", "Active Directory"],
 			accent: "from-cyan-500 via-blue-500 to-indigo-500",
+			linkedin: "https://www.linkedin.com/company/yr-it-solutions/",
 		},
 		{
 			name: "Gauri Sharma",

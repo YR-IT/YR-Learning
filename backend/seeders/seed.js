@@ -321,6 +321,86 @@ const initialCourses = [
       { title: "Photoshop Masking & High-CTR Thumbnail Design", duration: "45:00" },
       { title: "Premiere Pro Timeline & Professional Sound Design", duration: "55:00" }
     ]
+  },
+  {
+    title: "Cyber Security",
+    slug: "cyber-security",
+    description: "Master Network Offensive Security, Ethical Hacking, and Red Teaming with an intensive 3-month structured roadmap. From networking fundamentals, scanning, and service exploitation to advanced Active Directory attacks, privilege escalation, lateral movement, and penetration testing reports.",
+    image: "/images/cyber-security.jpg",
+    price: 2999,
+    category: "Cyber Security",
+    duration: 90,
+    students: 4850,
+    rating: 4.9,
+    badge: "Hot & New",
+    language: "Hindi + English",
+    mode: "100% Online",
+    instructor: {
+      name: "Gautam",
+      role: "Cyber Security Trainer",
+      bio: "Cyber Security Engineer at YR IT SOLUTIONS and Cyber Security practitioner at TCS. Learn from industry expert and gain hands-on experience in Network Offensive Security, Penetration Testing, and Red Teaming.",
+      avatar: "/images/Trainer4.jpeg",
+      linkedin: "https://www.linkedin.com/company/yr-it-solutions/"
+    },
+    chapters: [
+      { id: 1, title: "Month 1 – Easy: Foundations & Basic Exploitation" },
+      { id: 2, title: "Month 2 – Medium: Exploitation & Privilege Escalation" },
+      { id: 3, title: "Month 3 – Advanced: Red Teaming & Complex Networks" },
+      { id: 4, title: "Final Deliverables & Real-World Capstone Assessment" }
+    ],
+    curriculum: {
+      sections: [
+        {
+          title: "Month 1: Foundations & Basic Exploitation (Easy)",
+          lessons: [
+            { title: "Networking fundamentals (OSI/TCP-IP, ports, protocols)", duration: "45:00" },
+            { title: "Reconnaissance (active vs passive)", duration: "40:00" },
+            { title: "Scanning & service enumeration", duration: "50:00" },
+            { title: "Exploiting misconfigurations (FTP, SMB, SSH)", duration: "55:00" },
+            { title: "First reverse/bind shells", duration: "45:00" },
+            { title: "Tools: Nmap, Masscan, Whois, Dig, Nslookup, Enum4linux, SMBMap, Netcat, Wireshark, Metasploit (basics)", duration: "60:00" },
+            { title: "Hands-on Tasks: Scan local VM (Metasploitable2) & Enumerate SMB shares to extract data", duration: "55:00" },
+            { title: "Hands-on Tasks: Exploit vsftpd 2.3.4 backdoor → gain shell & Packet capture/analysis with Wireshark", duration: "50:00" },
+            { title: "Platforms: TryHackMe (Complete Beginner, Jr Pen Tester) & VulnHub (Metasploitable2, Kioptrix series)", duration: "45:00" },
+            { title: "Month 1 Deliverable: Basic scanning, enumeration, and simple exploits execution report", duration: "40:00" }
+          ]
+        },
+        {
+          title: "Month 2: Exploitation & Privilege Escalation (Medium)",
+          lessons: [
+            { title: "Web exploitation (SQLi, XSS, LFI, Command Injection)", duration: "60:00" },
+            { title: "Brute force attacks (Hydra, FFUF)", duration: "45:00" },
+            { title: "Exploiting network services (SMB, RDP, SSH)", duration: "50:00" },
+            { title: "Linux privilege escalation (SUID, PATH hijack, kernel exploits)", duration: "55:00" },
+            { title: "Windows privilege escalation (unquoted service paths, token abuse)", duration: "55:00" },
+            { title: "Post-exploitation basics: persistence & data exfiltration", duration: "50:00" },
+            { title: "Tools: Hydra, Crackmapexec, Impacket, Burp Suite, SQLMap, LinPEAS, WinPEAS, BloodHound, Empire / Sliver", duration: "65:00" },
+            { title: "Hands-on Tasks: Exploit DVWA & bWAPP → dump DB credentials & Hydra SSH brute-force login", duration: "55:00" },
+            { title: "Hands-on Tasks: Exploit EternalBlue (MS17-010), escalate local user → root/admin & maintain persistence with scheduled tasks/cronjobs", duration: "60:00" },
+            { title: "Platforms: TryHackMe (Offensive Pentesting, PrivEsc, Attacktive Directory) & HackTheBox (Optimum, Legacy, Blue)", duration: "50:00" },
+            { title: "Month 2 Deliverable: Exploitation, privilege escalation, and post-exploitation report", duration: "45:00" }
+          ]
+        },
+        {
+          title: "Month 3: Red Teaming & Complex Networks (Advanced)",
+          lessons: [
+            { title: "Active Directory exploitation (Kerberoasting, AS-REP Roasting, DCsync)", duration: "65:00" },
+            { title: "Lateral movement (Pass-the-Hash, RDP pivoting, SOCKS tunneling)", duration: "60:00" },
+            { title: "Wireless attacks (WPA2 cracking, Evil Twin)", duration: "45:00" },
+            { title: "Advanced persistence (registry keys, implants)", duration: "50:00" },
+            { title: "OPSEC: log evasion & stealth techniques", duration: "50:00" },
+            { title: "Penetration test reporting & industry standards", duration: "45:00" },
+            { title: "Tools: Mimikatz, Rubeus, Impacket (secretsdump, psexec), BloodHound (AD attack mapping), Aircrack-ng, Bettercap, Cobalt Strike (or Sliver, Mythic)", duration: "70:00" },
+            { title: "Hands-on Tasks: Build & attack AD lab (Windows Server + domain machines)", duration: "60:00" },
+            { title: "Hands-on Tasks: Kerberoasting → crack TGS ticket → lateral movement & BloodHound attack path mapping", duration: "60:00" },
+            { title: "Hands-on Tasks: Capture WPA handshake & crack with Aircrack-ng", duration: "45:00" },
+            { title: "Hands-on Tasks: Simulate full red-team attack → document in comprehensive penetration test report", duration: "75:00" },
+            { title: "Platforms: TryHackMe (Red Teaming, Breaching AD), HackTheBox (Medium/Hard AD labs) & Proving Grounds (OSCP-style practice)", duration: "55:00" },
+            { title: "Month 3 Deliverable: Advanced AD attacks, persistence, red-team ops, and enterprise penetration test reporting", duration: "50:00" }
+          ]
+        }
+      ]
+    }
   }
 ];
 

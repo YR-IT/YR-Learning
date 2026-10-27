@@ -133,6 +133,16 @@ const webDevelopmentInstructor = {
   ]
 };
 
+const cyberSecurityInstructor = {
+  name: "Gautam",
+  role: "Cyber Security Trainer",
+  bio: "Cyber Security Engineer at YR IT SOLUTIONS and Cyber Security practitioner at TCS. Learn from industry expert and gain hands-on experience in Network Offensive Security, Penetration Testing, and Red Teaming.",
+  avatar: "/images/Trainer4.jpeg",
+  linkedin: "https://www.linkedin.com/company/yr-it-solutions/",
+  social: { linkedin: "https://www.linkedin.com/company/yr-it-solutions/" },
+  expertise: ["Network Security", "Ethical Hacking", "Penetration Testing", "Red Teaming", "Active Directory Exploitation", "Privilege Escalation"],
+};
+
 const normalizeCourse = (rawCourse) => {
   if (!rawCourse) return rawCourse;
 
@@ -182,6 +192,21 @@ const normalizeCourse = (rawCourse) => {
       name: (course.instructor?.name || "Aditya Naulakha & Harshvardhan Gupta").replace(/aaditya/gi, "Aditya"),
       instructors: webDevelopmentInstructor.instructors,
     };
+  } else if (identifier.includes("cyber-security") || identifier.includes("cyber security") || identifier.includes("offensive-security") || identifier.includes("security")) {
+    course.instructor = {
+      ...cyberSecurityInstructor,
+      ...(course.instructor || {}),
+      name: "Gautam",
+      role: cyberSecurityInstructor.role,
+      bio: cyberSecurityInstructor.bio,
+      avatar: "/images/Trainer4.jpeg",
+      linkedin: cyberSecurityInstructor.linkedin,
+      social: cyberSecurityInstructor.social,
+      expertise: cyberSecurityInstructor.expertise,
+    };
+    if (!course.image || course.image.includes("Digital-Marketing")) {
+      course.image = "/images/cyber-security.jpg";
+    }
   }
 
   // Deep sanitize string replacements for old names
@@ -281,11 +306,18 @@ export default function Course() {
   ];
 
   const courseImage = course.image || course.thumbnail;
-  const courseImageUrl = courseImage
+  const currentIdentifier = `${course?.slug || ""} ${course?.title || ""}`.toLowerCase();
+  let courseImageUrl = courseImage
     ? (/^(data:|https?:\/\/|\/)/.test(courseImage)
       ? courseImage
       : `data:image/jpeg;base64,${courseImage}`)
-    : "/images/Digital-Marketing.jpg";
+    : ((currentIdentifier.includes("cyber") || currentIdentifier.includes("security"))
+      ? "/images/cyber-security.jpg"
+      : "/images/Digital-Marketing.jpg");
+
+  if ((currentIdentifier.includes("cyber") || currentIdentifier.includes("security")) && (!courseImage || courseImageUrl.includes("Digital-Marketing"))) {
+    courseImageUrl = "/images/cyber-security.jpg";
+  }
 
 
   return (
@@ -384,6 +416,13 @@ export default function Course() {
                   src={courseImageUrl}
                   alt={course.title}
                   className="w-full h-80 object-cover"
+                  onError={(e) => {
+                    if (currentIdentifier.includes("cyber") || currentIdentifier.includes("security")) {
+                      if (!e.target.src.includes("cyber-security.jpg")) {
+                        e.target.src = "/images/cyber-security.jpg";
+                      }
+                    }
+                  }}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
               </div>

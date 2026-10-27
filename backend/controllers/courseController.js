@@ -25,7 +25,14 @@ const sanitizeCourse = (courseDoc) => {
       .replace(/divyaraj/gi, 'Divyaraj')
       .replace(/aaditya\s+naulakha/gi, 'Aditya Naulakha')
       .replace(/aaditya/gi, 'Aditya');
-    return JSON.parse(str);
+    const sanitized = JSON.parse(str);
+    const idStr = `${sanitized.slug || ''} ${sanitized.title || ''}`.toLowerCase();
+    if (idStr.includes('cyber') || idStr.includes('security')) {
+      if (!sanitized.image || sanitized.image.includes('Digital-Marketing') || sanitized.image.includes('default')) {
+        sanitized.image = '/images/cyber-security.jpg';
+      }
+    }
+    return sanitized;
   } catch {
     return courseDoc;
   }
@@ -99,7 +106,8 @@ const getCourseById = async (req, res) => {
           (cleanParam.includes('web') && (cSlug.includes('web') || cTitle.includes('web'))) ||
           (cleanParam.includes('machine') && (cSlug.includes('machine') || cTitle.includes('machine'))) ||
           (cleanParam.includes('data') && cleanParam.includes('science') && (cSlug.includes('science') || cTitle.includes('science'))) ||
-          ((cleanParam.includes('java') || cleanParam.includes('dsa') || cleanParam.includes('structure')) && (cSlug.includes('java') || cTitle.includes('java')))
+          ((cleanParam.includes('java') || cleanParam.includes('dsa') || cleanParam.includes('structure')) && (cSlug.includes('java') || cTitle.includes('java'))) ||
+          ((cleanParam.includes('cyber') || cleanParam.includes('security')) && (cSlug.includes('cyber') || cSlug.includes('security') || cTitle.includes('cyber') || cTitle.includes('security')))
         );
       });
     }

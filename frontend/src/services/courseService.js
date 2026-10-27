@@ -4,14 +4,22 @@ const sanitizeCourseData = (course) => {
   if (!course) return course;
   try {
     const raw = JSON.stringify(course);
-    const sanitized = raw
-      .replace(/vijay\s+sheoran/gi, 'Vinay Sheoran')
-      .replace(/vijay/gi, 'Vinay')
-      .replace(/divyaRaj/g, 'Divyaraj')
-      .replace(/divyaraj/gi, 'Divyaraj')
-      .replace(/aaditya\s+naulakha/gi, 'Aditya Naulakha')
-      .replace(/aaditya/gi, 'Aditya');
-    return JSON.parse(sanitized);
+    const sanitized = JSON.parse(
+      raw
+        .replace(/vijay\s+sheoran/gi, 'Vinay Sheoran')
+        .replace(/vijay/gi, 'Vinay')
+        .replace(/divyaRaj/g, 'Divyaraj')
+        .replace(/divyaraj/gi, 'Divyaraj')
+        .replace(/aaditya\s+naulakha/gi, 'Aditya Naulakha')
+        .replace(/aaditya/gi, 'Aditya')
+    );
+    const idStr = `${sanitized.slug || ''} ${sanitized.title || ''}`.toLowerCase();
+    if (idStr.includes('cyber') || idStr.includes('security')) {
+      if (!sanitized.image || sanitized.image.includes('Digital-Marketing') || sanitized.image.includes('default')) {
+        sanitized.image = '/images/cyber-security.jpg';
+      }
+    }
+    return sanitized;
   } catch {
     return course;
   }
@@ -81,7 +89,8 @@ export const courseService = {
             (cleanId.includes('web') && (cSlug.includes('web') || cTitle.includes('web'))) ||
             (cleanId.includes('machine') && (cSlug.includes('machine') || cTitle.includes('machine'))) ||
             (cleanId.includes('data') && cleanId.includes('science') && (cSlug.includes('science') || cTitle.includes('science'))) ||
-            ((cleanId.includes('java') || cleanId.includes('dsa') || cleanId.includes('structure')) && (cSlug.includes('java') || cTitle.includes('java')))
+            ((cleanId.includes('java') || cleanId.includes('dsa') || cleanId.includes('structure')) && (cSlug.includes('java') || cTitle.includes('java'))) ||
+            ((cleanId.includes('cyber') || cleanId.includes('security')) && (cSlug.includes('cyber') || cSlug.includes('security') || cTitle.includes('cyber') || cTitle.includes('security')))
           );
         });
         if (match) return match;
@@ -103,7 +112,8 @@ export const courseService = {
           cSlug === cleanId ||
           (cleanId.includes('uiux') && (cSlug.includes('uiux') || cSlug.includes('ui'))) ||
           (cleanId.startsWith('ui') && cleanId.includes('ux') && cSlug.includes('ui')) ||
-          (cleanId.includes('seo') && cSlug.includes('digital-marketing'))
+          (cleanId.includes('seo') && cSlug.includes('digital-marketing')) ||
+          ((cleanId.includes('cyber') || cleanId.includes('security')) && (cSlug.includes('cyber') || cSlug.includes('security')))
         );
       });
       return found ? sanitizeCourseData(found) : null;

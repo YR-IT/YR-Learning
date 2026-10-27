@@ -145,6 +145,7 @@ export default function Footer() {
             <h3 className="text-xl font-bold mb-6 text-white">Course Categories</h3>
             <div className="space-y-3">
               {[
+                "Cyber Security",
                 "Web Development",
                 "React Development", 
                 "AI & Machine Learning",

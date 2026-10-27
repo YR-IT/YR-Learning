@@ -24,11 +24,18 @@ export default function CourseCard({
   const [isLoading, setIsLoading] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
   const cardRef = useRef(null);
-  const imageSrc = courseImage
+  const courseIdentifier = `${slug || ""} ${id || ""} ${course || ""}`.toLowerCase();
+  let imageSrc = courseImage
     ? (/^(data:|https?:\/\/|\/)/.test(courseImage)
       ? courseImage
       : `data:image/jpeg;base64,${courseImage}`)
-    : "/images/Digital-Marketing.jpg";
+    : ((courseIdentifier.includes("cyber") || courseIdentifier.includes("security"))
+      ? "/images/cyber-security.jpg"
+      : "/images/Digital-Marketing.jpg");
+
+  if ((courseIdentifier.includes("cyber") || courseIdentifier.includes("security")) && (!courseImage || imageSrc.includes("Digital-Marketing"))) {
+    imageSrc = "/images/cyber-security.jpg";
+  }
   const rawInstructorName = typeof instructor === "string" ? instructor : (instructor?.name || "YR Instructor");
   const instructorName = rawInstructorName
     .replace(/vijay\s+sheoran/gi, "Vinay Sheoran")
@@ -105,6 +112,13 @@ export default function CourseCard({
               className="w-full h-full object-cover transition-transform duration-500"
               whileHover={{ scale: 1.02 }}
               loading="lazy"
+              onError={(e) => {
+                if (courseIdentifier.includes("cyber") || courseIdentifier.includes("security")) {
+                  if (!e.target.src.includes("cyber-security.jpg")) {
+                    e.target.src = "/images/cyber-security.jpg";
+                  }
+                }
+              }}
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/15 to-transparent"></div>
             <div className="absolute top-3 right-3 z-10 flex gap-2">

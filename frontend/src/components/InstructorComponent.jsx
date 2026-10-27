@@ -105,17 +105,17 @@ const INSTRUCTORS = {
     name: "Gautam",
     role: "Cyber Security Trainer",
     avatar: "/images/Trainer4.jpeg",
-    bio: "Penetration tester at YR IT SOLUTION and Cyber Security Practitioner at TCS. Expert in cybersecurity and ethical hacking.",
+    bio: "Cyber Security Engineer at YR IT SOLUTIONS and Cyber Security practitioner at TCS. Learn from industry expert and gain hands-on experience in Network Offensive Security, Penetration Testing, and Red Teaming.",
     rating: 4.9,
     students: "5,800+",
     courses: 8,
-    expertise: ["Cyber Security", "Ethical Hacking", "Penetration Testing", "Security"],
+    expertise: ["Network Security", "Penetration Testing", "Ethical Hacking", "Red Teaming", "Active Directory Exploitation", "Privilege Escalation"],
     social: {
       twitter: "#",
-      linkedin: "#",
+      linkedin: "https://www.linkedin.com/company/yr-it-solutions/",
       github: "#"
     },
-    email: "gautam@example.com"
+    email: "yr.itsolutions.pvtltd@gmail.com"
   },
   'machine learning': {
     name: "Gauri Sharma",
