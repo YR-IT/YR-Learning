@@ -10,10 +10,13 @@ const protectAdmin = async (req, res, next) => {
   ) {
     try {
       token = req.headers.authorization.split(' ')[1];
-      const decoded = jwt.verify(
-        token,
-        process.env.JWT_SECRET || 'yr_elearning_secret_jwt_key_2026_xyz'
-      );
+      const secret = process.env.JWT_SECRET;
+      if (!secret || !secret.trim()) {
+        console.error('FATAL SECURITY ERROR: JWT_SECRET is not configured on the server');
+        return res.status(500).json({ message: 'Internal server security configuration error' });
+      }
+
+      const decoded = jwt.verify(token, secret.trim());
 
       req.admin = await Admin.findById(decoded.id).select('-password');
       if (!req.admin) {

@@ -483,19 +483,30 @@ const seedData = async () => {
   try {
     // 1. Seed Admin
     const adminEmail = (process.env.ADMIN_EMAIL || 'admin@yrelearning.com').toLowerCase().trim();
-    const adminPassword = process.env.ADMIN_PASSWORD || 'admin123';
+    const adminPassword = process.env.ADMIN_PASSWORD;
 
-    const existingAdmin = await Admin.findOne({ email: adminEmail });
-    if (!existingAdmin) {
-      await Admin.create({
-        name: 'Super Admin',
-        email: adminEmail,
-        password: adminPassword,
-        role: 'admin',
-      });
-      console.log(`👤 Admin created -> Email: ${adminEmail} | Password: ${adminPassword}`);
+    if (!adminPassword) {
+      console.warn('⚠️ ADMIN_PASSWORD not defined in environment variables. Skipping automatic admin provisioning.');
     } else {
-      console.log(`👤 Admin already exists: ${adminEmail}`);
+      let existingAdmin = await Admin.findOne({ email: adminEmail });
+      if (!existingAdmin) {
+        await Admin.create({
+          name: 'Super Admin',
+          email: adminEmail,
+          password: adminPassword,
+          role: 'admin',
+        });
+        console.log(`👤 Admin created for: ${adminEmail}`);
+      } else {
+        const isMatch = await existingAdmin.matchPassword(adminPassword);
+        if (!isMatch) {
+          existingAdmin.password = adminPassword;
+          await existingAdmin.save();
+          console.log(`🔒 Synchronized admin credentials with environment configuration for ${adminEmail}`);
+        } else {
+          console.log(`👤 Admin verified for: ${adminEmail}`);
+        }
+      }
     }
 
     // 2. Seed Courses

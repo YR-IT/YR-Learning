@@ -1,10 +1,18 @@
 const jwt = require('jsonwebtoken');
 const Admin = require('../models/Admin');
 
+const getJwtSecret = () => {
+  const secret = process.env.JWT_SECRET;
+  if (!secret || !secret.trim()) {
+    throw new Error('Server configuration error: JWT_SECRET is not configured');
+  }
+  return secret.trim();
+};
+
 const generateToken = (id) => {
   return jwt.sign(
     { id, role: 'admin' },
-    process.env.JWT_SECRET || 'yr_elearning_secret_jwt_key_2026_xyz',
+    getJwtSecret(),
     { expiresIn: '30d' }
   );
 };
@@ -23,11 +31,11 @@ const adminLogin = async (req, res) => {
     // Find admin by email (case-insensitive)
     let admin = await Admin.findOne({ email: email.toLowerCase().trim() });
 
-    // Fallback: If no admin in database yet and matching default .env credentials, create it!
-    const defaultEmail = (process.env.ADMIN_EMAIL || 'admin@yrelearning.com').toLowerCase().trim();
-    const defaultPassword = process.env.ADMIN_PASSWORD || 'admin123';
+    // Fallback: If no admin in database yet and matching environment credentials, create it
+    const defaultEmail = process.env.ADMIN_EMAIL ? process.env.ADMIN_EMAIL.toLowerCase().trim() : null;
+    const defaultPassword = process.env.ADMIN_PASSWORD;
 
-    if (!admin && email.toLowerCase().trim() === defaultEmail) {
+    if (!admin && defaultEmail && defaultPassword && email.toLowerCase().trim() === defaultEmail) {
       if (password === defaultPassword) {
         admin = await Admin.create({
           name: 'Super Admin',
@@ -39,12 +47,22 @@ const adminLogin = async (req, res) => {
     }
 
     if (!admin) {
+      if (typeof req.recordLoginFailure === 'function') {
+        req.recordLoginFailure();
+      }
       return res.status(401).json({ message: 'Invalid admin credentials' });
     }
 
     const isMatch = await admin.matchPassword(password);
     if (!isMatch) {
+      if (typeof req.recordLoginFailure === 'function') {
+        req.recordLoginFailure();
+      }
       return res.status(401).json({ message: 'Invalid admin credentials' });
+    }
+
+    if (typeof req.recordLoginSuccess === 'function') {
+      req.recordLoginSuccess();
     }
 
     const token = generateToken(admin._id);

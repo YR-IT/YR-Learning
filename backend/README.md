@@ -37,10 +37,16 @@ npm run dev
 npm start
 ```
 
-## 🔐 Default Admin Credentials for `/login`
-- **Email:** `admin@yrelearning.com`
-- **Password:** `admin123`
-*(Can be changed in `backend/.env`)*
+## 🔐 Admin Authentication Configuration
+Admin credentials must be configured securely in `backend/.env` (never commit plaintext credentials to version control):
+- `ADMIN_EMAIL`: Admin email for panel authentication
+- `ADMIN_PASSWORD`: Strong master password for the admin account
+- `JWT_SECRET`: High-entropy 64-byte random hexadecimal secret for cryptographically signing JWT auth tokens
+
+To generate a secure JWT secret:
+```bash
+node -e "console.log(require('crypto').randomBytes(64).toString('hex'))"
+```
 
 ## 📡 API Endpoints
 

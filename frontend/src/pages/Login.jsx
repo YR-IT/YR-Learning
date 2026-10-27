@@ -144,11 +144,11 @@ export default function Login({ SetIsAuthenticated }) {
           </button>
         </form>
 
-        {/* Demo credentials hint */}
+        {/* Secure access notice */}
         <div className="mt-8 pt-6 border-t border-gray-800/80 text-center">
-          <p className="text-xs text-gray-500 leading-relaxed">
-            Default credentials: <br />
-            <code className="text-gray-300 font-mono bg-gray-800 px-2 py-0.5 rounded">admin@yrelearning.com</code> &bull; <code className="text-gray-300 font-mono bg-gray-800 px-2 py-0.5 rounded">admin123</code>
+          <p className="text-xs text-gray-500 leading-relaxed flex items-center justify-center gap-1.5">
+            <Lock size={12} className="text-gray-500" />
+            <span>Restricted Access &bull; Authorized Personnel Only</span>
           </p>
         </div>
       </div>

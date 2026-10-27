@@ -11,12 +11,18 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 // Middlewares
+app.set('trust proxy', 1); // Trust reverse proxy headers (e.g. Render, Cloudflare) for accurate client IPs
 app.use(cors({
   origin: true, // Dynamically allow calling origins with credentials
   credentials: true
 }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+const { generalApiLimiter } = require('./middleware/rateLimiter');
+
+// General rate limiter for all API endpoints
+app.use('/api', generalApiLimiter);
 
 const authRoutes = require('./routes/authRoutes');
 const courseRoutes = require('./routes/courseRoutes');
@@ -65,6 +71,10 @@ app.use((err, req, res, next) => {
 // Start Server & Connect to DB
 const startServer = async () => {
   try {
+    if (!process.env.JWT_SECRET || process.env.JWT_SECRET === 'yr_elearning_secret_jwt_key_2026_xyz') {
+      console.warn('⚠️ SECURITY WARNING: Insecure or default JWT_SECRET detected. Please set a unique, random JWT_SECRET in .env.');
+    }
+
     const conn = await connectDB();
     if (conn) {
       // Auto seed initial courses, articles, admin if collections are empty
