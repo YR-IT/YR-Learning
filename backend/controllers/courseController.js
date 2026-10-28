@@ -1,5 +1,6 @@
 const Course = require('../models/Course');
 const mongoose = require('mongoose');
+const { getInstructorProfile } = require('../data/instructorProfiles');
 
 const slugify = (text) =>
   text
@@ -26,6 +27,13 @@ const sanitizeCourse = (courseDoc) => {
       .replace(/aaditya\s+naulakha/gi, 'Aditya Naulakha')
       .replace(/aaditya/gi, 'Aditya');
     const sanitized = JSON.parse(str);
+    const instructorProfile = getInstructorProfile(sanitized);
+    if (instructorProfile) {
+      sanitized.instructor = {
+        ...(typeof sanitized.instructor === 'object' ? sanitized.instructor : {}),
+        ...instructorProfile,
+      };
+    }
     const idStr = `${sanitized.slug || ''} ${sanitized.title || ''}`.toLowerCase();
     if (idStr.includes('cyber') || idStr.includes('security')) {
       if (!sanitized.image || sanitized.image.includes('Digital-Marketing') || sanitized.image.includes('default')) {

@@ -24,8 +24,10 @@ const EditCourse = () => {
     description: '',
     category: '',
     price: '',
+    image: '',
     curriculum: [],
   });
+  const [uploadingThumbnail, setUploadingThumbnail] = useState(false);
 
   // Lesson form state
   const [lessonForm, setLessonForm] = useState({

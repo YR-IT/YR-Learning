@@ -2,6 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { API_BASE_URL } from '../services/api';
 import './EditBanner.css';
 
+const resolveImageSrc = (img) => {
+    if (!img) return '/images/hero-tech.jpg';
+    if (img.startsWith('http://') || img.startsWith('https://') || img.startsWith('/') || img.startsWith('data:')) {
+        return img;
+    }
+    return `data:image/jpeg;base64,${img}`;
+};
+
 const BannerManager = () => {
     const [banners, setBanners] = useState([]);
     const [editingBanner, setEditingBanner] = useState(null);
@@ -50,7 +58,7 @@ const BannerManager = () => {
         setEditingBanner(banner);
         setTitle(banner.title);
         setLink(banner.link || '');
-        setPreview(`data:image/jpeg;base64,${banner.image}`);
+        setPreview(resolveImageSrc(banner.image));
         setError('');
         window.scrollTo(0, 0);
     };
@@ -63,7 +71,7 @@ const BannerManager = () => {
         }
     };
 
-    // Handle Add or Update
+    // Handle Add or Update (uploads directly from laptop to Cloudinary via backend)
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (!title || (!image && !editingBanner)) {
@@ -84,7 +92,11 @@ const BannerManager = () => {
         setError('');
 
         try {
-            const response = await fetch(url, { method, body: formData });
+            const token = localStorage.getItem('token') || localStorage.getItem('adminToken');
+            const headers = {};
+            if (token) headers['Authorization'] = `Bearer ${token}`;
+
+            const response = await fetch(url, { method, headers, body: formData });
             const result = await response.json().catch(() => ({}));
             if (!response.ok) throw new Error(result.message || `Failed to ${isEditMode ? 'update' : 'add'} banner.`);
             resetForm();
@@ -99,12 +111,14 @@ const BannerManager = () => {
     // Handle Delete
     const handleDelete = async (bannerId) => {
         if (!window.confirm('Are you sure you want to delete this banner?')) return;
-
         setLoading(true);
         setError('');
-
         try {
-            const response = await fetch(`${baseUrl}/banner/deletebanner/${bannerId}`, { method: 'DELETE' });
+            const token = localStorage.getItem('token') || localStorage.getItem('adminToken');
+            const headers = {};
+            if (token) headers['Authorization'] = `Bearer ${token}`;
+
+            const response = await fetch(`${baseUrl}/banner/deletebanner/${bannerId}`, { method: 'DELETE', headers });
             const result = await response.json().catch(() => ({}));
             if (!response.ok) throw new Error(result.message || 'Failed to delete banner.');
             await fetchAllBanners();
@@ -119,13 +133,14 @@ const BannerManager = () => {
     };
 
     return (
-        <div className="banner-panel">
-            <h2>Manage Banners</h2>
-            {error && <p className="error">{error}</p>}
+        <div className="banner-manager-container">
+            <h2>Manage Promotional Banners</h2>
 
-            <div className="edit-banner-panel" style={{ marginBottom: '2rem' }}>
+            <div className="form-card">
                 <h3>{editingBanner ? 'Edit Banner' : 'Add New Banner'}</h3>
-                <form onSubmit={handleSubmit} className="edit-banner-form">
+                {error && <div className="error-message">{error}</div>}
+
+                <form onSubmit={handleSubmit}>
                     <div className="form-group">
                         <label htmlFor="title">Banner Title</label>
                         <input id="title" type="text" value={title} onChange={(e) => setTitle(e.target.value)} required />
@@ -135,12 +150,12 @@ const BannerManager = () => {
                         <input id="banner-link" type="url" value={link} onChange={(e) => setLink(e.target.value)} placeholder="https://example.com" />
                     </div>
                     <div className="form-group">
-                        <label htmlFor="banner">Banner Image</label>
+                        <label htmlFor="banner">Banner Image (Upload from Laptop &rarr; Cloudinary)</label>
                         {preview && <img src={preview} alt="Preview" className="image-preview" />}
                         <input id="banner" type="file" onChange={handleFileChange} accept="image/*" />
                     </div>
                     <div className="form-actions">
-                        <button type="submit" disabled={loading}>{loading ? 'Saving...' : (editingBanner ? 'Update Banner' : 'Add Banner')}</button>
+                        <button type="submit" disabled={loading}>{loading ? 'Uploading & Saving to Cloudinary...' : (editingBanner ? 'Update Banner' : 'Add Banner')}</button>
                         {editingBanner && <button type="button" onClick={resetForm} disabled={loading}>Cancel Edit</button>}
                     </div>
                 </form>
@@ -151,10 +166,13 @@ const BannerManager = () => {
             <div className="banners-list">
                 {banners.map((banner) => (
                     <div key={banner._id} className="banner-card">
-                        <img src={`data:image/jpeg;base64,${banner.image}`} alt={banner.title} />
+                        <img src={resolveImageSrc(banner.image)} alt={banner.title} />
                         <div className="banner-info">
-                            <p>{banner.title}</p>
-                            <div className="banner-actions">
+                            <p className="font-semibold">{banner.title}</p>
+                            {banner.image && banner.image.includes('cloudinary.com') && (
+                                <span className="text-xs text-green-400 bg-green-950/60 px-2 py-0.5 rounded border border-green-800">Cloudinary Hosted</span>
+                            )}
+                            <div className="banner-actions mt-2">
                                 <button onClick={() => handleSelectEdit(banner)} disabled={loading}>Edit</button>
                                 <button onClick={() => handleDelete(banner._id)} disabled={loading} className="delete-button">Delete</button>
                             </div>

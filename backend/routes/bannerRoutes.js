@@ -21,14 +21,14 @@ const upload = multer({
 
 // Promotional banners
 router.get('/getbanner', getBanners);
-router.post('/addbanner', upload.single('banner'), addBanner);
-router.put('/updatebanner/:id', upload.single('banner'), updateBanner);
+router.post('/addbanner', upload.any(), addBanner);
+router.put('/updatebanner/:id', upload.any(), updateBanner);
 router.delete('/deletebanner/:id', deleteBanner);
 
 // Instructor mobile banners
 router.get('/getinstructor', getInstructorBanners);
-router.post('/addinstructor', upload.single('image'), addInstructor);
-router.put('/updateinstructor/:id', upload.single('image'), updateInstructor);
+router.post('/addinstructor', upload.any(), addInstructor);
+router.put('/updateinstructor/:id', upload.any(), updateInstructor);
 router.delete('/deleteinstructor/:id', deleteInstructor);
 
 module.exports = router;

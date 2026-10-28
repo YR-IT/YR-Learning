@@ -2,6 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { API_BASE_URL } from '../services/api';
 import './EditInstructorBanner.css';
 
+const resolveImageSrc = (img) => {
+    if (!img) return '/images/trainer1.jpg';
+    if (img.startsWith('http://') || img.startsWith('https://') || img.startsWith('/') || img.startsWith('data:')) {
+        return img;
+    }
+    return `data:image/jpeg;base64,${img}`;
+};
+
 const InstructorManager = () => {
     const [instructors, setInstructors] = useState([]);
     const [editingInstructor, setEditingInstructor] = useState(null);
@@ -45,9 +53,9 @@ const InstructorManager = () => {
 
     const handleSelectEdit = (instructor) => {
         setEditingInstructor(instructor);
-        setName(instructor.name);
-        setAbout(instructor.about);
-        setPreview(`data:image/jpeg;base64,${instructor.image}`);
+        setName(instructor.name || instructor.title || '');
+        setAbout(instructor.about || instructor.link || '');
+        setPreview(resolveImageSrc(instructor.image));
         setError('');
         window.scrollTo(0, 0);
     };
@@ -60,6 +68,7 @@ const InstructorManager = () => {
         }
     };
 
+    // Handle Add or Update (uploads directly from laptop to Cloudinary via backend)
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (!name || !about || (!image && !editingInstructor)) {
@@ -80,7 +89,11 @@ const InstructorManager = () => {
         setError('');
 
         try {
-            const response = await fetch(url, { method, body: formData });
+            const token = localStorage.getItem('token') || localStorage.getItem('adminToken');
+            const headers = {};
+            if (token) headers['Authorization'] = `Bearer ${token}`;
+
+            const response = await fetch(url, { method, headers, body: formData });
             const result = await response.json().catch(() => ({}));
             if (!response.ok) throw new Error(result.message || `Failed to ${isEditMode ? 'update' : 'add'} instructor.`);
             resetForm();
@@ -99,7 +112,11 @@ const InstructorManager = () => {
         setError('');
 
         try {
-            const response = await fetch(`${baseUrl}/banner/deleteinstructor/${instructorId}`, { method: 'DELETE' });
+            const token = localStorage.getItem('token') || localStorage.getItem('adminToken');
+            const headers = {};
+            if (token) headers['Authorization'] = `Bearer ${token}`;
+
+            const response = await fetch(`${baseUrl}/banner/deleteinstructor/${instructorId}`, { method: 'DELETE', headers });
             const result = await response.json().catch(() => ({}));
             if (!response.ok) throw new Error(result.message || 'Failed to delete instructor.');
             await fetchAllInstructors();
@@ -114,13 +131,13 @@ const InstructorManager = () => {
     };
 
     return (
-        <div className="edit-instructor-panel">
-            <h2>Manage Instructors</h2>
-            {error && <p className="error">{error}</p>}
+        <div className="instructor-manager-container">
+            <h2>Manage Instructor Spotlight Cards</h2>
 
-            <div style={{ marginBottom: '2rem' }}>
+            <div className="form-card">
                 <h3>{editingInstructor ? 'Edit Instructor' : 'Add New Instructor'}</h3>
-                <form onSubmit={handleSubmit} className="edit-instructor-form">
+                {error && <p className="error-message">{error}</p>}
+                <form onSubmit={handleSubmit}>
                     <div className="form-group">
                         <label htmlFor="name">Instructor Name:</label>
                         <input
@@ -142,7 +159,7 @@ const InstructorManager = () => {
                         ></textarea>
                     </div>
                     <div className="form-group">
-                        <label htmlFor="image">Instructor Image:</label>
+                        <label htmlFor="image">Instructor Image (Upload from Laptop &rarr; Cloudinary):</label>
                         <input
                             type="file"
                             id="image"
@@ -156,7 +173,7 @@ const InstructorManager = () => {
                         </div>
                     )}
                     <button type="submit" disabled={loading}>
-                        {loading ? 'Saving...' : editingInstructor ? 'Update Instructor' : 'Add Instructor'}
+                        {loading ? 'Uploading & Saving to Cloudinary...' : editingInstructor ? 'Update Instructor' : 'Add Instructor'}
                     </button>
                     {editingInstructor && (
                         <button type="button" onClick={resetForm} className="cancel-btn">
@@ -173,14 +190,19 @@ const InstructorManager = () => {
                 <ul>
                     {instructors.map((inst) => (
                         <li key={inst._id} className="instructor-item">
-                            <img src={inst.image ? `data:image/jpeg;base64,${inst.image}` : '/images/trainer1.jpg'} alt={inst.name} />
+                            <img src={resolveImageSrc(inst.image)} alt={inst.name} />
                             <div className="instructor-info">
                                 <h4>{inst.name}</h4>
                                 <p>{inst.about}</p>
+                                {inst.image && inst.image.includes('cloudinary.com') && (
+                                    <span className="text-xs text-green-400 bg-green-950/60 px-2 py-0.5 rounded border border-green-800 inline-block mt-1">Cloudinary Hosted</span>
+                                )}
                             </div>
-                            <div className="instructor-actions">
-                                <button onClick={() => handleSelectEdit(inst)}>Edit</button>
-                                <button onClick={() => handleDelete(inst._id)} className="delete-btn">
+                            <div className="item-actions">
+                                <button onClick={() => handleSelectEdit(inst)} disabled={loading} className="edit-btn">
+                                    Edit
+                                </button>
+                                <button onClick={() => handleDelete(inst._id)} disabled={loading} className="delete-btn">
                                     Delete
                                 </button>
                             </div>

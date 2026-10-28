@@ -1,4 +1,9 @@
 const cloudinary = require('cloudinary').v2;
+const path = require('path');
+const dotenv = require('dotenv');
+
+// Ensure environment variables are loaded
+dotenv.config({ path: path.join(__dirname, '../.env') });
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,

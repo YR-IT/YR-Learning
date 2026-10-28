@@ -1,14 +1,56 @@
 const Banner = require('../models/Banner');
+const cloudinary = require('../config/cloudinary');
 
-// Helper to extract image from req.file or req.body
-const extractImage = (req, fileFieldName = 'image') => {
-  if (req.file && req.file.buffer) {
-    return req.file.buffer.toString('base64');
+// Helper to stream upload buffer to Cloudinary
+const uploadBufferToCloudinary = (buffer, folder = 'yr_elearning/banners') => {
+  return new Promise((resolve, reject) => {
+    const uploadStream = cloudinary.uploader.upload_stream(
+      { folder, resource_type: 'image' },
+      (error, result) => {
+        if (error) return reject(error);
+        resolve(result.secure_url);
+      }
+    );
+    uploadStream.end(buffer);
+  });
+};
+
+// Helper to extract image from req.file or req.body and ensure Cloudinary URL
+const extractAndUploadImage = async (req, fileFieldName = 'image', folder = 'yr_elearning/banners') => {
+  const file = (req.files && req.files.length > 0) ? req.files[0] : req.file;
+
+  // 1. File uploaded from laptop via multipart/form-data
+  if (file && file.buffer) {
+    try {
+      const secureUrl = await uploadBufferToCloudinary(file.buffer, folder);
+      return secureUrl;
+    } catch (err) {
+      console.warn('Cloudinary upload warning (falling back to base64):', err.message);
+      return file.buffer.toString('base64');
+    }
   }
-  if (req.body) {
-    return req.body.image || req.body.banner || req.body[fileFieldName] || '';
+
+  // 2. Data in body (URL or base64)
+  const bodyImg = req.body ? (req.body.image || req.body.banner || req.body[fileFieldName] || '') : '';
+  if (!bodyImg) return '';
+
+  // Already a Cloudinary or HTTPS URL
+  if (bodyImg.startsWith('http://') || bodyImg.startsWith('https://')) {
+    return bodyImg;
   }
-  return '';
+
+  // Base64 data URI
+  if (bodyImg.startsWith('data:image')) {
+    try {
+      const res = await cloudinary.uploader.upload(bodyImg, { folder });
+      return res.secure_url;
+    } catch (err) {
+      console.warn('Cloudinary base64 upload failed:', err.message);
+      return bodyImg;
+    }
+  }
+
+  return bodyImg;
 };
 
 // @desc    Get promotional banners
@@ -35,13 +77,13 @@ const getInstructorBanners = async (req, res) => {
   }
 };
 
-// @desc    Add banner
+// @desc    Add banner (uploads to Cloudinary)
 // @route   POST /api/banner/addbanner
 // @access  Admin
 const addBanner = async (req, res) => {
   try {
     const { title, link, type } = req.body;
-    const image = extractImage(req, 'banner');
+    const image = await extractAndUploadImage(req, 'banner', 'yr_elearning/banners');
 
     if (!image) {
       return res.status(400).json({ message: 'Banner image is required.' });
@@ -61,14 +103,14 @@ const addBanner = async (req, res) => {
   }
 };
 
-// @desc    Update banner
+// @desc    Update banner (uploads new image to Cloudinary if provided)
 // @route   PUT /api/banner/updatebanner/:id
 // @access  Admin
 const updateBanner = async (req, res) => {
   try {
     const { id } = req.params;
     const { title, link } = req.body;
-    const newImage = extractImage(req, 'banner');
+    const newImage = await extractAndUploadImage(req, 'banner', 'yr_elearning/banners');
 
     const updateData = {};
     if (title) updateData.title = title;
@@ -102,13 +144,13 @@ const deleteBanner = async (req, res) => {
   }
 };
 
-// @desc    Add instructor banner
+// @desc    Add instructor banner (uploads to Cloudinary)
 // @route   POST /api/banner/addinstructor
 // @access  Admin
 const addInstructor = async (req, res) => {
   try {
     const { name, about, title, link } = req.body;
-    const image = extractImage(req, 'image');
+    const image = await extractAndUploadImage(req, 'image', 'yr_elearning/instructors');
 
     if (!image) {
       return res.status(400).json({ message: 'Instructor image is required.' });
@@ -137,7 +179,7 @@ const updateInstructor = async (req, res) => {
   try {
     const { id } = req.params;
     const { name, about, title, link } = req.body;
-    const newImage = extractImage(req, 'image');
+    const newImage = await extractAndUploadImage(req, 'image', 'yr_elearning/instructors');
 
     const updateData = {};
     if (name) updateData.name = name;

@@ -22,6 +22,8 @@ const {
 // Standard REST endpoints
 router.get('/', getAllCourses);
 router.post('/', protectAdmin, createCourse);
+router.put('/:id', protectAdmin, updateCourse);
+router.delete('/:id', protectAdmin, deleteCourse);
 
 // Backward-compatible panel endpoints
 router.get('/allcourses', getAllCourses);
