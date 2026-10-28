@@ -1,4 +1,5 @@
 const Trainer = require('../models/Trainer');
+const Course = require('../models/Course');
 const Banner = require('../models/Banner');
 const cloudinary = require('../config/cloudinary');
 
@@ -67,6 +68,8 @@ const parseArray = (val) => {
   }
   return [];
 };
+
+const escapeRegex = (value) => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
 // @desc    Get all trainers
 // @route   GET /api/trainers
@@ -191,6 +194,11 @@ const updateTrainer = async (req, res) => {
       isActive,
     } = req.body;
 
+    const existing = await Trainer.findById(id).select('name');
+    if (!existing) {
+      return res.status(404).json({ message: 'Trainer not found' });
+    }
+
     const newAvatar = await extractAndUploadImage(req, 'avatar', 'yr_elearning/trainers');
 
     const updateData = {};
@@ -217,6 +225,37 @@ const updateTrainer = async (req, res) => {
       return res.status(404).json({ message: 'Trainer not found' });
     }
 
+    const instructorSnapshot = {
+      name: updated.name,
+      role: updated.role,
+      bio: updated.bio,
+      avatar: updated.avatar,
+      linkedin: updated.linkedin || '',
+      expertise: updated.expertise || [],
+    };
+    const trainerNamePattern = new RegExp(`^${escapeRegex(existing.name)}$`, 'i');
+
+    // Courses keep an instructor snapshot for fast reads, so refresh it when the
+    // source trainer profile changes.
+    const courseObjectUpdate = await Course.updateMany(
+      { 'instructor.name': trainerNamePattern },
+      {
+        $set: {
+          'instructor.name': instructorSnapshot.name,
+          'instructor.role': instructorSnapshot.role,
+          'instructor.bio': instructorSnapshot.bio,
+          'instructor.avatar': instructorSnapshot.avatar,
+          'instructor.linkedin': instructorSnapshot.linkedin,
+          'instructor.expertise': instructorSnapshot.expertise,
+        },
+      }
+    );
+    const courseStringUpdate = await Course.updateMany(
+      { instructor: { $type: 'string', $regex: trainerNamePattern } },
+      { $set: { instructor: instructorSnapshot } }
+    );
+    const coursesSynced = (courseObjectUpdate.modifiedCount || 0) + (courseStringUpdate.modifiedCount || 0);
+
     // Mirror update in Banner collection if matching name
     try {
       const bannerUpdate = {};
@@ -226,7 +265,7 @@ const updateTrainer = async (req, res) => {
       if (newAvatar) bannerUpdate.image = newAvatar;
       if (updated.linkedin) bannerUpdate.link = updated.linkedin;
 
-      await Banner.findOneAndUpdate({ name: updated.name, type: 'instructor' }, bannerUpdate);
+      await Banner.findOneAndUpdate({ name: existing.name, type: 'instructor' }, bannerUpdate);
     } catch (e) {
       console.warn('Mirror banner update warning:', e.message);
     }
@@ -235,6 +274,7 @@ const updateTrainer = async (req, res) => {
       success: true,
       message: 'Trainer updated successfully',
       trainer: updated,
+      coursesSynced,
     });
   } catch (error) {
     console.error('Error updating trainer:', error);
