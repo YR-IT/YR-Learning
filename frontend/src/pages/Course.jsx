@@ -149,63 +149,70 @@ const normalizeCourse = (rawCourse) => {
   let course = { ...rawCourse };
   const identifier = `${course?.slug || ""} ${course?.id || ""} ${course?._id || ""} ${course?.title || ""}`.toLowerCase();
 
-  if (identifier.includes("machine-learning") || identifier.includes("machine learning")) {
-    course.instructor = {
-      ...machineLearningInstructor,
-      ...(course.instructor || {}),
-      name: "Gauri Sharma",
-      linkedin: machineLearningInstructor.linkedin,
-      social: machineLearningInstructor.social,
-      expertise: machineLearningInstructor.expertise,
-    };
-  } else if (identifier.includes("data-science") || identifier.includes("data science")) {
-    course.instructor = {
-      ...dataScienceInstructor,
-      ...(course.instructor || {}),
-      name: (course.instructor?.name || "Vinay Sheoran").replace(/vijay/gi, "Vinay"),
-      linkedin: dataScienceInstructor.linkedin,
-      social: dataScienceInstructor.social,
-      expertise: dataScienceInstructor.expertise,
-    };
-  } else if (identifier.includes("ui-ux") || identifier.includes("ui/ux") || identifier.includes("design")) {
-    course.instructor = {
-      ...uiUxInstructor,
-      ...(course.instructor || {}),
-      name: "Isha",
-      role: uiUxInstructor.role,
-      bio: uiUxInstructor.bio,
-      avatar: uiUxInstructor.avatar,
-      linkedin: uiUxInstructor.linkedin,
-      social: uiUxInstructor.social,
-      expertise: uiUxInstructor.expertise,
-    };
-  } else if (identifier.includes("digital-marketing") || identifier.includes("digital marketing") || identifier.includes("seo")) {
-    course.instructor = {
-      ...digitalMarketingInstructor,
-      ...(course.instructor || {}),
-      name: (course.instructor?.name || "Divyaraj Kush").replace(/divyaRaj/g, "Divyaraj").replace(/divyaraj/gi, "Divyaraj"),
-    };
-  } else if (identifier.includes("web-development") || identifier.includes("web development") || identifier.includes("frontend")) {
-    course.instructor = {
-      ...webDevelopmentInstructor,
-      ...(course.instructor || {}),
-      name: (course.instructor?.name || "Aditya Naulakha & Harshvardhan Gupta").replace(/aaditya/gi, "Aditya"),
-      instructors: webDevelopmentInstructor.instructors,
-    };
-  } else if (identifier.includes("cyber-security") || identifier.includes("cyber security") || identifier.includes("offensive-security") || identifier.includes("security")) {
-    course.instructor = {
-      ...cyberSecurityInstructor,
-      ...(course.instructor || {}),
-      name: "Gautam",
-      role: cyberSecurityInstructor.role,
-      bio: cyberSecurityInstructor.bio,
-      avatar: "/images/Trainer4.jpeg",
-      linkedin: cyberSecurityInstructor.linkedin,
-      social: cyberSecurityInstructor.social,
-      expertise: cyberSecurityInstructor.expertise,
-    };
-    if (!course.image || course.image.includes("Digital-Marketing")) {
-      course.image = "/images/cyber-security.jpg";
+  const hasSpecificInstructor =
+    course.instructor &&
+    ((typeof course.instructor === 'object' && course.instructor.name && course.instructor.name !== 'YR Instructor') ||
+     (typeof course.instructor === 'string' && course.instructor !== 'YR Instructor' && course.instructor.trim() !== ''));
+
+  if (!hasSpecificInstructor) {
+    if (identifier.includes("machine-learning") || identifier.includes("machine learning")) {
+      course.instructor = {
+        ...machineLearningInstructor,
+        ...(course.instructor || {}),
+        name: "Gauri Sharma",
+        linkedin: machineLearningInstructor.linkedin,
+        social: machineLearningInstructor.social,
+        expertise: machineLearningInstructor.expertise,
+      };
+    } else if (identifier.includes("data-science") || identifier.includes("data science")) {
+      course.instructor = {
+        ...dataScienceInstructor,
+        ...(course.instructor || {}),
+        name: (course.instructor?.name || "Vinay Sheoran").replace(/vijay/gi, "Vinay"),
+        linkedin: dataScienceInstructor.linkedin,
+        social: dataScienceInstructor.social,
+        expertise: dataScienceInstructor.expertise,
+      };
+    } else if (identifier.includes("ui-ux") || identifier.includes("ui/ux") || identifier.includes("design")) {
+      course.instructor = {
+        ...uiUxInstructor,
+        ...(course.instructor || {}),
+        name: "Isha",
+        role: uiUxInstructor.role,
+        bio: uiUxInstructor.bio,
+        avatar: uiUxInstructor.avatar,
+        linkedin: uiUxInstructor.linkedin,
+        social: uiUxInstructor.social,
+        expertise: uiUxInstructor.expertise,
+      };
+    } else if (identifier.includes("digital-marketing") || identifier.includes("digital marketing") || identifier.includes("seo")) {
+      course.instructor = {
+        ...digitalMarketingInstructor,
+        ...(course.instructor || {}),
+        name: (course.instructor?.name || "Divyaraj Kush").replace(/divyaRaj/g, "Divyaraj").replace(/divyaraj/gi, "Divyaraj"),
+      };
+    } else if (identifier.includes("web-development") || identifier.includes("web development") || identifier.includes("frontend")) {
+      course.instructor = {
+        ...webDevelopmentInstructor,
+        ...(course.instructor || {}),
+        name: (course.instructor?.name || "Aditya Naulakha & Harshvardhan Gupta").replace(/aaditya/gi, "Aditya"),
+        instructors: webDevelopmentInstructor.instructors,
+      };
+    } else if (identifier.includes("cyber-security") || identifier.includes("cyber security") || identifier.includes("offensive-security") || identifier.includes("security")) {
+      course.instructor = {
+        ...cyberSecurityInstructor,
+        ...(course.instructor || {}),
+        name: "Gautam",
+        role: cyberSecurityInstructor.role,
+        bio: cyberSecurityInstructor.bio,
+        avatar: "/images/Trainer4.jpeg",
+        linkedin: cyberSecurityInstructor.linkedin,
+        social: cyberSecurityInstructor.social,
+        expertise: cyberSecurityInstructor.expertise,
+      };
+      if (!course.image || course.image.includes("Digital-Marketing")) {
+        course.image = "/images/cyber-security.jpg";
+      }
     }
   }
 

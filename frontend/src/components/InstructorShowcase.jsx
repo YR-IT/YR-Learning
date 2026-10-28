@@ -1,94 +1,125 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Linkedin } from "lucide-react";
+import { API_BASE_URL } from "../services/api";
+
+const defaultInstructors = [
+	{
+		name: "Gauri Singhal",
+		role: "DSA & Java Lead Instructor",
+		avatar: "/images/dsa_instructor.png",
+		bio:
+			"Software Developer at YR IT Solutions, Celebal Technologies | DSE @ Infosys. Expert in Java, Data Structures, Algorithms, and cracking product coding interviews.",
+		tags: ["Data Structures", "Java", "Algorithms", "Interview Prep"],
+		accent: "from-amber-500 via-orange-500 to-red-500",
+		linkedin: "https://www.linkedin.com/in/gaurisinghal28",
+	},
+	{
+		name: "Vinay Sheoran",
+		role: "Senior Data Science Trainer",
+		avatar: "/images/trainer1.jpg",
+		bio:
+			"Ex-Data Scientist at Flipkart & Publicis Re:Sources, with 8+ years of expertise in Machine Learning, Artificial Intelligence, and Big Data Analytics.",
+		tags: ["Python", "SQL", "PowerBI", "Statistical Analysis"],
+		accent: "from-blue-500 via-indigo-500 to-purple-500",
+		linkedin: "https://www.linkedin.com/in/vinay-sheoran-262a79295/",
+	},
+	{
+		name: "Divyaraj Kush",
+		role: "Digital Marketing Lead",
+		avatar: "/seo_and_marketing_trainer.jpeg",
+		bio:
+			"Digital Marketing and Growth Strategist specializing in search engine optimization, content scaling, and performance marketing.",
+		tags: ["Digital Marketing", "SEO", "Google Ads", "Content"],
+		accent: "from-amber-500 via-orange-500 to-yellow-500",
+		linkedin: "https://www.linkedin.com/company/yr-it-solutions/",
+	},
+	{
+		name: "Aditya Naulakha",
+		role: "Frontend Web Development Lead",
+		avatar: "/frontend_trainer.jpeg",
+		bio:
+			"Software developer passionate about AI, full-stack development, and SaaS products. Leadership experience as President of DROID Club and upcoming AI-Native Software Engineer at EPAM Systems.",
+		tags: ["Frontend", "React.js", "AI Solutions", "SaaS Architecture"],
+		accent: "from-emerald-500 via-teal-500 to-sky-500",
+		linkedin: "https://www.linkedin.com/in/aditya-naulakha",
+	},
+	{
+		name: "Harshvardhan Gupta",
+		role: "Backend Web Development Lead",
+		avatar: "/backend_trainer.jpeg",
+		bio:
+			"Software developer passionate about backend development, cloud computing, and AI. Leadership experience as Vice President of DROID Club and upcoming Programmer Analyst Trainee at Cognizant.",
+		tags: ["Backend", "Cloud Computing", "AI", "Node.js", "Scalable Systems"],
+		accent: "from-blue-600 via-indigo-600 to-purple-600",
+		linkedin: "https://www.linkedin.com/in/harshvardhan-gupta-19298b28b/",
+	},
+	{
+		name: "Isha",
+		role: "UI/UX Design Specialist",
+		avatar: "/images/trainer2.jpg",
+		bio:
+			"Professional Designer at MAAC with 6+ years of experience in creating user-centric interfaces, visual design systems, and responsive mobile/web UI.",
+		tags: ["UI/UX", "Design Systems", "Wireframing", "User Research"],
+		accent: "from-pink-500 via-rose-500 to-red-500",
+		linkedin: "https://LinkedIn.com/in/isha-uiux",
+	},
+	{
+		name: "Gautam",
+		role: "Cyber Security Trainer",
+		avatar: "/images/Trainer4.jpeg",
+		bio:
+			"Cyber Security Engineer at YR IT SOLUTIONS and Cyber Security practitioner at TCS. Learn from industry expert and gain hands-on experience in Network Offensive Security, Penetration Testing, and Red Teaming.",
+		tags: ["Network Security", "Penetration Testing", "Ethical Hacking", "Red Teaming", "Active Directory"],
+		accent: "from-cyan-500 via-blue-500 to-indigo-500",
+		linkedin: "https://www.linkedin.com/company/yr-it-solutions/",
+	},
+	{
+		name: "Gauri Sharma",
+		role: "AIML Engineer",
+		avatar: "/images/ml_instructor.jpeg",
+		bio:
+			"Currently working at Opalina. Ex-CA with 1.5 years of corporate experience and 3+ years of mentoring and training more than 1,000 students across the globe.",
+		tags: ["AI & Machine Learning", "Python", "Deep Learning", "Model Deployment"],
+		accent: "from-violet-500 via-purple-500 to-fuchsia-500",
+		linkedin: "https://www.linkedin.com/in/gauri-sharma-gs06102003/",
+	},
+];
 
 export default function InstructorShowcase() {
+	const [instructors, setInstructors] = useState(defaultInstructors);
 	const [currentIndex, setCurrentIndex] = useState(0);
 	const [isAnimating, setIsAnimating] = useState(false);
 	const [screenSize, setScreenSize] = useState('desktop');
 
-	// Instructor data with enhanced styling
-	const instructors = [
-		{
-			name: "Gauri Singhal",
-			role: "DSA & Java Lead Instructor",
-			avatar: "/images/dsa_instructor.png",
-			bio:
-				"Software Developer at YR IT Solutions, Celebal Technologies | DSE @ Infosys. Expert in Java, Data Structures, Algorithms, and cracking product coding interviews.",
-			tags: ["Data Structures", "Java", "Algorithms", "Interview Prep"],
-			accent: "from-amber-500 via-orange-500 to-red-500",
-			linkedin: "https://www.linkedin.com/in/gaurisinghal28",
-		},
-		{
-			name: "Vinay Sheoran",
-			role: "Senior Data Science Trainer",
-			avatar: "/images/trainer1.jpg",
-			bio:
-				"Ex-Data Scientist at Flipkart & Publicis Re:Sources, with 8+ years of expertise in Machine Learning, Artificial Intelligence, and Big Data Analytics.",
-			tags: ["Python", "SQL", "PowerBI", "Statistical Analysis"],
-			accent: "from-blue-500 via-indigo-500 to-purple-500",
-			linkedin: "https://www.linkedin.com/in/vinay-sheoran-262a79295/",
-		},
-		{
-			name: "Divyaraj Kush",
-			role: "Digital Marketing Lead",
-			avatar: "/seo_and_marketing_trainer.jpeg",
-			bio:
-				"Digital Marketing and Growth Strategist specializing in search engine optimization, content scaling, and performance marketing.",
-			tags: ["Digital Marketing", "SEO", "Google Ads", "Content"],
-			accent: "from-amber-500 via-orange-500 to-yellow-500",
-		},
-		{
-			name: "Aditya Naulakha",
-			role: "Frontend Web Development Lead",
-			avatar: "/frontend_trainer.jpeg",
-			bio:
-				"Software developer passionate about AI, full-stack development, and SaaS products. Leadership experience as President of DROID Club and upcoming AI-Native Software Engineer at EPAM Systems.",
-			tags: ["Frontend", "React.js", "AI Solutions", "SaaS Architecture"],
-			accent: "from-emerald-500 via-teal-500 to-sky-500",
-			linkedin: "https://www.linkedin.com/in/aditya-naulakha",
-		},
-		{
-			name: "Harshvardhan Gupta",
-			role: "Backend Web Development Lead",
-			avatar: "/backend_trainer.jpeg",
-			bio:
-				"Software developer passionate about backend development, cloud computing, and AI. Leadership experience as Vice President of DROID Club and upcoming Programmer Analyst Trainee at Cognizant.",
-			tags: ["Backend", "Cloud Computing", "AI", "Node.js", "Scalable Systems"],
-			accent: "from-blue-600 via-indigo-600 to-purple-600",
-			linkedin: "https://www.linkedin.com/in/harshvardhan-gupta-19298b28b/",
-		},
-		{
-			name: "Isha",
-			role: "UI/UX Design Specialist",
-			avatar: "/images/trainer2.jpg",
-			bio:
-				"Professional Designer at MAAC with 6+ years of experience in creating user-centric interfaces, visual design systems, and responsive mobile/web UI.",
-			tags: ["UI/UX", "Design Systems", "Wireframing", "User Research"],
-			accent: "from-pink-500 via-rose-500 to-red-500",
-			linkedin: "https://LinkedIn.com/in/isha-uiux",
-		},
-		{
-			name: "Gautam",
-			role: "Cyber Security Trainer",
-			avatar: "/images/Trainer4.jpeg",
-			bio:
-				"Cyber Security Engineer at YR IT SOLUTIONS and Cyber Security practitioner at TCS. Learn from industry expert and gain hands-on experience in Network Offensive Security, Penetration Testing, and Red Teaming.",
-			tags: ["Network Security", "Penetration Testing", "Ethical Hacking", "Red Teaming", "Active Directory"],
-			accent: "from-cyan-500 via-blue-500 to-indigo-500",
-			linkedin: "https://www.linkedin.com/company/yr-it-solutions/",
-		},
-		{
-			name: "Gauri Sharma",
-			role: "AIML Engineer",
-			avatar: "/images/ml_instructor.jpeg",
-			bio:
-				"Currently working at Opalina. Ex-CA with 1.5 years of corporate experience and 3+ years of mentoring and training more than 1,000 students across the globe.",
-			tags: ["AI & Machine Learning", "Python", "Deep Learning", "Model Deployment"],
-			accent: "from-violet-500 via-purple-500 to-fuchsia-500",
-			linkedin: "https://www.linkedin.com/in/gauri-sharma-gs06102003/",
-		},
-	];
+	// Fetch dynamic trainers from backend
+	useEffect(() => {
+		const fetchTrainers = async () => {
+			try {
+				const res = await fetch(`${API_BASE_URL}/trainers`);
+				if (res.ok) {
+					const data = await res.json();
+					if (Array.isArray(data) && data.length > 0) {
+						setInstructors(
+							data.map((t, index) => ({
+								_id: t._id,
+								name: t.name,
+								role: t.role || 'Course Instructor',
+								avatar: t.avatar || `/images/trainer${(index % 4) + 1}.jpg`,
+								bio: t.bio || '',
+								tags: (t.tags && t.tags.length > 0) ? t.tags : (t.expertise && t.expertise.length > 0 ? t.expertise : ['Technical Mentor', 'Live Projects']),
+								accent: t.accent || defaultInstructors[index % defaultInstructors.length]?.accent || 'from-blue-500 via-indigo-500 to-purple-500',
+								linkedin: t.linkedin || '',
+							}))
+						);
+					}
+				}
+			} catch (err) {
+				console.warn('Notice: Using default trainers for showcase:', err.message);
+			}
+		};
+		fetchTrainers();
+	}, []);
 
 	// Detect screen size
 	useEffect(() => {

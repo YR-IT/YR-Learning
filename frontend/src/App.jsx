@@ -103,6 +103,7 @@ function App() {
                 <Route path="enrolled-students" element={<EnrolledStudents />} />
                 <Route path="articles" element={<ManageArticles />} />
                 <Route path="mobilebanners" element={<InstructorManager />} />
+                <Route path="trainers" element={<InstructorManager />} />
                 <Route path="add-student" element={<AddStudent />} />
               </Route>
 

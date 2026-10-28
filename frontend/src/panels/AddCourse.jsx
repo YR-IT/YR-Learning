@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import toast from 'react-hot-toast';
 import { API_BASE_URL } from '../services/api';
 import './AddCourse.css';
@@ -9,11 +9,35 @@ const AddCourse = () => {
         description: '',
         price: '',
         category: '',
-        instructor:'',
+        instructor: '',
         thumbnail: null,
     });
     const [thumbnailPreview, setThumbnailPreview] = useState('');
     const [curriculumSections, setCurriculumSections] = useState([{ title: '', lessons: [''] }]);
+    const [trainers, setTrainers] = useState([]);
+    const [selectedTrainerId, setSelectedTrainerId] = useState('');
+    const [customInstructor, setCustomInstructor] = useState({
+        name: '',
+        role: '',
+        bio: '',
+    });
+
+    useEffect(() => {
+        const fetchTrainers = async () => {
+            try {
+                const res = await fetch(`${API_BASE_URL}/trainers`);
+                if (res.ok) {
+                    const data = await res.json();
+                    if (Array.isArray(data)) {
+                        setTrainers(data);
+                    }
+                }
+            } catch (err) {
+                console.warn('Could not fetch trainers for course dropdown:', err);
+            }
+        };
+        fetchTrainers();
+    }, []);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -81,6 +105,31 @@ const AddCourse = () => {
                 imageUrl = uploadResult.url;
             }
 
+            // Determine instructor payload
+            let instructorPayload = 'YR Instructor';
+            if (selectedTrainerId === 'custom') {
+                instructorPayload = {
+                    name: customInstructor.name.trim() || 'YR Instructor',
+                    role: customInstructor.role.trim() || 'Course Instructor',
+                    bio: customInstructor.bio.trim() || 'Expert instructor at YR Learning.',
+                    avatar: '/images/trainer1.jpg',
+                };
+            } else if (selectedTrainerId) {
+                const foundTrainer = trainers.find((t) => String(t._id) === String(selectedTrainerId));
+                if (foundTrainer) {
+                    instructorPayload = {
+                        name: foundTrainer.name,
+                        role: foundTrainer.role,
+                        bio: foundTrainer.bio,
+                        avatar: foundTrainer.avatar,
+                        linkedin: foundTrainer.linkedin || '',
+                        expertise: foundTrainer.expertise || [],
+                    };
+                }
+            } else if (courseData.instructor) {
+                instructorPayload = courseData.instructor.trim();
+            }
+
             const response = await fetch(`${API_BASE_URL}/courses`, {
                 method: 'POST',
                 headers: {
@@ -92,7 +141,7 @@ const AddCourse = () => {
                     description: courseData.description,
                     price: Number(courseData.price) || 0,
                     category: courseData.category || 'Development',
-                    instructor: courseData.instructor || 'YR Instructor',
+                    instructor: instructorPayload,
                     image: imageUrl,
                     curriculum: { sections },
                 }),
@@ -112,6 +161,8 @@ const AddCourse = () => {
                 instructor: '',
                 thumbnail: null,
             });
+            setSelectedTrainerId('');
+            setCustomInstructor({ name: '', role: '', bio: '' });
             setThumbnailPreview('');
             setCurriculumSections([{ title: '', lessons: [''] }]);
         } catch (error) {
@@ -214,15 +265,95 @@ const AddCourse = () => {
                     />
                 </div>
                  <div className="form-group">
-                    <label htmlFor="instructor">Instructor Name</label>
-                    <textarea
-                        id="instructor"
-                        name="instructor"
-                        value={courseData.instructor}
-                        onChange={handleChange}
-                        rows="1"
+                    <label htmlFor="trainer-select">Course Instructor / Trainer</label>
+                    <select
+                        id="trainer-select"
+                        value={selectedTrainerId}
+                        onChange={(e) => {
+                            const val = e.target.value;
+                            setSelectedTrainerId(val);
+                            if (val && val !== 'custom') {
+                                const found = trainers.find((t) => String(t._id) === String(val));
+                                if (found) {
+                                    setCourseData((prev) => ({ ...prev, instructor: found.name }));
+                                }
+                            } else if (val === 'custom') {
+                                setCourseData((prev) => ({ ...prev, instructor: customInstructor.name }));
+                            }
+                        }}
+                        className="w-full p-2.5 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
                         required
-                    ></textarea>
+                    >
+                        <option value="">-- Choose Trainer from Database --</option>
+                        {trainers.map((t) => (
+                            <option key={t._id} value={t._id}>
+                                {t.name} ({t.role || 'Trainer'})
+                            </option>
+                        ))}
+                        <option value="custom">+ Other / Enter Custom Instructor</option>
+                    </select>
+
+                    {/* Preview of chosen trainer */}
+                    {selectedTrainerId && selectedTrainerId !== 'custom' && (() => {
+                        const t = trainers.find((item) => String(item._id) === String(selectedTrainerId));
+                        if (!t) return null;
+                        return (
+                            <div className="mt-3 p-3 rounded-lg bg-blue-50/70 dark:bg-blue-950/40 border border-blue-200 dark:border-blue-800 flex items-center gap-3">
+                                <img
+                                    src={t.avatar || '/images/trainer1.jpg'}
+                                    alt={t.name}
+                                    className="w-12 h-12 rounded-full object-cover border border-blue-300"
+                                    onError={(e) => { e.target.src = '/images/trainer1.jpg'; }}
+                                />
+                                <div className="text-sm">
+                                    <p className="font-bold text-gray-900 dark:text-white">{t.name}</p>
+                                    <p className="text-blue-600 dark:text-blue-300 text-xs">{t.role}</p>
+                                    <p className="text-gray-500 dark:text-gray-400 text-xs line-clamp-1">{t.bio}</p>
+                                </div>
+                            </div>
+                        );
+                    })()}
+
+                    {/* Custom trainer inputs */}
+                    {selectedTrainerId === 'custom' && (
+                        <div className="mt-3 p-3 rounded-lg border border-purple-200 dark:border-purple-800 bg-purple-50/50 dark:bg-purple-950/30 space-y-2">
+                            <div>
+                                <label className="text-xs font-semibold text-gray-700 dark:text-gray-300">Custom Instructor Name *</label>
+                                <input
+                                    type="text"
+                                    placeholder="e.g. John Doe"
+                                    value={customInstructor.name}
+                                    onChange={(e) => {
+                                        const name = e.target.value;
+                                        setCustomInstructor((prev) => ({ ...prev, name }));
+                                        setCourseData((prev) => ({ ...prev, instructor: name }));
+                                    }}
+                                    required
+                                    className="w-full p-2 mt-1 rounded border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-sm"
+                                />
+                            </div>
+                            <div>
+                                <label className="text-xs font-semibold text-gray-700 dark:text-gray-300">Designation / Role</label>
+                                <input
+                                    type="text"
+                                    placeholder="e.g. Senior Cloud Architect"
+                                    value={customInstructor.role}
+                                    onChange={(e) => setCustomInstructor((prev) => ({ ...prev, role: e.target.value }))}
+                                    className="w-full p-2 mt-1 rounded border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-sm"
+                                />
+                            </div>
+                            <div>
+                                <label className="text-xs font-semibold text-gray-700 dark:text-gray-300">About / Short Bio</label>
+                                <textarea
+                                    placeholder="Short bio of the instructor..."
+                                    rows="2"
+                                    value={customInstructor.bio}
+                                    onChange={(e) => setCustomInstructor((prev) => ({ ...prev, bio: e.target.value }))}
+                                    className="w-full p-2 mt-1 rounded border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-sm"
+                                />
+                            </div>
+                        </div>
+                    )}
                 </div>
                 <div className="form-group">
                     <label htmlFor="thumbnail">Course Thumbnail</label>

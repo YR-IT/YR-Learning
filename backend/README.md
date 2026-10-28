@@ -2,24 +2,6 @@
 
 Clean, modular Node.js & Express REST API powered by MongoDB (Mongoose) with authentication, courses management, and articles management.
 
-## 🗄️ Database Configuration
-Database Name: `yr_elearning`
-
-To connect your MongoDB cluster:
-1. Open `.env` (or copy `.env.example` to `.env`)
-2. Update the `MONGO_URI` with your connection string:
-   ```env
-   MONGO_URI=mongodb+srv://<username>:<password>@cluster0.yourdomain.mongodb.net/yr_elearning?retryWrites=true&w=majority
-   DB_NAME=yr_elearning
-   ```
-3. The server automatically uses the `yr_elearning` database and seeds initial courses, articles, and admin credentials if the database is fresh.
-
-To enable the Gemini-powered chatbot, add your Google AI Studio key to `backend/.env`:
-```env
-GEMINI_API_KEY=your_gemini_api_key
-GEMINI_MODEL=gemini-3.5-flash-lite
-```
-Restart the backend after setting these values. The key is only used by the backend and must not be added to frontend environment variables.
 
 ## 🚀 Running the Backend
 
@@ -36,45 +18,3 @@ npm run dev
 # Or start in production mode
 npm start
 ```
-
-## 🔐 Admin Authentication Configuration
-Admin credentials must be configured securely in `backend/.env` (never commit plaintext credentials to version control):
-- `ADMIN_EMAIL`: Admin email for panel authentication
-- `ADMIN_PASSWORD`: Strong master password for the admin account
-- `JWT_SECRET`: High-entropy 64-byte random hexadecimal secret for cryptographically signing JWT auth tokens
-
-To generate a secure JWT secret:
-```bash
-node -e "console.log(require('crypto').randomBytes(64).toString('hex'))"
-```
-
-## 📡 API Endpoints
-
-### Auth
-- `POST /api/auth/login` - Admin Login (returns JWT token and admin data)
-- `GET /api/auth/me` - Get current Admin profile
-
-### Courses
-- `GET /api/courses` or `GET /api/course/allcourses` - Get all courses (with category and search filter)
-- `GET /api/courses/:id` - Get single course details
-- `POST /api/courses` - Create new course (Admin only)
-- `PUT /api/courses/:id` - Update course (Admin only)
-- `DELETE /api/courses/:id` - Delete course (Admin only)
-- `GET /api/course/lessons/:courseId` - Get course lessons
-- `POST /api/course/addlessons/:courseId` - Add lesson (Admin only)
-- `PUT /api/course/updatelessons/:courseId` - Update lesson (Admin only)
-- `DELETE /api/course/deletelessons/:courseId/:lessonId` - Delete lesson (Admin only)
-
-### Articles
-- `GET /api/articles` - Get all articles (with category and search filter)
-- `GET /api/articles/:id` - Get single article
-- `POST /api/articles` - Create article (Admin only)
-- `PUT /api/articles/:id` - Update article (Admin only)
-- `DELETE /api/articles/:id` - Delete article (Admin only)
-
-### Chatbot
-- `POST /api/chatbot` - Generate a reply using Gemini (requires `GEMINI_API_KEY`)
-
-### Banners
-- `GET /api/banner/getbanner` - Promotional banners
-- `GET /api/banner/getinstructor` - Instructor banners

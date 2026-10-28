@@ -31,12 +31,15 @@ const bannerRoutes = require('./routes/bannerRoutes');
 const uploadRoutes = require('./routes/uploadRoutes');
 const enrollmentRoutes = require('./routes/enrollmentRoutes');
 const chatbotRoutes = require('./routes/chatbotRoutes');
+const trainerRoutes = require('./routes/trainerRoutes');
 
 app.use('/api/auth', authRoutes);
 app.use('/api/courses', courseRoutes);
 app.use('/api/course', courseRoutes); // Backward compatibility
 app.use('/api/articles', articleRoutes);
 app.use('/api/banner', bannerRoutes);
+app.use('/api/trainers', trainerRoutes);
+app.use('/api/trainer', trainerRoutes);
 app.use('/api/upload', uploadRoutes);
 app.use('/api/enrollments', enrollmentRoutes);
 app.use('/api/enrollment', enrollmentRoutes);

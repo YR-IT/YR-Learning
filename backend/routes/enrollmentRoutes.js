@@ -8,17 +8,18 @@ const {
   deleteEnrollment,
   getEnrollmentStats,
 } = require('../controllers/enrollmentController');
+const { protectAdmin } = require('../middleware/authMiddleware');
 
-// Public enrollment submission
+// Public enrollment submission (prospective students)
 router.post('/', submitEnrollment);
 
-// Admin stats & earnings (placed before /:id)
-router.get('/stats', getEnrollmentStats);
+// Admin stats & earnings (placed before /:id) - Protected
+router.get('/stats', protectAdmin, getEnrollmentStats);
 
-// Admin retrieval & management
-router.get('/', getAllEnrollments);
-router.get('/:id', getEnrollmentById);
-router.patch('/:id/status', updateEnrollmentStatus);
-router.delete('/:id', deleteEnrollment);
+// Admin retrieval & management - Protected
+router.get('/', protectAdmin, getAllEnrollments);
+router.get('/:id', protectAdmin, getEnrollmentById);
+router.patch('/:id/status', protectAdmin, updateEnrollmentStatus);
+router.delete('/:id', protectAdmin, deleteEnrollment);
 
 module.exports = router;

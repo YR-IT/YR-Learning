@@ -3,6 +3,7 @@ const Course = require('../models/Course');
 const Article = require('../models/Article');
 const Enrollment = require('../models/Enrollment');
 const Banner = require('../models/Banner');
+const Trainer = require('../models/Trainer');
 
 const initialCourses = [
   {
@@ -572,7 +573,139 @@ const seedData = async () => {
       console.log(`🎓 Enrollments collection already contains ${enrollmentCount} records.`);
     }
 
-    // 5. Seed Banners & Instructor Banners
+    // 5. Seed Trainers
+    const trainerCount = await Trainer.countDocuments();
+    const initialTrainers = [
+      {
+        name: "Gauri Singhal",
+        role: "DSA & Java Lead Instructor",
+        avatar: "/images/dsa_instructor.png",
+        bio: "Software Developer at YR IT Solutions, Celebal Technologies | DSE @ Infosys. Expert in Java, Data Structures, Algorithms, and cracking product coding interviews.",
+        expertise: ["Java", "Data Structures", "Algorithms", "Competitive Programming", "System Design"],
+        tags: ["Data Structures", "Java", "Algorithms", "Interview Prep"],
+        accent: "from-amber-500 via-orange-500 to-red-500",
+        linkedin: "https://www.linkedin.com/in/gaurisinghal28",
+        email: "gauri@example.com",
+        rating: 4.9,
+        students: "6,500+",
+        coursesCount: 5,
+        order: 1,
+      },
+      {
+        name: "Vinay Sheoran",
+        role: "Senior Data Science Trainer",
+        avatar: "/images/trainer1.jpg",
+        bio: "Ex-Data Scientist at Flipkart & Publicis Re:Sources, with 8+ years of expertise in Machine Learning, Artificial Intelligence, and Big Data Analytics.",
+        expertise: ["Python", "SQL", "PowerBI", "Statistical Analysis", "Machine Learning"],
+        tags: ["Python", "SQL", "PowerBI", "Statistical Analysis"],
+        accent: "from-blue-500 via-indigo-500 to-purple-500",
+        linkedin: "https://www.linkedin.com/in/vinay-sheoran-262a79295/",
+        email: "vinay@example.com",
+        rating: 4.9,
+        students: "10,000+",
+        coursesCount: 15,
+        order: 2,
+      },
+      {
+        name: "Divyaraj Kush",
+        role: "Digital Marketing Lead",
+        avatar: "/seo_and_marketing_trainer.jpeg",
+        bio: "Digital Marketing and Growth Strategist specializing in search engine optimization, content scaling, Google Ads, and performance marketing.",
+        expertise: ["Digital Marketing", "SEO", "Content Marketing", "Google Ads", "Social Media", "Analytics"],
+        tags: ["Digital Marketing", "SEO", "Google Ads", "Content"],
+        accent: "from-amber-500 via-orange-500 to-yellow-500",
+        linkedin: "https://www.linkedin.com/company/yr-it-solutions/",
+        email: "divyaraj@example.com",
+        rating: 4.8,
+        students: "8,900+",
+        coursesCount: 11,
+        order: 3,
+      },
+      {
+        name: "Aditya Naulakha",
+        role: "Frontend Web Development Lead",
+        avatar: "/frontend_trainer.jpeg",
+        bio: "Software developer passionate about AI, full-stack development, and SaaS products. Leadership experience as President of DROID Club and upcoming AI-Native Software Engineer at EPAM Systems.",
+        expertise: ["Frontend", "React.js", "AI Solutions", "SaaS Architecture", "JavaScript"],
+        tags: ["Frontend", "React.js", "AI Solutions", "SaaS Architecture"],
+        accent: "from-emerald-500 via-teal-500 to-sky-500",
+        linkedin: "https://www.linkedin.com/in/aditya-naulakha",
+        email: "aditya@example.com",
+        rating: 4.9,
+        students: "12,000+",
+        coursesCount: 18,
+        order: 4,
+      },
+      {
+        name: "Harshvardhan Gupta",
+        role: "Backend Web Development Lead",
+        avatar: "/backend_trainer.jpeg",
+        bio: "Software developer passionate about backend development, cloud computing, and AI. Leadership experience as Vice President of DROID Club and upcoming Programmer Analyst Trainee at Cognizant.",
+        expertise: ["Backend", "Cloud Computing", "AI", "Node.js", "Scalable Systems", "MongoDB"],
+        tags: ["Backend", "Cloud Computing", "AI", "Node.js", "Scalable Systems"],
+        accent: "from-blue-600 via-indigo-600 to-purple-600",
+        linkedin: "https://www.linkedin.com/in/harshvardhan-gupta-19298b28b/",
+        email: "harshvardhan@example.com",
+        rating: 4.9,
+        students: "9,500+",
+        coursesCount: 12,
+        order: 5,
+      },
+      {
+        name: "Isha",
+        role: "UI/UX Design Specialist",
+        avatar: "/images/trainer2.jpg",
+        bio: "Professional Designer at MAAC with 6+ years of experience in creating user-centric interfaces, visual design systems, and responsive mobile/web UI.",
+        expertise: ["UI/UX", "Design Systems", "Wireframing", "User Research", "Figma"],
+        tags: ["UI/UX", "Design Systems", "Wireframing", "User Research"],
+        accent: "from-pink-500 via-rose-500 to-red-500",
+        linkedin: "https://LinkedIn.com/in/isha-uiux",
+        email: "isha@example.com",
+        rating: 4.9,
+        students: "7,800+",
+        coursesCount: 9,
+        order: 6,
+      },
+      {
+        name: "Gautam",
+        role: "Cyber Security Trainer",
+        avatar: "/images/Trainer4.jpeg",
+        bio: "Cyber Security Engineer at YR IT SOLUTIONS and Cyber Security practitioner at TCS. Learn from industry expert and gain hands-on experience in Network Offensive Security, Penetration Testing, and Red Teaming.",
+        expertise: ["Network Security", "Penetration Testing", "Ethical Hacking", "Red Teaming", "Active Directory Exploitation"],
+        tags: ["Network Security", "Penetration Testing", "Ethical Hacking", "Red Teaming", "Active Directory"],
+        accent: "from-cyan-500 via-blue-500 to-indigo-500",
+        linkedin: "https://www.linkedin.com/company/yr-it-solutions/",
+        email: "gautam@example.com",
+        rating: 4.9,
+        students: "5,800+",
+        coursesCount: 8,
+        order: 7,
+      },
+      {
+        name: "Gauri Sharma",
+        role: "AIML Engineer",
+        avatar: "/images/ml_instructor.jpeg",
+        bio: "Currently working at Opalina. Ex-CA with 1.5 years of corporate experience and 3+ years of mentoring and training more than 1,000 students across the globe.",
+        expertise: ["AI & Machine Learning", "Python", "Deep Learning", "Model Deployment", "PyTorch"],
+        tags: ["AI & Machine Learning", "Python", "Deep Learning", "Model Deployment"],
+        accent: "from-violet-500 via-purple-500 to-fuchsia-500",
+        linkedin: "https://www.linkedin.com/in/gauri-sharma-gs06102003/",
+        email: "gauri.sharma@example.com",
+        rating: 4.8,
+        students: "1,000+",
+        coursesCount: 14,
+        order: 8,
+      },
+    ];
+
+    if (trainerCount === 0) {
+      await Trainer.insertMany(initialTrainers);
+      console.log(`👨‍🏫 Seeded ${initialTrainers.length} official trainers into MongoDB collection 'trainers'!`);
+    } else {
+      console.log(`👨‍🏫 Trainers collection already contains ${trainerCount} records.`);
+    }
+
+    // 6. Seed Banners & Instructor Banners
     const bannerCount = await Banner.countDocuments();
     if (bannerCount === 0) {
       const sampleBanners = [
@@ -594,35 +727,26 @@ const seedData = async () => {
           type: "banner",
           link: "/courses",
         },
-        {
-          title: "Jane Smith - Senior Web Architect & Full-Stack Lead",
-          name: "Jane Smith",
-          about: "10+ years experience in building high-scale distributed applications and mentoring engineers.",
-          image: "/images/trainer1.jpg",
-          type: "instructor",
-          link: "/courses",
-        },
-        {
-          title: "Alex Johnson - AI / Machine Learning Specialist",
-          name: "Alex Johnson",
-          about: "Expert in PyTorch, Computer Vision, Generative AI models and production deployments.",
-          image: "/images/trainer2.jpg",
-          type: "instructor",
-          link: "/courses",
-        },
-        {
-          title: "Gauri Singhal - Data Structures & Algorithms Guru",
-          name: "Gauri Singhal",
-          about: "Software Developer at YR IT Solutions, Celebal Technologies | DSE @ Infosys. Expert in Java, algorithms, and interview preparation.",
-          image: "/images/dsa_instructor.png",
-          type: "instructor",
-          link: "/courses",
-        },
       ];
       await Banner.insertMany(sampleBanners);
-      console.log(`🖼️ Seeded ${sampleBanners.length} promotional and instructor banners into yr_elearning!`);
+      console.log(`🖼️ Seeded ${sampleBanners.length} promotional banners into yr_elearning!`);
+    }
+
+    // Ensure instructor banners exist in Banner collection
+    const instructorBannerCount = await Banner.countDocuments({ type: 'instructor' });
+    if (instructorBannerCount === 0) {
+      const instructorBanners = initialTrainers.map((t) => ({
+        title: `${t.name} - ${t.role}`,
+        name: t.name,
+        about: t.bio,
+        image: t.avatar,
+        type: 'instructor',
+        link: t.linkedin || '/courses',
+      }));
+      await Banner.insertMany(instructorBanners);
+      console.log(`🖼️ Seeded ${instructorBanners.length} instructor banners into yr_elearning!`);
     } else {
-      console.log(`🖼️ Banners collection already contains ${bannerCount} records.`);
+      console.log(`🖼️ Instructor banners collection contains ${instructorBannerCount} records.`);
     }
   } catch (error) {
     console.error('Error during data seeding:', error.message);

@@ -205,17 +205,34 @@ export default function InstructorCard({ courseTitle = '', instructor: propInstr
     let resolved = defaultByTitle;
 
     if (propInstructor) {
-      if (typeof propInstructor === 'object' && propInstructor.name) {
+      if (typeof propInstructor === 'object' && propInstructor.name && propInstructor.name !== 'YR Instructor') {
         resolved = {
           ...defaultByTitle,
           ...propInstructor,
-          role: propInstructor.role || defaultByTitle.role || 'Course Instructor',
-          avatar: propInstructor.avatar || defaultByTitle.avatar || '/images/dsa_instructor.png',
-          bio: propInstructor.bio || defaultByTitle.bio,
+          role: propInstructor.role || 'Course Instructor',
+          avatar: propInstructor.avatar || defaultByTitle.avatar || '/images/trainer1.jpg',
+          bio: propInstructor.bio || defaultByTitle.bio || 'Expert instructor at YR Learning.',
+          instructors: Array.isArray(propInstructor.instructors) && propInstructor.instructors.length > 0
+            ? propInstructor.instructors
+            : undefined,
         };
-      } else if (typeof propInstructor === 'string') {
+      } else if (typeof propInstructor === 'string' && propInstructor.trim() && propInstructor !== 'YR Instructor') {
         const found = Object.values(INSTRUCTORS).find(i => i.name.toLowerCase() === propInstructor.toLowerCase());
-        if (found) resolved = found;
+        if (found) {
+          resolved = found;
+        } else {
+          resolved = {
+            name: propInstructor,
+            role: 'Course Instructor',
+            avatar: '/images/trainer1.jpg',
+            bio: 'Expert instructor at YR Learning.',
+            rating: 4.9,
+            students: '5,000+',
+            courses: 5,
+            expertise: ['Interactive Mentorship', 'Live Coding'],
+            instructors: undefined,
+          };
+        }
       }
     }
 

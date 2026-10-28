@@ -18,6 +18,8 @@ const EditCourse = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
 
+  const [trainers, setTrainers] = useState([]);
+
   // Course form state
   const [courseForm, setCourseForm] = useState({
     title: '',
@@ -25,6 +27,7 @@ const EditCourse = () => {
     category: '',
     price: '',
     image: '',
+    instructor: '',
     curriculum: [],
   });
   const [uploadingThumbnail, setUploadingThumbnail] = useState(false);
@@ -265,11 +268,16 @@ const resetLessonForm = () => {
     const sections = course.curriculum?.sections?.length
       ? course.curriculum.sections
       : (course.chapters || []).map((chapter) => ({ title: chapter.title, lessons: [] }));
+    const instName = course.instructor
+      ? (typeof course.instructor === 'object' ? course.instructor.name || '' : course.instructor)
+      : '';
     setCourseForm({
       title: course.title,
       description: course.description,
       category: course.category,
       price: course.price,
+      image: course.image || '',
+      instructor: instName,
       curriculum: sections.map((section) => ({
         title: section.title || '',
         lessons: (section.lessons || []).map((lesson) => ({ title: typeof lesson === 'string' ? lesson : lesson.title || '' })),
@@ -305,6 +313,18 @@ const resetLessonForm = () => {
 
   useEffect(() => {
     fetchCourses();
+    const fetchTrainers = async () => {
+      try {
+        const res = await fetch(`${API_BASE}/trainers`);
+        if (res.ok) {
+          const data = await res.json();
+          if (Array.isArray(data)) setTrainers(data);
+        }
+      } catch (err) {
+        console.warn('Could not fetch trainers list:', err);
+      }
+    };
+    fetchTrainers();
   }, []);
 
   return (
@@ -408,6 +428,40 @@ const resetLessonForm = () => {
                           onChange={(e) => setCourseForm({...courseForm, price: e.target.value})}
                           className="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                         />
+                        <div>
+                          <label className="text-xs font-semibold text-gray-700 block mb-1">Instructor / Trainer</label>
+                          <select
+                            value={
+                              trainers.some(t => t.name === courseForm.instructor)
+                                ? courseForm.instructor
+                                : (courseForm.instructor ? 'custom' : '')
+                            }
+                            onChange={(e) => {
+                              const val = e.target.value;
+                              if (val !== 'custom') {
+                                setCourseForm({ ...courseForm, instructor: val });
+                              }
+                            }}
+                            className="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 text-sm"
+                          >
+                            <option value="">-- Select Instructor / Trainer --</option>
+                            {trainers.map((t) => (
+                              <option key={t._id} value={t.name}>
+                                {t.name} ({t.role || 'Trainer'})
+                              </option>
+                            ))}
+                            <option value="custom">+ Other / Custom Instructor</option>
+                          </select>
+                          {(!trainers.some(t => t.name === courseForm.instructor) || courseForm.instructor === '') && (
+                            <input
+                              type="text"
+                              placeholder="Enter Instructor Name"
+                              value={courseForm.instructor}
+                              onChange={(e) => setCourseForm({ ...courseForm, instructor: e.target.value })}
+                              className="w-full mt-2 p-2 border border-gray-300 rounded text-sm"
+                            />
+                          )}
+                        </div>
                         <button
                           onClick={updateCourse}
                           className="flex items-center justify-center gap-2 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
@@ -423,9 +477,10 @@ const resetLessonForm = () => {
                       <div className="space-y-3">
                         <h3 className="text-xl font-bold text-gray-900">{selectedCourse.title}</h3>
                         <p className="text-gray-600">{selectedCourse.description}</p>
-                        <div className="flex gap-4">
-                          <span className="text-sm text-gray-500">Category: <span className="font-medium">{selectedCourse.category}</span></span>
+                        <div className="flex flex-wrap gap-4 pt-1">
+                          <span className="text-sm text-gray-500">Category: <span className="font-medium text-gray-800">{selectedCourse.category}</span></span>
                           <span className="text-sm text-gray-500">Price: <span className="font-medium text-green-600">Rs. {Number(selectedCourse.price || 0).toLocaleString('en-IN')}</span></span>
+                          <span className="text-sm text-gray-500">Instructor: <span className="font-medium text-blue-600">{typeof selectedCourse.instructor === 'object' ? selectedCourse.instructor.name : selectedCourse.instructor || 'YR Instructor'}</span></span>
                         </div>
                       </div>
                     )}

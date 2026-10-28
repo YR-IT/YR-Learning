@@ -1,4 +1,5 @@
 const Course = require('../models/Course');
+const Trainer = require('../models/Trainer');
 const mongoose = require('mongoose');
 const { getInstructorProfile } = require('../data/instructorProfiles');
 
@@ -15,6 +16,55 @@ const slugify = (text) =>
         .replace(/-+$/, '')
     : '';
 
+const resolveInstructorData = async (rawInstructor) => {
+  if (!rawInstructor) return 'YR Instructor';
+
+  // If already an object with details
+  if (typeof rawInstructor === 'object') {
+    if (rawInstructor.name && rawInstructor.name !== 'YR Instructor') {
+      return {
+        name: rawInstructor.name,
+        role: rawInstructor.role || 'Course Instructor',
+        bio: rawInstructor.bio || '',
+        avatar: rawInstructor.avatar || '/images/trainer1.jpg',
+        linkedin: rawInstructor.linkedin || '',
+        expertise: Array.isArray(rawInstructor.expertise) ? rawInstructor.expertise : [],
+      };
+    }
+  }
+
+  // If string, check if it matches a Trainer by ID or Name
+  if (typeof rawInstructor === 'string' && rawInstructor.trim() && rawInstructor !== 'YR Instructor') {
+    const clean = rawInstructor.trim();
+    let foundTrainer = null;
+    if (mongoose.Types.ObjectId.isValid(clean)) {
+      foundTrainer = await Trainer.findById(clean);
+    }
+    if (!foundTrainer) {
+      foundTrainer = await Trainer.findOne({ name: { $regex: new RegExp(`^${clean}$`, 'i') } });
+    }
+    if (foundTrainer) {
+      return {
+        name: foundTrainer.name,
+        role: foundTrainer.role,
+        bio: foundTrainer.bio,
+        avatar: foundTrainer.avatar,
+        linkedin: foundTrainer.linkedin || '',
+        expertise: foundTrainer.expertise || [],
+      };
+    }
+    return {
+      name: clean,
+      role: 'Course Instructor',
+      avatar: '/images/trainer1.jpg',
+      bio: 'Expert instructor at YR Learning.',
+      expertise: [],
+    };
+  }
+
+  return rawInstructor;
+};
+
 const sanitizeCourse = (courseDoc) => {
   if (!courseDoc) return courseDoc;
   try {
@@ -27,13 +77,28 @@ const sanitizeCourse = (courseDoc) => {
       .replace(/aaditya\s+naulakha/gi, 'Aditya Naulakha')
       .replace(/aaditya/gi, 'Aditya');
     const sanitized = JSON.parse(str);
-    const instructorProfile = getInstructorProfile(sanitized);
-    if (instructorProfile) {
+
+    const hasSpecificInstructor =
+      sanitized.instructor &&
+      ((typeof sanitized.instructor === 'object' && sanitized.instructor.name && sanitized.instructor.name !== 'YR Instructor') ||
+       (typeof sanitized.instructor === 'string' && sanitized.instructor !== 'YR Instructor' && sanitized.instructor.trim() !== ''));
+
+    if (!hasSpecificInstructor) {
+      const instructorProfile = getInstructorProfile(sanitized);
+      if (instructorProfile) {
+        sanitized.instructor = {
+          ...(typeof sanitized.instructor === 'object' ? sanitized.instructor : {}),
+          ...instructorProfile,
+        };
+      }
+    } else if (typeof sanitized.instructor === 'string') {
       sanitized.instructor = {
-        ...(typeof sanitized.instructor === 'object' ? sanitized.instructor : {}),
-        ...instructorProfile,
+        name: sanitized.instructor,
+        role: 'Course Instructor',
+        avatar: '/images/trainer1.jpg',
       };
     }
+
     const idStr = `${sanitized.slug || ''} ${sanitized.title || ''}`.toLowerCase();
     if (idStr.includes('cyber') || idStr.includes('security')) {
       if (!sanitized.image || sanitized.image.includes('Digital-Marketing') || sanitized.image.includes('default')) {
@@ -152,6 +217,8 @@ const createCourse = async (req, res) => {
       return res.status(400).json({ message: 'Title, description, and price are required' });
     }
 
+    const resolvedInstructor = await resolveInstructorData(instructor);
+
     const newCourse = await Course.create({
       title,
       slug: req.body.slug || slugify(title),
@@ -159,7 +226,7 @@ const createCourse = async (req, res) => {
       image: image || '/images/Digital-Marketing.jpg',
       price: Number(price),
       category: category || 'Development',
-      instructor: instructor || 'YR Instructor',
+      instructor: resolvedInstructor || 'YR Instructor',
       duration: duration || 10,
       badge: badge || 'New',
       chapters: chapters || [],
@@ -170,7 +237,7 @@ const createCourse = async (req, res) => {
     return res.status(201).json({
       success: true,
       message: 'Course created successfully',
-      course: newCourse,
+      course: sanitizeCourse(newCourse),
     });
   } catch (error) {
     console.error('Create course error:', error);
@@ -191,6 +258,9 @@ const updateCourse = async (req, res) => {
     if (updateData.price !== undefined) {
       updateData.price = Number(updateData.price);
     }
+    if (updateData.instructor !== undefined) {
+      updateData.instructor = await resolveInstructorData(updateData.instructor);
+    }
     const updated = await Course.findByIdAndUpdate(courseId, updateData, {
       new: true,
       runValidators: true,
@@ -203,7 +273,7 @@ const updateCourse = async (req, res) => {
     return res.status(200).json({
       success: true,
       message: 'Course updated successfully',
-      course: updated,
+      course: sanitizeCourse(updated),
     });
   } catch (error) {
     return res.status(500).json({ message: 'Failed to update course', error: error.message });

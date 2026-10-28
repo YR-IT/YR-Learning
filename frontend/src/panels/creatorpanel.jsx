@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
-import { BookOpen, FileText, Image, Plus, Smartphone, Users, UserPlus } from 'lucide-react';
+import { BookOpen, FileText, Image, Plus, Smartphone, Users, UserPlus, Award } from 'lucide-react';
 import './CreatorPanel.css';
 
 const CreatorPanel = () => {
@@ -56,7 +56,7 @@ const CreatorPanel = () => {
                         </li>
                         <li>
                             <NavLink to="/panel/mobilebanners" className={({ isActive }) => isActive ? "active-link" : ""}>
-                                <Smartphone size={18} /> Instructors
+                                <Award size={18} /> Trainers &amp; Instructors
                             </NavLink>
                         </li>
                         <li>

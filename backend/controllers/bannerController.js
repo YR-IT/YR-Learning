@@ -1,4 +1,5 @@
 const Banner = require('../models/Banner');
+const Trainer = require('../models/Trainer');
 const cloudinary = require('../config/cloudinary');
 
 // Helper to stream upload buffer to Cloudinary
@@ -70,7 +71,22 @@ const getBanners = async (req, res) => {
 // @access  Public
 const getInstructorBanners = async (req, res) => {
   try {
-    const banners = await Banner.find({ type: 'instructor' }).sort({ createdAt: -1 });
+    let banners = await Banner.find({ type: 'instructor' }).sort({ createdAt: -1 });
+    
+    // If no instructor banners in Banner collection, pull from Trainer collection
+    if (!banners || banners.length === 0) {
+      const trainers = await Trainer.find({ isActive: { $ne: false } }).sort({ order: 1, createdAt: 1 });
+      banners = trainers.map((t) => ({
+        _id: t._id,
+        name: t.name,
+        title: `${t.name} - ${t.role}`,
+        about: t.bio || t.role,
+        image: t.avatar,
+        link: t.linkedin || '',
+        type: 'instructor',
+        createdAt: t.createdAt,
+      }));
+    }
     return res.status(200).json(banners);
   } catch (error) {
     return res.status(500).json({ message: error.message });
@@ -165,6 +181,23 @@ const addInstructor = async (req, res) => {
       type: 'instructor',
     });
 
+    try {
+      await Trainer.findOneAndUpdate(
+        { name: instructorBanner.name },
+        {
+          name: instructorBanner.name,
+          role: title || 'Technical Trainer',
+          bio: about || '',
+          avatar: image,
+          linkedin: link || '',
+          isActive: true,
+        },
+        { upsert: true, new: true }
+      );
+    } catch (e) {
+      console.warn('Sync to Trainer failed:', e.message);
+    }
+
     return res.status(201).json({ success: true, instructor: instructorBanner });
   } catch (error) {
     console.error('Error adding instructor banner:', error);
@@ -193,6 +226,23 @@ const updateInstructor = async (req, res) => {
       return res.status(404).json({ message: 'Instructor banner not found' });
     }
 
+    try {
+      if (updated.name) {
+        await Trainer.findOneAndUpdate(
+          { name: updated.name },
+          {
+            name: updated.name,
+            role: updated.title || 'Technical Trainer',
+            bio: updated.about || '',
+            ...(newImage ? { avatar: newImage } : {}),
+            linkedin: updated.link || '',
+          }
+        );
+      }
+    } catch (e) {
+      console.warn('Sync update to Trainer failed:', e.message);
+    }
+
     return res.status(200).json({ success: true, instructor: updated });
   } catch (error) {
     console.error('Error updating instructor banner:', error);
@@ -209,6 +259,15 @@ const deleteInstructor = async (req, res) => {
     if (!deleted) {
       return res.status(404).json({ message: 'Instructor banner not found' });
     }
+
+    try {
+      if (deleted.name) {
+        await Trainer.findOneAndDelete({ name: deleted.name });
+      }
+    } catch (e) {
+      console.warn('Sync delete to Trainer failed:', e.message);
+    }
+
     return res.status(200).json({ success: true, message: 'Instructor banner deleted successfully' });
   } catch (error) {
     return res.status(500).json({ message: error.message });
